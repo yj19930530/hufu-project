@@ -49,7 +49,7 @@ export default {
     return {
       sex: "0",
       age: ["24岁以下"],
-      ageValue: "",
+      ageValue: "未选择",
       ageindex:''
     };
   },

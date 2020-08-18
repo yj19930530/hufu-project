@@ -11,7 +11,7 @@
           <image class="search-style mr-l-30" src="../../static/home/ss.png" />
           <text class="fz-12 fc-89 mr-l-10">请输入商品名称</text>
         </view>
-        <div class="message-content" @tap="optNavigatorPath('msg')">
+        <div class="message-content fl-al" @tap="optNavigatorPath('msg')">
           <view class="message-number fl-cen fz-10">2</view>
           <image class="right-message-btn mr-r-20" src="../../static/home/xinxi.png" />
         </div>

@@ -27,11 +27,13 @@
         </div>
       </div>
     </div>
+    <!-- 输入框 -->
     <div class="comment-box fl-cen" v-if="commentType">
       <textarea
+        :fixed="true"
         :adjust-position="true"
         :show-confirm-bar="false"
-        :cursor-spacing="commentHeight"
+        :cursor-spacing="commentHeight+20"
         @keyboardheightchange="getHeigth"
         maxlength="300"
         @blur="inputBlurChange"
@@ -43,7 +45,6 @@
     </div>
     <!-- 评论 -->
     <div class="circle-left-content" v-if="optName==='left'">
-      <!-- label 切换 -->
       <div class="circle-opt-content fl-bt">
         <div class="circle-opt-item fl-co circle-icon-left" @tap="circleChange('riji')">
           <image class="circle-opt-icon" src="../../static/circle/riji.png" />
@@ -78,7 +79,7 @@
           ></div>
         </div>
       </div>
-      <div class="comment-content mr-t-20">
+      <div class="comment-content" v-for="item in 4" :key="item">
         <div class="comment-item-box">
           <image class="header-img mr-l-20" src="../../static/circle/back-img.png" />
           <div class="item-right-coentent mr-r-20">
@@ -91,16 +92,19 @@
               <image class="comment-img-item" src="../../static/circle/back-img.png" />
             </div>
             <div class="more-btn-box">
-              <div class="more-btn-menu fl-cen" :style="[moreType?{width:'358rpx'}:{width:'0'}]">
-                <div class="more-menu-item fl-al">
-                  <image class="menu-icon" src="../../static/circle/zan.png" />
-                  <text class="fz-14 fc-fff mr-l-8">赞</text>
-                </div>
-                <div class="more-menu-item fl-al menu-icon-left" @tap.native.stop="getComHeight">
-                  <image class="menu-icon2" src="../../static/circle/pinlun.png" />
-                  <text v-if="moreType" class="fz-14 fc-fff mr-l-8">评论</text>
-                </div>
+              <div class="more-menu-content">
+                <div class="more-btn-menu fl-cen" :style="[moreType?{right:'0'}:{right:'-358rpx'}]">
+                  <div class="more-menu-item fl-al">
+                    <image class="menu-icon" src="../../static/circle/zan.png" />
+                    <text class="fz-14 fc-fff mr-l-8">赞</text>
+                  </div>
+                  <div class="more-menu-item fl-al menu-icon-left" @tap.native.stop="getComHeight">
+                    <image class="menu-icon2" src="../../static/circle/pinlun.png" />
+                    <text v-if="moreType" class="fz-14 fc-fff mr-l-8">评论</text>
+                  </div>
+                </div>                
               </div>
+
               <div class="more-img" @tap.native.stop="moreChange">
                 <image class="more-btn-img" src="../../static/circle/more.png" />
               </div>
@@ -127,7 +131,7 @@
         <text class="fz-15 fw-bold">初印象笔记</text>
       </div>
       <div class="note-center-box">
-        <NoteItem v-for="item in 7" :key="item" :numIndex="item" />
+        <NoteItem v-for="item in 8" :key="item" :numIndex="item" />
       </div>
     </div>
   </div>
@@ -227,7 +231,7 @@ export default {
   border: 1px solid #ffffff;
 }
 .circle-opt-content {
-  margin: auto;
+  margin:0 auto 20rpx;
   width: 710rpx;
   height: 152rpx;
   background-color: #ffffff;
@@ -260,7 +264,7 @@ export default {
   background-color: #7dca91;
 }
 .comment-content {
-  padding: 20rpx 0;
+  padding: 20rpx 0 0 0;
   background-color: #ffffff;
 }
 .header-img {
@@ -269,9 +273,10 @@ export default {
   border-radius: 50%;
 }
 .comment-item-box {
+  padding-bottom: 20rpx;
   display: flex;
   justify-content: space-between;
-  border: 1rpx solid #f8f8f8;
+  border-bottom: 1rpx solid #f8f8f8;
 }
 .item-right-coentent {
   display: flex;
@@ -292,10 +297,19 @@ export default {
   justify-content: flex-end;
   height: 74rpx;
 }
+.more-menu-content {
+  position: relative;
+  overflow: hidden;
+  width: 358rpx;
+  height: 70rpx;
+  border-radius: 10rpx;
+}
 .more-btn-menu {
   transition: all 0.1s;
   position: absolute;
   top: 0;
+  right: -358rpx;
+  width: 358rpx;
   right: 70rpx;
   height: 74rpx;
   border-radius: 10rpx;
@@ -350,7 +364,7 @@ export default {
 .comment-box {
   padding: 20rpx;
   width: 100%;
-  height: 90rpx;
+  /* height: 90rpx; */
   position: fixed;
   bottom: 0;
   left: 0;
