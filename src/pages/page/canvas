@@ -1,0 +1,73 @@
+<template>
+  <view>
+    <view class="canvas-demo">
+      <canvas style="height: 100%;width: 100%;" canvas-id="firstCanvas"></canvas>
+    </view>
+    <view @tap="schb">生成海报</view>
+  </view>
+</template>
+<script>
+export default {
+  data() {
+    return {};
+  },
+  onLoad() {
+    this.init();
+  },
+  methods: {
+    init() {
+      let urrl =
+        "http://tmp/wxa0d6c7f0c64df94d.o6zAJs4cdZeaYK3_BxvhTmaxIb64.erkKOslmegGtc5587680bfdd1f50a08dbb6408dc2899.png";
+      let url =
+        "http://tmp/wxa0d6c7f0c64df94d.o6zAJs4cdZeaYK3_BxvhTmaxIb64.9uwhGxn7S75t6f366360bed7ea70cc2959eb5a231fbd.jpg";
+      let context = uni.createCanvasContext("firstCanvas", this);
+      context.drawImage(url, 0, 0, 375, uni.upx2px(1020));
+      context.save();
+      context.beginPath();
+      context.arc(75 / 2 + 15, 75 / 2 + 15, 75 / 2, 0, Math.PI * 2, false);
+      context.clip();
+      context.drawImage(urrl, 15, 15, 75, 75);
+      context.restore();
+      context.textAlign = "center";
+      context.setTextBaseline("top");
+      context.setFontSize(30);
+      context.fillText("用户名", 130, 50);
+      context.draw();
+    },
+    schb() {
+      uni.canvasToTempFilePath({
+        x: 0,
+        y: 0,
+        width: 375,
+        height: uni.upx2px(1020),
+        destWidth: 375,
+        destHeight: uni.upx2px(1020),
+        canvasId: "firstCanvas",
+        success: function (res) {
+          uni.saveImageToPhotosAlbum({
+            filePath: res.tempFilePath,
+            success: function () {
+              console.log("save success");
+            },
+          });
+        },
+        fail(e) {
+          console.log(e);
+          uni.showToast({
+            title: "生成海报失败",
+            icon: "none",
+          });
+        },
+      });
+    },
+  },
+};
+</script>
+<style scoped>
+.canvas-demo {
+  margin: 30rpx auto;
+  width: 690rpx;
+  height: 1020rpx;
+  background-color: #ffffff;
+}
+</style>
