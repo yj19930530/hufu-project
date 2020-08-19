@@ -116,7 +116,7 @@ export default {
         }
         case "dang": {
           uni.navigateTo({
-            url: "/subPackages/me/archivesDetails",
+            url: "/subPackages/me/archives",
           });
           break;
         }

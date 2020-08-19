@@ -18,7 +18,7 @@ export default {
             (menuButtonObject.top - statusBarHeight) * 2; //导航高度
         this.globalData.navHeight = navHeight;
         this.globalData.navTop = navTop;
-        this.globalData.windowHeight;
+        this.globalData.windowHeight = res.windowHeight;
       },
       fail(err) {
         console.log(err);

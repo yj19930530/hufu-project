@@ -102,7 +102,7 @@
                     <image class="menu-icon2" src="../../static/circle/pinlun.png" />
                     <text v-if="moreType" class="fz-14 fc-fff mr-l-8">评论</text>
                   </div>
-                </div>                
+                </div>
               </div>
 
               <div class="more-img" @tap.native.stop="moreChange">
@@ -134,6 +134,7 @@
         <NoteItem v-for="item in 8" :key="item" :numIndex="item" />
       </div>
     </div>
+    <image @tap="writeFunc" class="write-img" src="../../static/circle/write.png" />
   </div>
 </template>
 <script>
@@ -159,6 +160,12 @@ export default {
     },
   },
   methods: {
+    // 寫評論
+    writeFunc() {
+      uni.navigateTo({
+        url: "/subPackages/circle/writeDetal",
+      });
+    },
     getComHeight() {
       if (this.moreType) {
         this.commentType = true;
@@ -231,7 +238,7 @@ export default {
   border: 1px solid #ffffff;
 }
 .circle-opt-content {
-  margin:0 auto 20rpx;
+  margin: 0 auto 20rpx;
   width: 710rpx;
   height: 152rpx;
   background-color: #ffffff;
@@ -371,5 +378,13 @@ export default {
   box-sizing: border-box;
   background-color: #eeeeee;
   z-index: 999999999;
+}
+.write-img {
+  position: fixed;
+  right: 20rpx;
+  bottom: 20rpx;
+  width: 80rpx;
+  height: 80rpx;
+  z-index: 99999999;
 }
 </style>

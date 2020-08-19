@@ -49,6 +49,9 @@
   .fz-22 {
     font-size: 44rpx !important;
   }
+  .fz-35 {
+    font-size: 70rpx !important;
+  }
   /* font color */
   .fc-fff {
     color: #fff !important;
@@ -80,6 +83,12 @@
   .fc-5d {
     color: #5D6983 !important;
   }
+  .fc-f8 {
+    color: #f8f8f8 !important;
+  }
+  .fc-f1 {
+    color: #F11B20 !important;
+  }
   .fw-bold {
     font-weight: bold;
   }
@@ -109,6 +118,11 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
+  }
+  .fl-btc {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
   }
   .fl-fc {
     display: flex;
@@ -149,6 +163,9 @@
   }
   .mr-t-50 {
     margin-top: 50rpx;
+  }
+  .mr-t-60 {
+    margin-top: 60rpx;
   }
   .mr-t-70 {
     margin-top: 70rpx;
@@ -219,3 +236,25 @@
   .mr-r-59 {
     margin-right: 59rpx;
   }
+
+/* 頁面複用樣式 */
+/* 沒有數據 */
+.no-data-content {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+.no-data-img {
+  width: 340rpx;
+  height: 361rpx;
+}
+/* <div class="no-data-content">
+<image class="no-data-img" src="../../static/notdata.png" />
+</div> */
+
+/* 文字超長 ... */
+.text-lang-dian {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

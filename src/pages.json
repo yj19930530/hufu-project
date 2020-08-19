@@ -66,6 +66,20 @@
 			]
 		},
 		{
+			"root": "subPackages/circle",
+			"pages": [
+				{
+					"path": "writeDetal",
+					"style": {
+						"navigationStyle": "custom",
+						"app-plus": {
+							"titleNView": false
+						}
+					}
+				}
+			]
+		},
+		{
 			"root": "subPackages/Interrogation",
 			"pages": [
 				{
@@ -87,6 +101,12 @@
 				},
 				{
 					"path": "video",
+					"style": {
+						"navigationBarTitleText": "干货视频"
+					}
+				},
+				{
+					"path": "videoDetail",
 					"style": {
 						"navigationBarTitleText": "干货视频"
 					}
@@ -148,6 +168,12 @@
 					"path": "message",
 					"style": {
 						"navigationBarTitleText": "消息中心"
+					}
+				},
+				{
+					"path": "messageNotice",
+					"style": {
+						"navigationBarTitleText": "服务通知"
 					}
 				}
 			]
