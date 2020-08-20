@@ -110,6 +110,12 @@
 					"style": {
 						"navigationBarTitleText": "干货视频"
 					}
+				},
+				{
+					"path": "atcDetail",
+					"style": {
+						"navigationBarTitleText": ""
+					}
 				}
 			]
 		},
@@ -175,13 +181,25 @@
 					"style": {
 						"navigationBarTitleText": "服务通知"
 					}
+				},
+				{
+					"path": "setting",
+					"style": {
+						"navigationBarTitleText": "设置"
+					}
+				},
+				{
+					"path": "poster",
+					"style": {
+						"navigationBarTitleText": "初印象护肤中心"
+					}
 				}
 			]
 		}
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
+		"navigationBarTitleText": "",
 		"navigationBarBackgroundColor": "#ffffff",
 		"backgroundColor": "#ffffff"
 	},

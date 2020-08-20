@@ -161,6 +161,9 @@
   .mr-t-40 {
     margin-top: 40rpx;
   }
+  .mr-t-44 {
+    margin-top: 44rpx;
+  }
   .mr-t-50 {
     margin-top: 50rpx;
   }
@@ -176,6 +179,9 @@
   }
   .mr-l-4 {
     margin-left: 4rpx;
+  }
+  .mr-l-6 {
+    margin-left: 6rpx;
   }
   .mr-l-8 {
     margin-left: 8rpx;
@@ -200,6 +206,9 @@
   }
   .mr-l-60 {
     margin-left: 60rpx;
+  }
+  .mr-l-100 {
+    margin-left: 100rpx;
   }
   /* bottom */
   .mr-b-10 {
@@ -257,4 +266,10 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.text-lang-dian2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 }

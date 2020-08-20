@@ -8,7 +8,7 @@
         </div>
         <text class="fz-14 mr-4">作者：小初</text>
         <div class="fl-bt mr-t-16">
-          <div class="article-item-btn fl-cen">
+          <div class="article-item-btn fl-cen" @tap="lookDetail">
             <text class="fz-12 fc-fff">查看干货</text>
           </div>
           <div class="article-item-btn fl-cen">
@@ -19,6 +19,20 @@
     </div>
   </div>
 </template>
+<script>
+export default {
+  data() {
+    return {};
+  },
+  methods: {
+    lookDetail() {
+        uni.navigateTo({
+        url: "/subPackages/college/atcDetail",
+      });
+    },
+  },
+};
+</script>
 <style scoped>
 .article-item-box {
   display: flex;

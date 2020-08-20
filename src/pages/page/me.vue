@@ -2,6 +2,7 @@
   <div id="me-container">
     <!-- 头部 -->
     <div class="me-top-content">
+      <image class="setting-img" src="../../static/me/setting.png" @tap="optNavigatorPath('set')" />
       <image class="me-top-header" src="../../static/circle/back-img.png" />
       <text class="fz-15 mr-t-20 header-title fc-000">FIRSTYNAS</text>
       <text class="fz-11 mr-t-10 fc-000">WELCOME TO OUR HOTEL</text>
@@ -53,7 +54,7 @@
           <text class="fz-12">系统消息</text>
         </div>
       </div>
-      <div class="me-servic-shar fl-bt">
+      <div class="me-servic-shar fl-bt" @tap="optNavigatorPath('pos')">
         <div class="mr-l-40 fl-fc text-left">
           <text class="fz-15">和你一起美</text>
           <text class="fz-12 fc-999 mr-t-4">邀请好友，进行免费肌肤测试</text>
@@ -126,6 +127,18 @@ export default {
           });
           break;
         }
+        case "set": {
+          uni.navigateTo({
+            url: "/subPackages/me/setting",
+          });
+          break;
+        }
+        case "pos": {
+          uni.navigateTo({
+            url: "/subPackages/me/poster",
+          });
+          break;
+        }
         default: {
           break;
         }
@@ -136,6 +149,7 @@ export default {
 </script>
 <style scoped>
 .me-top-content {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -214,5 +228,13 @@ export default {
   height: 40rpx;
   border: 1rpx solid #626262;
   border-radius: 20rpx 20rpx;
+}
+.setting-img {
+  position: absolute;
+  right: 58rpx;
+  top: 40rpx;
+  width: 40rpx;
+  height: 46rpx;
+  z-index: 999;
 }
 </style>
