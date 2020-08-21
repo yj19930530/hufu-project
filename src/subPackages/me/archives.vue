@@ -2,7 +2,7 @@
   <div id="archives-container">
     <div class="archives-item-content" v-for="item in tableList" :key="item.id" @tap="navToDetails">
       <div class="archives-title fl-bt">
-        <text class="fz-15">2020-08-20 16：34：42</text>
+        <text class="fz-15">{{item.createTime}}</text>
         <text class="iconfont iconshanchu fz-18"></text>
       </div>
       <div class="archives-bottom-score">
@@ -11,17 +11,18 @@
           <div class="center-score-img">
             <image class="score-img-bj" src="../../static/me/yuanhuan.png" />
             <div class="score-img-text fl-co">
-              <text class="fz-35 fc-fff mr-t-fu10">98</text>
+              <text class="fz-35 fc-fff mr-t-fu10">{{item.score}}</text>
               <text class="fz-12 fc-fff mr-t-fu10">综合得分</text>
             </div>
           </div>
-          <text class="fz-12 fc-fff mr-t-30">我的肤质得分击败了12886个用户</text>
+          <text class="fz-12 fc-fff mr-t-30">我的肤质得分击败了{{item.rank_num}}个用户</text>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+const { toast } = require("../../utils/index");
 export default {
   data() {
     return {
@@ -33,11 +34,22 @@ export default {
   },
   onLoad() {
     this.openId = uni.getStorageSync("opId");
-    this.getSkinPage()
+    this.getSkinPage();
+  },
+  // 上拉刷新
+  async onPullDownRefresh() {
+    this.pageNo = 1;
+    this.pageSize = 10;
+    await this.getSkinPage();
+    uni.stopPullDownRefresh();
+  },
+  async onReachBottom() {
+
   },
   methods: {
     // 获取肌肤测试分页列表
     getSkinPage() {
+      toast.showLoading("加载中");
       this.$api
         .getSkinPage({
           pageNo: this.pageNo,
@@ -45,7 +57,11 @@ export default {
           openId: this.openId,
         })
         .then((res) => {
-          this.tableList = res.data;
+          uni.hideLoading();
+          this.tableList = res.data.list;
+        })
+        .catch(() => {
+          uni.hideLoading();
         });
     },
     navToDetails() {

@@ -131,7 +131,8 @@
 				{
 					"path": "archives",
 					"style": {
-						"navigationBarTitleText": "初印象肌肤档案"
+						"navigationBarTitleText": "初印象肌肤档案",
+						"enablePullDownRefresh": true
 					}
 				},
 				{
