@@ -7,7 +7,7 @@
         <div class="center-score-img">
           <image class="score-img-bj" src="../../static/me/yuanhuan.png" />
           <div class="score-img-text fl-co">
-            <text class="fz-35 fc-fff mr-t-fu10">98</text>
+            <text class="fz-35 fc-fff mr-t-fu10">{{objDetal.score}}</text>
             <text class="fz-12 fc-fff mr-t-fu10">综合得分</text>
           </div>
         </div>
@@ -17,18 +17,124 @@
     </div>
     <!-- 项目打分 -->
     <div class="score-content">
-      <div class="score-item-opt" v-for="item in 5" :key="item">
+      <!-- 痘痘 -->
+      <div class="score-item-opt">
         <div class="score-opt-title">
           <image class="shu-img-style mr-l-20 mr-t-6" src="../../static/me/shu.png" />
-          <text class="fz-15 fw-bold mr-l-10">痘痘</text>
+          <text class="fz-15 fw-bold mr-l-10">{{objDetal.pockmark.name}}</text>
           <div class="has-opt-box fl-cen mr-l-2">
-            <text class="fz-11 fc-fff">重度</text>
+            <text class="fz-11 fc-fff">{{objDetal.pockmark.level}}</text>
           </div>
         </div>
-        <image class="mr-l-40 item-score" src="../../static/circle/back-img.png" />
+        <image class="mr-l-40 item-score" :src="objDetal.pockmark.imgUrl" />
         <div class="score-opt-number fl-bt">
-          <text class="mr-l-40 fw-bold fz-14">数量：3</text>
-          <text class="mr-r-20 fw-bold fz-14">分数：96</text>
+          <text class="mr-l-40 fw-bold fz-14">数量：{{objDetal.pockmark.count}}</text>
+          <text class="mr-r-20 fw-bold fz-14">分数：{{objDetal.pockmark.score}}</text>
+        </div>
+      </div>
+      <!-- 皱纹 -->
+      <div class="score-item-opt">
+        <div class="score-opt-title">
+          <image class="shu-img-style mr-l-20 mr-t-6" src="../../static/me/shu.png" />
+          <text class="fz-15 fw-bold mr-l-10">{{objDetal.wrinkle.name}}</text>
+          <div class="has-opt-box fl-cen mr-l-2">
+            <text class="fz-11 fc-fff">{{objDetal.wrinkle.level}}</text>
+          </div>
+        </div>
+        <image class="mr-l-40 item-score" :src="objDetal.wrinkle.imgUrl" />
+        <div class="score-opt-number fl-bt">
+          <text class="mr-l-40 fw-bold fz-14">数量：{{objDetal.wrinkle.count}}</text>
+          <text class="mr-r-20 fw-bold fz-14">分数：{{objDetal.wrinkle.score}}</text>
+        </div>
+      </div>
+      <!-- 黑头 -->
+      <div class="score-item-opt">
+        <div class="score-opt-title">
+          <image class="shu-img-style mr-l-20 mr-t-6" src="../../static/me/shu.png" />
+          <text class="fz-15 fw-bold mr-l-10">{{objDetal.blackhead.name}}</text>
+          <div class="has-opt-box fl-cen mr-l-2">
+            <text class="fz-11 fc-fff">{{objDetal.blackhead.level}}</text>
+          </div>
+        </div>
+        <image class="mr-l-40 item-score" :src="objDetal.blackhead.imgUrl" />
+        <div class="score-opt-number fl-bt">
+          <text class="mr-l-40 fw-bold fz-14">数量：{{objDetal.blackhead.count}}</text>
+          <text class="mr-r-20 fw-bold fz-14">分数：{{objDetal.blackhead.score}}</text>
+        </div>
+      </div>
+      <!-- 毛孔 -->
+      <div class="score-item-opt">
+        <div class="score-opt-title">
+          <image class="shu-img-style mr-l-20 mr-t-6" src="../../static/me/shu.png" />
+          <text class="fz-15 fw-bold mr-l-10">{{objDetal.pore.name}}</text>
+          <div class="has-opt-box fl-cen mr-l-2">
+            <text class="fz-11 fc-fff">{{objDetal.pore.level}}</text>
+          </div>
+        </div>
+        <image class="mr-l-40 item-score" :src="objDetal.pore.imgUrl" />
+        <div class="score-opt-number fl-bt">
+          <text class="mr-l-40 fw-bold fz-14">数量：{{objDetal.pore.count}}</text>
+          <text class="mr-r-20 fw-bold fz-14">分数：{{objDetal.pore.score}}</text>
+        </div>
+      </div>
+      <!-- 黑眼圈 -->
+      <div class="score-item-opt">
+        <div class="score-opt-title">
+          <image class="shu-img-style mr-l-20 mr-t-6" src="../../static/me/shu.png" />
+          <text class="fz-15 fw-bold mr-l-10">{{objDetal.dark_circle.name}}</text>
+          <div class="has-opt-box fl-cen mr-l-2">
+            <text class="fz-11 fc-fff">{{objDetal.dark_circle.level}}</text>
+          </div>
+        </div>
+        <image class="mr-l-40 item-score" :src="objDetal.dark_circle.imgUrl" />
+        <div class="score-opt-number fl-bt">
+          <text class="mr-l-40 fw-bold fz-14">数量：{{objDetal.dark_circle.count}}</text>
+          <text class="mr-r-20 fw-bold fz-14">分数：{{objDetal.dark_circle.score}}</text>
+        </div>
+      </div>
+      <!-- 纹理 -->
+      <div class="score-item-opt">
+        <div class="score-opt-title">
+          <image class="shu-img-style mr-l-20 mr-t-6" src="../../static/me/shu.png" />
+          <text class="fz-15 fw-bold mr-l-10">{{objDetal.dark_circle.name}}</text>
+          <div class="has-opt-box fl-cen mr-l-2">
+            <text class="fz-11 fc-fff">{{objDetal.dark_circle.level}}</text>
+          </div>
+        </div>
+        <image class="mr-l-40 item-score" :src="objDetal.dark_circle.imgUrl" />
+        <div class="score-opt-number fl-bt">
+          <text class="mr-l-40 fw-bold fz-14">数量：{{objDetal.dark_circle.count}}</text>
+          <text class="mr-r-20 fw-bold fz-14">分数：{{objDetal.dark_circle.score}}</text>
+        </div>
+      </div>
+      <!-- 水分圈 -->
+      <div class="score-item-opt">
+        <div class="score-opt-title">
+          <image class="shu-img-style mr-l-20 mr-t-6" src="../../static/me/shu.png" />
+          <text class="fz-15 fw-bold mr-l-10">{{objDetal.moisture.name}}</text>
+          <div class="has-opt-box fl-cen mr-l-2">
+            <text class="fz-11 fc-fff">{{objDetal.moisture.level}}</text>
+          </div>
+        </div>
+        <image class="mr-l-40 item-score" :src="objDetal.moisture.imgUrl" />
+        <div class="score-opt-number fl-bt">
+          <text class="mr-l-40 fw-bold fz-14">数量：{{objDetal.moisture.count}}</text>
+          <text class="mr-r-20 fw-bold fz-14">分数：{{objDetal.moisture.score}}</text>
+        </div>
+      </div>
+      <!-- 棕色班 -->
+      <div class="score-item-opt">
+        <div class="score-opt-title">
+          <image class="shu-img-style mr-l-20 mr-t-6" src="../../static/me/shu.png" />
+          <text class="fz-15 fw-bold mr-l-10">{{objDetal.chloasma.name}}</text>
+          <div class="has-opt-box fl-cen mr-l-2">
+            <text class="fz-11 fc-fff">{{objDetal.chloasma.level}}</text>
+          </div>
+        </div>
+        <image class="mr-l-40 item-score" :src="objDetal.chloasma.imgUrl" />
+        <div class="score-opt-number fl-bt">
+          <text class="mr-l-40 fw-bold fz-14">数量：{{objDetal.chloasma.count}}</text>
+          <text class="mr-r-20 fw-bold fz-14">分数：{{objDetal.chloasma.score}}</text>
         </div>
       </div>
     </div>
@@ -51,16 +157,38 @@
         <text>专业护肤老师定制方案及详细使用方法</text>
         <text>请点击咨询专业护肤导师</text>
       </div>
-      <button open-type="contact" class="consulting-experts fl-cen mr-t-20 fz-15" type="primary">请咨询护肤专家</button>
+      <button
+        open-type="contact"
+        class="consulting-experts fl-cen mr-t-20 fz-15"
+        type="primary"
+      >请咨询护肤专家</button>
     </div>
   </div>
 </template>
 <script>
 export default {
   data() {
-    return {};
+    return {
+      detailId: "",
+      objDetal: {},
+    };
+  },
+  onLoad(obj) {
+    this.detailId = obj.id;
+    this.getSkinInfo();
   },
   methods: {
+    // 获取info
+    getSkinInfo() {
+      this.$api
+        .getSkinInfo({
+          id: this.detailId,
+        })
+        .then((res) => {
+          this.objDetal = res.data;
+          console.log(res);
+        });
+    },
     navToDetails() {
       uni.navigateTo({
         url: "/subPackages/me/archivesDetails",
@@ -167,9 +295,9 @@ export default {
   line-height: 1.8;
 }
 .consulting-experts {
-    width: 400rpx;
-    height: 80rpx;
-    border-radius: 40rpx 40rpx;
-    background-color: #666666;
+  width: 400rpx;
+  height: 80rpx;
+  border-radius: 40rpx 40rpx;
+  background-color: #666666;
 }
 </style>

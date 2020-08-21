@@ -248,7 +248,6 @@ export default {
       duration: 500,
     };
   },
-  onLoad() {},
   components: {
     Nav,
   },

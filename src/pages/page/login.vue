@@ -12,8 +12,6 @@
       <text class="fc-43 fz-12 mr-l-20 mr-r-20">授权登录</text>
       <view class="yuandian"></view>
     </view>
-    <!-- 登录
-    <button open-type="getUserInfo" @getuserinfo="getUserData" type="default">微信授权登录</button>-->
   </view>
 </template>
 <script>
@@ -21,9 +19,18 @@ export default {
   data() {
     return {};
   },
+  onLoad() {
+    const opId = uni.getStorageSync("opId");
+    if (opId) {
+      uni.switchTab({
+        url: "/pages/page/home",
+      });
+    }
+  },
   methods: {
     // 用户授权登录
     getUserData(data) {
+      const _this = this;
       if (!data.detail.userInfo) return;
       const userData = data.detail.userInfo;
       let loginCode = "";
@@ -34,11 +41,28 @@ export default {
             uni.login({
               provider: "weixin",
               success: function (loginRes) {
-                loginCode = loginRes.code;
-                uni.setStorageSync("userInfo", userData);
-                uni.switchTab({
-                  url: "/pages/page/home",
-                });
+                _this.$api
+                  .userLoginGetOpenId({
+                    code: loginRes.code,
+                  })
+                  .then((res) => {
+                    let opId = "";
+                    if (res.data) {
+                      opId = res.data.openid;
+                    } else {
+                      opId = res.message;
+                      _this.$api.addUserInfo({
+                        openid: opId,
+                        nickName: userData.nickName,
+                        avatarUrl: userData.avatarUrl,
+                        gender: userData.gender,
+                      });
+                    }
+                    uni.setStorageSync("opId", opId);
+                    uni.switchTab({
+                      url: "/pages/page/home",
+                    });
+                  });
               },
             });
           }

@@ -3,7 +3,7 @@
     <!-- 头部 -->
     <div class="me-top-content">
       <image class="setting-img" src="../../static/me/setting.png" @tap="optNavigatorPath('set')" />
-      <image class="me-top-header" src="../../static/circle/back-img.png" />
+      <image class="me-top-header" :src="userInfo.avatarUrl" @tap="preImages(userInfo.avatarUrl)" />
       <text class="fz-15 mr-t-20 header-title fc-000">FIRSTYNAS</text>
       <text class="fz-11 mr-t-10 fc-000">WELCOME TO OUR HOTEL</text>
       <div class="fl-bt me-icon-list">
@@ -69,20 +69,31 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      opId: "",
+      userInfo: {},
+    };
   },
   onLoad() {
+    // 获取用户信息
+    this.opId = uni.getStorageSync("opId");
     this.getUserInfo();
   },
   methods: {
-    getUserInfo() {
-      const userData = uni.getStorageSync("userInfo");
-      console.log(userData);
-      if (userData) return;
-      uni.reLaunch({
-        url: "/pages/page/login",
+    async getUserInfo() {
+      const { data } = await this.$api.getUserInfo({
+        openId: this.opId,
+      });
+      this.userInfo = data;
+      uni.setStorageSync("userInfo", data);
+    },
+    preImages(img) {
+      console.log(img);
+      uni.previewImage({
+        urls: [img],
       });
     },
+    // 页面跳转
     optNavigatorPath(path) {
       switch (path) {
         case "edit": {

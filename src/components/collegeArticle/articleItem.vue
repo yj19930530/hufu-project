@@ -1,12 +1,12 @@
 <template>
   <div class="article-item-box">
-    <image class="article-item-img" src="../../static/circle/back-img.png" />
+    <image class="article-item-img" :src="detailInfo.displayimg" />
     <div class="mr-t-6 box-width">
       <div class="box-width-padding">
         <div class="article-item-title">
-          <text class="fz-14">标题：干！痒！红！是阿萨德萨达阿萨德</text>
+          <text class="fz-14">标题：{{detailInfo.title}}</text>
         </div>
-        <text class="fz-14 mr-4">作者：小初</text>
+        <text class="fz-14 mr-4">作者：{{detailInfo.title}}</text>
         <div class="fl-bt mr-t-16">
           <div class="article-item-btn fl-cen" @tap="lookDetail">
             <text class="fz-12 fc-fff">查看干货</text>
@@ -24,9 +24,20 @@ export default {
   data() {
     return {};
   },
+  props: {
+    itemObj: {
+      type: Object,
+      default: {},
+    },
+  },
+  computed: {
+    detailInfo() {
+      return this.itemObj;
+    },
+  },
   methods: {
     lookDetail() {
-        uni.navigateTo({
+      uni.navigateTo({
         url: "/subPackages/college/atcDetail",
       });
     },

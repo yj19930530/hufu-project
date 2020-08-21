@@ -17,7 +17,7 @@
         </div>
       </div>
       <div class="article-list-content fl-btw mr-t-6">
-        <ArtItem v-for="item in 4" :key="item" />
+        <ArtItem v-for="item in ganAtc" :key="item.id" :itemObj="item" />
       </div>
     </div>
     <!-- 干货视频 -->
@@ -32,7 +32,7 @@
         </div>
       </div>
       <div class="article-list-content fl-btw mr-t-6">
-        <VideoItem v-for="item in 4" :key="item" />
+        <VideoItem v-for="item in ganVideo" :key="item.id" />
       </div>
     </div>
   </div>
@@ -42,13 +42,28 @@ import ArtItem from "../../components/collegeArticle/articleItem";
 import VideoItem from "../../components/collegeVideo/videoItem";
 export default {
   data() {
-    return {};
+    return {
+      ganVideo: [], // 干货视频列表
+      ganAtc: [], // 干货文章列表
+    };
+  },
+  onLoad() {
+    this.getList();
   },
   components: {
     ArtItem,
     VideoItem,
   },
   methods: {
+    // 获取文章列表
+    async getList() {
+      const { data } = await this.$api.getCollegeList({
+        pageNo: 1,
+        pageSize: 4,
+      });
+      this.ganVideo = data.ghsp;
+      this.ganAtc = data["hfxy-hfwz"];
+    },
     optNavigatorPath(path) {
       switch (path) {
         case "atc": {

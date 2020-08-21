@@ -1,6 +1,6 @@
 <template>
   <div id="archives-container">
-    <div class="archives-item-content" v-for="item in 4" :key="item" @tap="navToDetails">
+    <div class="archives-item-content" v-for="item in tableList" :key="item.id" @tap="navToDetails">
       <div class="archives-title fl-bt">
         <text class="fz-15">2020-08-20 16：34：42</text>
         <text class="iconfont iconshanchu fz-18"></text>
@@ -24,9 +24,30 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      openId: "",
+      pageNo: 1,
+      pageSize: 10,
+      tableList: [],
+    };
+  },
+  onLoad() {
+    this.openId = uni.getStorageSync("opId");
+    this.getSkinPage()
   },
   methods: {
+    // 获取肌肤测试分页列表
+    getSkinPage() {
+      this.$api
+        .getSkinPage({
+          pageNo: this.pageNo,
+          pageSize: this.pageSize,
+          openId: this.openId,
+        })
+        .then((res) => {
+          this.tableList = res.data;
+        });
+    },
     navToDetails() {
       uni.navigateTo({
         url: "/subPackages/me/archivesDetails",

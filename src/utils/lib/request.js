@@ -12,16 +12,20 @@ uniRequest._extend({
         let header = {
             'Content-Type': 'application/x-www-form-urlencoded',
         };
-        const token = common.getData('token')
+        const opId = common.getData('opId');
+        if (!opId) {
+            uni.reLaunch({
+                url: "/pages/page/login"
+            })
+        }
         switch (type) {
             case 'login': {
+                Object.assign(header, {
+                    'content-type': 'application/json;charset=UTF-8'
+                })
                 break;
             }
             default: {
-                Object.assign(header, {
-                    'token': token,
-                    // 'content-type': 'application/json;charset=UTF-8'
-                })
                 break;
             }
         }
@@ -33,11 +37,11 @@ uniRequest._extend({
                 header: header,
                 success: (res) => {
                     switch (res.data.code) {
-                        case 0: {
+                        case 200: {
                             resolve(res.data);
                             break
                         }
-                        case -100: {
+                        case 201: {
                             uni.showModal({
                                 title: '提示',
                                 content: res.data.msg,
@@ -59,6 +63,7 @@ uniRequest._extend({
                     }
                 },
                 fail: err => {
+                    toast.showToast('网络错误')
                     reject(err)
                 }
             })

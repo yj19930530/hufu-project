@@ -123,12 +123,18 @@ function updataImgOnce() {
             sizeType: 'compressed',
             success: res => {
                 res.tempFilePaths.forEach(item => {
+                    uni.showLoading({
+                        title: '上传中'
+                    });
                     uni.uploadFile({
-                        url: http + '/wechatUpload/picture',
-                        name: 'file',
+                        url: http + '/skin/uploadImg',
+                        name: 'image',
+                        header: {
+                            'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundaryJ0BstsRQ55xWJzBB'
+                        },
                         filePath: item,
-                        header: { 'token': token },
                         success: (r) => {
+                            uni.hideLoading()
                             let resolveData = JSON.parse(r.data);
                             if (resolveData.code === -100) {
                                 uni.showModal({
@@ -143,12 +149,14 @@ function updataImgOnce() {
                                     }
                                 });
                             } else {
-                                let imgObj = JSON.parse(r.data).body;
+                                let imgObj = JSON.parse(r.data);
                                 resolve({
-                                    imgPath: item,
-                                    imgObj: imgObj[0].url
+                                    imgPath: imgObj.data,
+                                    // imgObj: imgObj.data
                                 })
                             }
+                        }, fail: () => {
+                            uni.hideLoading()
                         }
                     });
                 })

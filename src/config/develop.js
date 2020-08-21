@@ -10,8 +10,8 @@ switch (env) {
         break;
     }
     default: {
-        http = 'https://www.ja-zc.com/tycar';
-        // http = 'http://47.92.74.122/tycar';
+        http = 'http://192.168.1.72:9966/erpManageSystem';
+        // http = 'https://www.chuyinxiang.net//erpManageSystem';
         break;
     }
 }

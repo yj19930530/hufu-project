@@ -6,14 +6,25 @@
     </div>
     <!-- 咨询老师 -->
     <div class="Interrogation-content mr-t-20">
-      <scroll-view class="scroll-box" scroll-x="true">
-        <div class="doc-item-person" v-for="item in 5" :key="item">
+      <scroll-view
+        class="scroll-box"
+        scroll-x="true"
+        :scroll-with-animation="true"
+        :scroll-into-view="infoIndex"
+      >
+        <div
+          class="doc-item-person"
+          v-for="(item,index) in docList"
+          :key="item"
+          :id="item.key"
+          @tap="infoIndexChange(index)"
+        >
           <div class="fl-co">
             <image class="doc-header-img" src="../../static/circle/back-img.png" />
-            <text class="fz-13 mr-t-4">小凤老师</text>
+            <text class="fz-13 mr-t-4">{{item.name}}</text>
             <text class="fz-10 fc-999 mr-t-6">高级专家护肤导师</text>
             <text class="fz-10 fc-999 mr-t-6">特聘专业护肤师</text>
-            <button class="handle-btn fz-11 fl-cen" type="primary">立即咨询</button>
+            <button class="handle-btn fz-11 fl-cen" open-type="contact" type="primary">立即咨询</button>
           </div>
         </div>
       </scroll-view>
@@ -58,7 +69,39 @@
 import WaterItem from "../../components/waterItem/water";
 export default {
   data() {
-    return {};
+    return {
+      docList: [
+        {
+          name: "小凤老师1",
+          key: "A",
+        },
+        {
+          name: "小凤老师2",
+          key: "B",
+        },
+        {
+          name: "小凤老师3",
+          key: "C",
+        },
+        {
+          name: "小凤老师4",
+          key: "D",
+        },
+        {
+          name: "小凤老师5",
+          key: "E",
+        },
+        {
+          name: "小凤老师6",
+          key: "F",
+        },
+        {
+          name: "小凤老师7",
+          key: "G",
+        },
+      ],
+      infoIndex: "D",
+    };
   },
   components: {
     WaterItem,
@@ -66,6 +109,9 @@ export default {
   methods: {
     scroll(e) {
       console.log(e);
+    },
+    infoIndexChange(index) {
+      this.infoIndex = this.docList[index].key;
     },
     optNavigatorPath(path) {
       switch (path) {

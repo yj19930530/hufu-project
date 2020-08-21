@@ -7,11 +7,11 @@
     <div class="canvas-content">
       <canvas style="height: 100%;width: 100%;" canvas-id="firstCanvas"></canvas>
     </div>
-    <div @tap="schb" class="fl-cen mr-t-30">
+    <div class="fl-cen mr-t-20">
       <div class="shar-btn-style fl-cen">
         <text class="fz-15 fc-fff">分享给好友</text>
       </div>
-      <div class="shar-btn-style mr-l-100 fl-cen">
+      <div class="shar-btn-style mr-l-100 fl-cen" @tap="saveImage">
         <text class="fz-15 fc-fff">保存到相册</text>
       </div>
     </div>
@@ -23,42 +23,53 @@ export default {
     return {};
   },
   onLoad() {
-    this.init();
+    this.initPoster();
   },
   methods: {
-    init() {
+    //  生成海报
+    initPoster() {
       let url = "/static/me/poster.png";
       let codeUrl = "/static/circle/back-img.png";
       let context = uni.createCanvasContext("firstCanvas", this);
       context.drawImage(url, 0, 0, uni.upx2px(532), uni.upx2px(942));
-      context.drawImage(codeUrl, 100, 394, 90, 90);
+      context.drawImage(
+        codeUrl,
+        uni.upx2px(200),
+        uni.upx2px(720),
+        uni.upx2px(140),
+        uni.upx2px(140)
+      );
       context.setTextAlign("center");
       context.setFontSize(12);
       context.setFillStyle("#999999");
-      context.fillText("扫一扫，免费进行肌肤检测", 148, 500);
+      context.fillText(
+        "扫一扫，免费进行肌肤检测",
+        uni.upx2px(266),
+        uni.upx2px(900)
+      );
       context.draw();
     },
-    schb() {
+    // 保存海报
+    saveImage() {
+      console.log("in");
       uni.canvasToTempFilePath({
         x: 0,
         y: 0,
-        width: 375,
-        height: uni.upx2px(1020),
-        destWidth: 375,
-        destHeight: uni.upx2px(1020),
         canvasId: "firstCanvas",
         success: function (res) {
           uni.saveImageToPhotosAlbum({
             filePath: res.tempFilePath,
             success: function () {
-              console.log("save success");
+              uni.showToast({
+                title: "保存成功",
+                icon: "none",
+              });
             },
           });
         },
         fail(e) {
-          console.log(e);
           uni.showToast({
-            title: "生成海报失败",
+            title: "保存失败",
             icon: "none",
           });
         },
@@ -77,7 +88,7 @@ export default {
 .poster-title-top {
   display: flex;
   flex-direction: column;
-  padding: 32rpx 64rpx;
+  padding: 12rpx 64rpx;
 }
 .shar-btn-style {
   width: 260rpx;
