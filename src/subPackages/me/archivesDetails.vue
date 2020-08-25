@@ -189,11 +189,6 @@ export default {
           console.log(res);
         });
     },
-    navToDetails() {
-      uni.navigateTo({
-        url: "/subPackages/me/archivesDetails",
-      });
-    },
   },
 };
 </script>
@@ -273,8 +268,6 @@ export default {
 .recommend-content {
   margin: auto;
   width: 710rpx;
-}
-.score-product-box {
 }
 .product-item-text {
   padding-bottom: 20rpx;

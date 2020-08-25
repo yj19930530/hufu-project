@@ -65,7 +65,7 @@
     </div>
     <!-- <div class="no-data-content">
         <image class="no-data-img" src="../../static/notdata.png" />
-    </div> -->
+    </div>-->
   </div>
 </template>
 <script>

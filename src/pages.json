@@ -1,15 +1,6 @@
 {
 	"pages": [
 		{
-			"path": "pages/page/login",
-			"style": {
-				"navigationStyle": "custom",
-				"app-plus": {
-					"titleNView": false
-				}
-			}
-		},
-		{
 			"path": "pages/page/home",
 			"style": {
 				"navigationStyle": "custom",
@@ -44,6 +35,15 @@
 			"path": "pages/page/me",
 			"style": {
 				"navigationBarTitleText": "我的"
+			}
+		},
+		{
+			"path": "pages/page/login",
+			"style": {
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false
+				}
 			}
 		}
 	],

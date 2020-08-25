@@ -18,17 +18,7 @@ uniRequest._extend({
                 url: "/pages/page/login"
             })
         }
-        switch (type) {
-            case 'login': {
-                Object.assign(header, {
-                    'content-type': 'application/json;charset=UTF-8'
-                })
-                break;
-            }
-            default: {
-                break;
-            }
-        }
+        if (type !== 'no') data.openId = opId;
         return new Promise((resolve, reject) => {
             uni.request({
                 url: http + url,

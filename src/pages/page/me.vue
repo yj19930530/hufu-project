@@ -74,16 +74,12 @@ export default {
       userInfo: {},
     };
   },
-  onLoad() {
-    // 获取用户信息
-    this.opId = uni.getStorageSync("opId");
+  onShow() {
     this.getUserInfo();
   },
   methods: {
     async getUserInfo() {
-      const { data } = await this.$api.getUserInfo({
-        openId: this.opId,
-      });
+      const { data } = await this.$api.getUserInfo();
       this.userInfo = data;
       uni.setStorageSync("userInfo", data);
     },

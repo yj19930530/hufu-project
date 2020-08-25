@@ -24,22 +24,45 @@
         <text class="fz-12 fc-fff">关注</text>
       </div>
     </div>
+    <div class="zhezhao-bg" @tap="inputBlurChange" v-if="commentType"></div>
     <!-- 输入框 -->
-    <div class="comment-box fl-cen" v-if="commentType">
+    <div class="comment-box fl-co" v-if="commentType">
+      <div class="comment-title-box mr-b-10">
+        <text class="fz-17 fw-bold">评论:</text>
+        <text class="fz-17 fw-bold mr-t-4">这是一个标题这是一个标题这是一个标题这是一个标题</text>
+      </div>
       <textarea
         :fixed="true"
         :adjust-position="true"
         :show-confirm-bar="true"
         :cursor-spacing="commentHeight+20"
         @keyboardheightchange="getHeigth"
+        placeholder="想说些什么呢~（评论将在审核后显示）"
         maxlength="300"
-        @blur="inputBlurChange"
-        :auto-height="true"
+        :auto-height="false"
         class="comment-content-input"
-        :focus="commentType"
         v-model="commentValue"
         @confirm="getText"
       />
+      <div class="fl-fc mr-t-30 mr-b-50" style="width:670rpx">
+        <div class="fl-al">
+          <div class="comment-upload-img" v-for="item in 3" :key="item">
+            <image class="upload-img-item" src="../../static/circle/back-img.png" />
+            <div class="upload-img-delete fz-10 fc-fff fl-cen">X</div>
+          </div>
+        </div>
+        <div class="fl-bt mr-t-20">
+          <div class="fl-al">
+            <image class="comment-icon-upload" src="../../static/college/uploadimg.png" />
+            <text class="fz-14 mr-l-10">上传图片</text>
+            <text class="fz-14 fc-999 mr-l-10">最多上传3张</text>
+          </div>
+          <text class="fz-14 fc-999">0/300</text>
+        </div>
+      </div>
+      <div class="comment-submit-btn fl-cen">
+        <text class="fz-20 fc-fff fw-bold">评论</text>
+      </div>
     </div>
     <!-- 精选评论 -->
     <div class="fl-bt comment-title">
@@ -91,7 +114,7 @@
           <text class="iconfont iconshoucang fz-16"></text>
           <text class="fz-12 mr-l-6">608.5w</text>
         </div>
-        <div class="fl-al mr-l-8">
+        <div class="fl-al mr-l-8" @tap.native.stop="getComHeight">
           <text class="iconfont iconpinglun fz-20"></text>
           <text class="fz-12 mr-l-2">320</text>
         </div>
@@ -126,9 +149,9 @@ export default {
     touchstartHandle() {
       this.moreType = false;
     },
-    getText(){
-        console.log(this.commentValue)
-    }
+    getText() {
+      console.log(this.commentValue);
+    },
   },
 };
 </script>
@@ -229,22 +252,68 @@ export default {
   padding: 0 30rpx;
 }
 .comment-content-input {
+  margin-top: 2prpx;
   font-size: 28rpx;
   padding: 10rpx;
   border-radius: 10rpx;
-  width: 690rpx;
-  height: 70rpx;
+  width: 670rpx;
+  height: 250rpx;
   background-color: #ffffff;
 }
 .comment-box {
-  padding: 20rpx;
+  padding: 30rpx 30rpx 0 30rpx;
   width: 100%;
   /* height: 90rpx; */
   position: fixed;
   bottom: 0;
   left: 0;
   box-sizing: border-box;
-  background-color: #eeeeee;
+  background-color: #ffffff;
   z-index: 999999999;
+}
+.comment-title-box {
+  padding-bottom: 20rpx;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-bottom: 1rpx solid #cccccc;
+}
+.comment-icon-upload {
+  width: 36rpx;
+  height: 31rpx;
+}
+.comment-upload-img {
+  position: relative;
+  margin-right: 10rpx;
+  width: 128rpx;
+  height: 128rpx;
+}
+.upload-img-item {
+  width: 100%;
+  height: 100%;
+  border-radius: 10rpx;
+}
+.upload-img-delete {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 30rpx;
+  height: 30rpx;
+  border-radius: 0 0 0 10rpx;
+  background-color: #7e6b5a;
+}
+.zhezhao-bg {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 8888888;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.comment-submit-btn {
+  width: 750rpx;
+  height: 108rpx;
+  background: linear-gradient(to right, #333333, #666666);
 }
 </style>
