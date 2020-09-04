@@ -8,7 +8,7 @@ uniRequest._extend = function (copy) {
     return extend(this, copy)
 }
 uniRequest._extend({
-    postRequest(url, data = {}, type) {
+    postRequest(url, data = {}, type, noType) {
         const opId = common.getData('opId');
         const token = common.getData('token');
         const userno = common.getData('userno');
@@ -21,8 +21,8 @@ uniRequest._extend({
                 url: "/pages/page/login"
             })
         }
-        if (userno) data.userno = userno;
         if (type !== 'no') data.openId = opId;
+        if (noType !== 'no') data.userno = userno;
         return new Promise((resolve, reject) => {
             uni.request({
                 url: http + url,
@@ -30,7 +30,7 @@ uniRequest._extend({
                 method: 'post',
                 header: header,
                 success: (res) => {
-                    switch (res.data.code) {
+                    switch (res.data.state) {
                         case 200: {
                             resolve(res.data);
                             break
@@ -38,7 +38,7 @@ uniRequest._extend({
                         case 201: {
                             uni.showModal({
                                 title: '提示',
-                                content: res.data.msg,
+                                content: res.data.message,
                                 showCancel: false,
                                 confirmText: '返回登录',
                                 success: function () {
@@ -50,8 +50,8 @@ uniRequest._extend({
                             break
                         }
                         default: {
-                            toast.showToast(res.data.msg)
-                            resolve(res.data);
+                            toast.showToast(res.data.message)
+                            resolve({});
                             break
                         }
                     }

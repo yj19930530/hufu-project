@@ -62,6 +62,12 @@
 					"style": {
 						"navigationBarTitleText": "肌肤问诊专区"
 					}
+				},
+				{
+					"path": "search",
+					"style": {
+						"navigationBarTitleText": "搜索"
+					}
 				}
 			]
 		},

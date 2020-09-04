@@ -3,36 +3,45 @@
     <image class="write-back-img" src="../../static/circle/back-img.png" />
     <div class="write-center-content">
       <div class="write-center-box">
-        <textarea maxlength="300" class="textarea-content fz-14 fc-999" v-model="text" />
+        <textarea
+          maxlength="300"
+          placeholder="你的护肤历程是对其他初印象姐妹的鼓励,是变美的动力，大家渴望看到你洋洋洒洒的护肤记录，所以请不要吝啬你的文采哦~"
+          class="textarea-content fz-14 fc-999"
+          v-model="writeForm.content"
+        />
         <div class="fl-bt mr-t-20">
           <text class="fz-14">上传多张照片更容易上热搜榜哦</text>
           <text class="fc-999 fz-14">0/9</text>
         </div>
         <!-- 上傳圖片 -->
         <div class="mr-t-30 fl-btc">
-          <div class="add-img-btn fl-cen mr-r-50 mr-b-20">
+          <div
+            v-if="imgList.length!==9"
+            class="add-img-btn fl-cen mr-r-50 mr-b-20"
+            @tap="uploadImgComment"
+          >
             <text class="fz-20">+</text>
           </div>
           <image
-            @longpress="logoTime('in')"
-            v-for="item in 7"
-            @tap="preImage"
-            :key="item"
+            @longtap="logoTime(index)"
+            v-for="(item,index) in imgList"
+            @tap="preImage(index)"
+            :key="index"
             class="img-updata-item"
-            src="../../static/circle/back-img.png"
+            :src="item.imgPath"
           />
         </div>
         <div>
           <text class="fz-12 fc-999">提示：长按可删除图片</text>
         </div>
-        <div class="sumit-btn fl-cen">
+        <div class="sumit-btn fl-cen" @tap="submitWrite">
           <text class="fz-15 fc-fff">护肤打卡</text>
         </div>
       </div>
     </div>
     <div class="delete-content" v-if="deleteType">
       <div class="delete-bt-box" :class="[deleteType?'bot-style-1':'bot-style-2']">
-        <div class="delete-btn fl-cen">
+        <div class="delete-btn fl-cen" @tap="deleteCommentImg">
           <text class="fz-15 fc-f1 text-letter-spc fw-bold">刪除</text>
         </div>
         <div class="delete-btn fl-cen" @click="closeType">
@@ -43,26 +52,100 @@
   </div>
 </template>
 <script>
+const { common, toast } = require("../../utils/index");
 export default {
   data() {
     return {
-      text: "薩達阿薩德阿薩德",
       deleteType: false,
+      imgList: [],
+      writeForm: {
+        creatorNo: "",
+        content: "",
+        noteImgs: "",
+      },
+      nowIndex: 0,
     };
   },
+  onLoad(obj) {
+    if (obj.label) this.writeForm.label = obj.label;
+    this.writeForm.creatorNo = uni.getStorageSync("userno");
+  },
   methods: {
-    logoTime(type) {
+    logoTime(i) {
+      this.nowIndex = i;
       this.deleteType = true;
-      console.log(type);
+    },
+    // 删除图片
+    deleteCommentImg() {
+      this.imgList.splice(this.nowIndex, 1);
+      this.deleteType = false;
     },
     closeType() {
       this.deleteType = false;
     },
     // 預覽圖片
-    preImage() {
+    preImage(i) {
       uni.previewImage({
-        urls: ["../../static/circle/back-img.png"],
+        urls: [this.imgList[i].imgPath],
       });
+    },
+    // 上传图片
+    async uploadImgComment() {
+      const imgOBj = await common.updataImg(9 - this.imgList.length);
+      this.imgList = [...this.imgList, ...imgOBj];
+    },
+    // 发表
+    submitWrite() {
+      toast.showLoading("发表中");
+      if (this.writeForm.content === "") return toast.showToast("内容不能为空");
+      if (!this.imgList.length) {
+        delete this.writeForm.noteImgs;
+      } else {
+        let imgArr = [];
+        this.imgList.forEach((item) => {
+          imgArr.push(item.imgObj);
+        });
+        this.writeForm.noteImgs = imgArr.join(",");
+      }
+      if (this.writeForm.label) {
+        this.$api
+          .addCircleNote(this.writeForm)
+          .then((res) => {
+            uni.showModal({
+              title: "提示",
+              content: "提交成功",
+              showCancel: false,
+              confirmText: "返回",
+              success: function (res) {
+                uni.navigateBack();
+              },
+            });
+            uni.navigateBack();
+            uni.hideLoading();
+          })
+          .catch(() => {
+            uni.hideLoading();
+          });
+      } else {
+        this.$api
+          .addWriteNote(this.writeForm)
+          .then((res) => {
+            uni.showModal({
+              title: "提示",
+              content: "提交成功",
+              showCancel: false,
+              confirmText: "返回",
+              success: function (res) {
+                uni.navigateBack();
+              },
+            });
+            uni.navigateBack();
+            uni.hideLoading();
+          })
+          .catch(() => {
+            uni.hideLoading();
+          });
+      }
     },
   },
 };

@@ -1,13 +1,12 @@
 const { postRequest } = require('../../utils/lib/request');
-// // 登录
-// const userLoginGetOpenId = (data) => postRequest('/smallprogramMain/getSmallUserInfo', data);
-// // 添加用户
-// const addUserInfo = (data) => postRequest('/smallprogramMain/handleInsertUserInfo', data);
-// // 获取用户信息
-// const getUserInfo = (data) => postRequest('/smallprogramMain/handleGetUserInfo', data);
-
+// 获取顶部消息数量
+const getMessageCount = (data) => postRequest('/sa/index/front/systemMessageCount', data);
+// 获取icon list
+const getIconList = (data) => postRequest('/sa/index/front/columnInfoList', data, '', '');
+// 分类全部状态列表
+const getClassAllList = (data) => postRequest('/smallprogramMain/handle_getGoodsOrderBy', data, 'no', 'no');
 module.exports = {
-    // userLoginGetOpenId,
-    // addUserInfo,
-    // getUserInfo
+    getMessageCount,
+    getIconList,
+    getClassAllList
 }

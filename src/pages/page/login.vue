@@ -45,7 +45,7 @@ export default {
                   .userLoginGetOpenId({
                     code: loginRes.code,
                   })
-                  .then((res) => {
+                  .then(async(res) => {
                      let opId = "",
                       dataObj = null,
                       token = "";

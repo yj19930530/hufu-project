@@ -6,15 +6,15 @@
       src="../../static/circle/back-img.png"
     />
     <div class="note-item-bot">
-      <text class="fz-12">自从用了初印象之后，其他的护肤品可基本上都是摆设</text>
+      <div class="fz-12 text-lang-dian2">{{objDetail.contens}}</div>
       <div class="fl-bt mr-t-10">
-        <div class="fl-al">
-          <image class="note-item-header" src="../../static/circle/back-img.png" />
-          <text class="fz-10 fc-999 mr-l-10">初印象</text>
+        <div class="fl-ff text-lang-dian">
+          <image class="note-item-header" :src="objDetail.sui.avatarUrl" />
+          <text class="fz-10 fc-999 mr-l-10">{{objDetail.sui.nickName}}</text>
         </div>
         <div class="fl-al">
           <text class="iconfont iconweibiaoti-- fc-999 fz-14"></text>
-          <text class="fz-10 fc-999 mr-l-10">808</text>
+          <text class="fz-10 fc-999 mr-l-10">{{objDetail.smallPraisNum}}</text>
         </div>
       </div>
     </div>
@@ -30,12 +30,19 @@ export default {
       type: Number,
       default: 0,
     },
+    objData: {
+      type: Object,
+      default: 0,
+    },
   },
-  computed:{
-      index(){
-          return this.numIndex
-      }
-  }
+  computed: {
+    index() {
+      return this.numIndex;
+    },
+    objDetail() {
+      return this.objData;
+    },
+  },
 };
 </script>
 <style scoped>

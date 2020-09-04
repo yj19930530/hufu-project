@@ -7,12 +7,12 @@
     <view class="top-search-opt">
       <view class="fl-bt">
         <image class="left-img-btn mr-l-20" src="../../static/home/liwu.png" />
-        <view class="fl-al search-content">
+        <view class="fl-al search-content" @tap="optNavigatorPath('ss')">
           <image class="search-style mr-l-30" src="../../static/home/ss.png" />
-          <text class="fz-12 fc-89 mr-l-10">请输入商品名称</text>
+          <text class="fz-12 fc-89 mr-l-10">请输入文章名称</text>
         </view>
         <div class="message-content fl-al" @tap="optNavigatorPath('msg')">
-          <view class="message-number fl-cen fz-10">2</view>
+          <view class="message-number fl-cen fz-10" v-if="msgNumber>0">{{msgNumber}}</view>
           <image class="right-message-btn mr-r-20" src="../../static/home/xinxi.png" />
         </div>
       </view>
@@ -23,7 +23,7 @@
         <image class="opt-item" src="../../static/home/icon1.png" />
         <text class="mr-t-10 fz-11">免费体验</text>
       </view>
-      <view class="fl-co"  @tap="optNavigatorPath('test')">
+      <view class="fl-co" @tap="optNavigatorPath('test')">
         <image class="opt-item" src="../../static/home/icon2.png" />
         <text class="mr-t-10 fz-11">魔镜测试</text>
       </view>
@@ -183,7 +183,10 @@
       <view class="aks-title-box fl-al">
         <text class="fc-333 fz-15 fw-bold mr-l-20">肌肤问诊专区</text>
       </view>
-      <view class="special-item-box mr-t-20" v-for="(item,index) in 4" :key="index" @tap="optNavigatorPath('ask')">
+      <view
+        class="special-item-box mr-t-20"
+        @tap="optNavigatorPath('ask')"
+      >
         <view class="fl-bt">
           <view class="fl-fc mr-l-30">
             <text class="fz-18 fc-333 fw-bold">祛痘咨询专区</text>
@@ -200,6 +203,94 @@
         <view class="special-item-bottom fl-co">
           <view class="fz-14 fc-333 bottom-spe-style">·你的下巴为何反复长痘？</view>
           <view class="fz-14 fc-333 bottom-spe-style">·脸部不同部位长痘是怎么回事？</view>
+        </view>
+      </view>
+      <view
+        class="special-item-box mr-t-20"
+        @tap="optNavigatorPath('ask')"
+      >
+        <view class="fl-bt">
+          <view class="fl-fc mr-l-30">
+            <text class="fz-18 fc-333 fw-bold">淡斑咨询专区</text>
+            <text class="fz-10 fc-333 mr-t-4">PALE ACNE</text>
+            <text class="fz-14 fc-333 mr-t-20">淡化现有斑 预防未来斑</text>
+          </view>
+          <view class="fl-al mr-r-20">
+            <image class="yisheng-img mr-l-50" src="../../static/home/yisheng.png" />
+            <view class="next-page fl-cen">
+              <text class="fz-12 fc-fff">立即前往></text>
+            </view>
+          </view>
+        </view>
+        <view class="special-item-bottom fl-co">
+          <view class="fz-14 fc-333 bottom-spe-style">·长斑是什么原因引起的？</view>
+          <view class="fz-14 fc-333 bottom-spe-style">·色斑雀斑等斑点应该怎么淡化去除？</view>
+        </view>
+      </view>
+      <view
+        class="special-item-box mr-t-20"
+        @tap="optNavigatorPath('ask')"
+      >
+        <view class="fl-bt">
+          <view class="fl-fc mr-l-30">
+            <text class="fz-18 fc-333 fw-bold">美白咨询专区</text>
+            <text class="fz-10 fc-333 mr-t-4">WHITENING</text>
+            <text class="fz-14 fc-333 mr-t-20">精准定位 创新美白概念</text>
+          </view>
+          <view class="fl-al mr-r-20">
+            <image class="yisheng-img mr-l-50" src="../../static/home/yisheng.png" />
+            <view class="next-page fl-cen">
+              <text class="fz-12 fc-fff">立即前往></text>
+            </view>
+          </view>
+        </view>
+        <view class="special-item-bottom fl-co">
+          <view class="fz-14 fc-333 bottom-spe-style">·夏天晒黑？教你一招美白肌肤。</view>
+          <view class="fz-14 fc-333 bottom-spe-style">·肌肤暗黄？教你告别“小黄人”。</view>
+        </view>
+      </view>
+      <view
+        class="special-item-box mr-t-20"
+        @tap="optNavigatorPath('ask')"
+      >
+        <view class="fl-bt">
+          <view class="fl-fc mr-l-30">
+            <text class="fz-18 fc-333 fw-bold">抗皱咨询专区</text>
+            <text class="fz-10 fc-333 mr-t-4">ANTI WRINKLE</text>
+            <text class="fz-14 fc-333 mr-t-20">轻松护理肌肤 扫除岁月痕迹</text>
+          </view>
+          <view class="fl-al mr-r-20">
+            <image class="yisheng-img mr-l-50" src="../../static/home/yisheng.png" />
+            <view class="next-page fl-cen">
+              <text class="fz-12 fc-fff">立即前往></text>
+            </view>
+          </view>
+        </view>
+        <view class="special-item-bottom fl-co">
+          <view class="fz-14 fc-333 bottom-spe-style">·皱纹是如何生长的？</view>
+          <view class="fz-14 fc-333 bottom-spe-style">·皱纹越来越多，你怕了吗？</view>
+        </view>
+      </view>
+      <view
+        class="special-item-box mr-t-20"
+        @tap="optNavigatorPath('ask')"
+      >
+        <view class="fl-bt">
+          <view class="fl-fc mr-l-30">
+            <text class="fz-18 fc-333 fw-bold">修敏咨询专区</text>
+            <text class="fz-10 fc-333 mr-t-4">REPAIR SENTITIVE</text>
+            <text class="fz-14 fc-333 mr-t-20">修复新定义 拒绝敏感肌</text>
+          </view>
+          <view class="fl-al mr-r-20">
+            <image class="yisheng-img mr-l-50" src="../../static/home/yisheng.png" />
+            <view class="next-page fl-cen">
+              <text class="fz-12 fc-fff">立即前往></text>
+            </view>
+          </view>
+        </view>
+        <view class="special-item-bottom fl-co">
+          <view class="fz-14 fc-333 bottom-spe-style">·皮肤经常红痒干痛怎么办？</view>
+          <view class="fz-14 fc-333 bottom-spe-style">·如何觉醒肌肤原力，无惧敏感肌？</view>
         </view>
       </view>
     </view>
@@ -236,6 +327,7 @@
   </view>
 </template>
 <script>
+const { toast } = require("../../utils/index");
 import Nav from "../../components/navbar/nav";
 export default {
   data() {
@@ -246,6 +338,8 @@ export default {
       autoplay: true,
       interval: 3000,
       duration: 500,
+      msgNumber: 0, // 消息数量
+      iconList: [], // icon list
     };
   },
   components: {
@@ -256,7 +350,24 @@ export default {
       return getApp().globalData.navHeight;
     },
   },
+  onShow() {
+    this.getMsgNumber();
+  },
+  onLoad() {
+    this.getIconData();
+  },
   methods: {
+    async getIconData() {
+      toast.showLoading("加载中");
+      const { data } = await this.$api.getIconList();
+      this.iconList = data;
+      uni.hideLoading();
+    },
+    // 获取消息数量
+    async getMsgNumber() {
+      const { data } = await this.$api.getMessageCount();
+      this.msgNumber = data;
+    },
     playerVideo() {
       this.playerType = true;
       this.videoContext = uni.createVideoContext("myVideo");
@@ -295,6 +406,12 @@ export default {
         case "ask": {
           uni.navigateTo({
             url: "/subPackages/home/Interrogation",
+          });
+          break;
+        }
+        case "ss": {
+          uni.navigateTo({
+            url: "/subPackages/home/search",
           });
           break;
         }

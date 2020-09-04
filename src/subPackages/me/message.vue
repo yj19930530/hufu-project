@@ -15,11 +15,30 @@
   </div>
 </template>
 <script>
+const { toast } = require("../../utils/index");
 export default {
   data() {
-    return {};
+    return {
+      dataList: [],
+    };
+  },
+  onLoad() {
+    this.getMsgData();
   },
   methods: {
+    // 获取数据
+    async getMsgData() {
+      toast.showLoading("加载中");
+      this.$api
+        .getMsgList()
+        .then((res) => {
+          this.dataList = res.data;
+          uni.hideLoading();
+        })
+        .catch((err) => {
+          uni.hideLoading();
+        });
+    },
     detailToPath() {
       uni.navigateTo({
         url: "/subPackages/me/messageNotice",

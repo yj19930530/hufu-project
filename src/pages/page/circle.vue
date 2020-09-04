@@ -32,69 +32,66 @@
       <textarea
         :fixed="true"
         :adjust-position="true"
-        :show-confirm-bar="false"
         :cursor-spacing="commentHeight+20"
         @keyboardheightchange="getHeigth"
         maxlength="300"
         @blur="inputBlurChange"
+        @confirm="sumitForm"
         :auto-height="true"
         class="comment-content-input"
         :focus="commentType"
-        v-model="commentValue"
+        v-model="userCommentForm.content"
       />
     </div>
     <!-- 评论 -->
     <div class="circle-left-content" v-if="optName==='left'">
       <div class="circle-opt-content fl-bt">
-        <div class="circle-opt-item fl-co circle-icon-left" @tap="circleChange('riji')">
+        <div class="circle-opt-item fl-co circle-icon-left" @tap="circleChange('护肤日记')">
           <image class="circle-opt-icon" src="../../static/circle/riji.png" />
           <text class="fz-10 mr-t-10 fc-000">护肤日记</text>
           <div
             class="choose-icon"
-            :class="[labelName==='riji'?'choose-icon-color2':'choose-icon-color']"
+            :class="[labelName==='护肤日记'?'choose-icon-color2':'choose-icon-color']"
           ></div>
         </div>
-        <div class="circle-opt-item fl-co" @tap="circleChange('ceshi')">
+        <div class="circle-opt-item fl-co" @tap="circleChange('新品测试')">
           <image class="circle-opt-icon" src="../../static/circle/xinpin.png" />
           <text class="fz-10 mr-t-10 fc-000">新品测试</text>
           <div
             class="choose-icon"
-            :class="[labelName==='ceshi'?'choose-icon-color2':'choose-icon-color']"
+            :class="[labelName==='新品测试'?'choose-icon-color2':'choose-icon-color']"
           ></div>
         </div>
-        <div class="circle-opt-item fl-co" @tap="circleChange('jilu')">
+        <div class="circle-opt-item fl-co" @tap="circleChange('回访记录')">
           <image class="circle-opt-icon" src="../../static/circle/jilu.png" />
           <text class="fz-10 mr-t-10 fc-000">回访记录</text>
           <div
             class="choose-icon"
-            :class="[labelName==='jilu'?'choose-icon-color2':'choose-icon-color']"
+            :class="[labelName==='回访记录'?'choose-icon-color2':'choose-icon-color']"
           ></div>
         </div>
-        <div class="circle-opt-item fl-co circle-icon-right" @tap="circleChange('huodong')">
+        <div class="circle-opt-item fl-co circle-icon-right" @tap="circleChange('限时活动')">
           <image class="circle-opt-icon" src="../../static/circle/xianshi.png" />
           <text class="fz-10 mr-t-10 fc-000">限时活动</text>
           <div
             class="choose-icon"
-            :class="[labelName==='huodong'?'choose-icon-color2':'choose-icon-color']"
+            :class="[labelName==='限时活动'?'choose-icon-color2':'choose-icon-color']"
           ></div>
         </div>
       </div>
-      <div class="comment-content" v-for="item in 4" :key="item">
+      <div class="comment-content" v-for="(item,index) in circleList" :key="index">
         <div class="comment-item-box">
-          <image class="header-img mr-l-20" src="../../static/circle/back-img.png" />
+          <image class="header-img mr-l-20" :src="item.createUser.avatarUrl" />
           <div class="item-right-coentent mr-r-20">
-            <text class="fc-5d fz-15">评论</text>
-            <text class="fz-14 mr-t-10">自从用了初印象之后，其他的护肤品可基本上都是摆设了，庆幸自己遇到这么好的产品！</text>
-            <div class="fl-btw mr-t-20">
+            <text class="fc-5d fz-15">{{item.createUser.nickName}}</text>
+            <text class="fz-14 mr-t-10">{{item.content}}</text>
+            <!-- <div class="fl-btw mr-t-20">
               <image class="comment-img-item" src="../../static/circle/back-img.png" />
-              <image class="comment-img-item" src="../../static/circle/back-img.png" />
-              <image class="comment-img-item" src="../../static/circle/back-img.png" />
-              <image class="comment-img-item" src="../../static/circle/back-img.png" />
-            </div>
+            </div>-->
             <div class="more-btn-box">
               <div class="more-menu-content">
                 <div class="more-btn-menu fl-cen" :style="[moreType?{right:'0'}:{right:'-358rpx'}]">
-                  <div class="more-menu-item fl-al">
+                  <div class="more-menu-item fl-al" @tap.native.stop="circleFabulousHandle(item)">
                     <image class="menu-icon" src="../../static/circle/zan.png" />
                     <text class="fz-14 fc-fff mr-l-8">赞</text>
                   </div>
@@ -104,21 +101,27 @@
                   </div>
                 </div>
               </div>
-
-              <div class="more-img" @tap.native.stop="moreChange">
+              <div class="more-img" @tap.native.stop="moreChange(item)">
                 <image class="more-btn-img" src="../../static/circle/more.png" />
               </div>
             </div>
-            <div class="communication-content">
-              <div class="communication-item">
-                <text class="fz-13 fc-5d">初印象的小助理：</text>
-                <text class="fz-13">恭喜宝贝，获得笔者权限啦，快来参加活动吧！超多好礼等你来拿哦！</text>
+            <div class="has-zan-list text-lang-dian2 mr-b-10" v-if="item.likeUsers.length">
+              <text
+                class="fz-12 fc-5d"
+                v-for="(zRow,zIx) in item.likeUsers"
+                :key="zIx"
+              >{{zRow.nickName}},</text>
+            </div>
+            <div class="communication-content" v-for="(row,x) in item.noteComments" :key="x">
+              <div class="communication-item" v-if="row.toNo===item.createNo">
+                <text class="fz-13 fc-5d">{{row.fromUserNickName}}：</text>
+                <text class="fz-13">{{row.content}}</text>
               </div>
-              <div class="communication-item mr-t-10">
-                <text class="fz-13 fc-5d">包饺子铺</text>
+              <div class="communication-item mr-t-10" v-else>
+                <text class="fz-13 fc-5d">{{row.fromUserNickName}}</text>
                 <text class="fz-13 fc-5d mr-l-10 mr-r-10">回复</text>
-                <text class="fz-13 fc-5d">初印象的小助理：</text>
-                <text class="fz-13">恭喜宝贝，获得笔者权限啦，快来参加活动吧！超多好礼等你来拿哦！</text>
+                <text class="fz-13 fc-5d">{{row.toUserNickName}}：</text>
+                <text class="fz-13">{{row.content}}</text>
               </div>
             </div>
           </div>
@@ -131,40 +134,90 @@
         <text class="fz-15 fw-bold">初印象笔记</text>
       </div>
       <div class="note-center-box">
-        <NoteItem v-for="item in 8" :key="item" :numIndex="item" />
+        <NoteItem v-for="(item,index) in circleList" :objData="item" :key="index" :numIndex="index" />
       </div>
     </div>
     <image @tap="writeFunc" class="write-img" src="../../static/circle/write.png" />
   </div>
 </template>
 <script>
-import NoteItem from "../../components/noteItem/note";
+const { toast } = require("../../utils/index");
 export default {
   data() {
     return {
       optName: "left",
-      labelName: "riji",
+      labelName: "护肤日记",
       moreType: false,
-      commentValue: "",
       commentType: false,
       commentHeight: 0,
+      pageNo: 1,
+      pageSize: 10,
+      total: 0,
+      circleList: [], // 列表
+      userCommentForm: {
+        noteId: "", // 印圈Id
+        commentType: "", // 1回复 0评论
+        content: "", // 内容
+        fromNo: "", // 评论人id
+        toNo: "", // 目标人id
+      },
+      userNo: "",
     };
   },
-  components: {
-    NoteItem,
+  onLoad() {
+    this.userNo = uni.getStorageSync("userno");
   },
-  onLoad() {},
+  onShow() {
+    if (this.optName === "left") {
+      this.getCirleLeftList();
+    } else {
+      this.getCirleRightList();
+    }
+  },
   computed: {
     navHeight() {
       return getApp().globalData.navHeight;
     },
   },
   methods: {
+    // 获取印圈列表
+    async getCirleLeftList() {
+      const { data } = await this.$api.getCirleNoteData({
+        pageNo: this.pageNo,
+        pageSize: this.pageSize,
+        label: this.labelName,
+      });
+      if (this.pageNo > 1 && data.list.length) {
+        this.circleList = [...this.circleList, ...data.list];
+      } else {
+        this.circleList = data.list;
+      }
+      this.total = data.total;
+    },
+    // 查询初映象笔记列表
+    async getCirleRightList() {
+      const { data } = await this.$api.getCirleNoteList({
+        pageNo: this.pageNo,
+        pageSize: this.pageSize,
+      });
+      if (this.pageNo > 1 && data.list.length) {
+        this.circleList = [...this.circleList, ...data.list];
+      } else {
+        this.circleList = data.list;
+      }
+      this.total = data.total;
+    },
     // 寫評論
     writeFunc() {
-      uni.navigateTo({
-        url: "/subPackages/circle/writeDetal",
-      });
+      if (this.optName === "left") {
+        uni.navigateTo({
+          url: `/subPackages/circle/writeDetal?label=${this.labelName}`,
+        });
+      } else {
+        uni.navigateTo({
+          url: "/subPackages/circle/writeDetal",
+        });
+      }
     },
     getComHeight() {
       if (this.moreType) {
@@ -178,19 +231,55 @@ export default {
       this.commentHeight = val.detail.height;
     },
     tabChange(type) {
+       if (this.optName === type) return;
       this.optName = type;
+      if (this.optName === "left") {
+        this.getCirleLeftList();
+      } else {
+        this.getCirleRightList();
+      }
     },
     circleChange(type) {
+      if (this.labelName === type) return;
       this.labelName = type;
+      this.getCirleLeftList();
     },
-    moreChange() {
+    moreChange(item) {
       this.moreType = !this.moreType;
+      if (this.moreType) {
+        this.userCommentForm.noteId = item.id;
+        this.userCommentForm.commentType = 0;
+        this.userCommentForm.fromNo = this.userNo;
+        this.userCommentForm.toNo = item.createNo;
+      }
     },
     touchstartHandle() {
       this.moreType = false;
     },
     inputBlurChange() {
       this.commentType = false;
+      this.sumitForm();
+    },
+    // 发布评论
+    async sumitForm() {
+      await this.$api.noteCommentSend(this.userCommentForm);
+      this.getCirleLeftList();
+      this.userCommentForm = {
+        noteId: "", // 印圈Id
+        commentType: "", // 1回复 0评论
+        content: "", // 内容
+        fromNo: "", // 评论人id
+        toNo: "", // 目标人id
+      };
+    },
+    // 点赞
+    async circleFabulousHandle(row) {
+      await this.$api.circleFabulous({
+        circleNoteId: row.id,
+        likeNo: this.userNo,
+      });
+      this.moreType = false;
+      this.getCirleLeftList();
     },
   },
 };
@@ -300,7 +389,6 @@ export default {
 .more-btn-box {
   position: relative;
   display: flex;
-  align-items: center;
   justify-content: flex-end;
   height: 74rpx;
 }
@@ -310,6 +398,7 @@ export default {
   width: 358rpx;
   height: 70rpx;
   border-radius: 10rpx;
+  z-index: 99999999;
 }
 .more-btn-menu {
   transition: all 0.1s;
@@ -386,5 +475,8 @@ export default {
   width: 80rpx;
   height: 80rpx;
   z-index: 99999999;
+}
+.has-zan-list {
+  width: 500rpx;
 }
 </style>
