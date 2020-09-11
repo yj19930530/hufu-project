@@ -1,18 +1,25 @@
 <template>
   <div id="follow-container">
     <div class="follow-has-list">
-      <div class="follow-item-content fl-bt" v-for="item in 14" :key="item">
-        <div class="mr-l-20 fl-al" @tap="lookUserDetail">
-          <image class="follow-left-header" src="../../static/circle/back-img.png" />
-          <text class="fz-15 fw-bold">初印象的小助理</text>
+      <div class="follow-item-content fl-bt" v-for="(item,index) in fansList" :key="index">
+        <div class="mr-l-20 fl-al" @tap="lookUserDetail(item)">
+          <image class="follow-left-header" :src="item.fansUser.avatarUrl" />
+          <text class="fz-15 fw-bold">{{item.fansUser.nickName}}</text>
         </div>
-        <div class="mr-r-20 fl-cen follow-has-btn">
+        <div
+          class="mr-r-20 fl-cen follow-has-btn"
+          v-if="!item.gzState"
+          @tap="handleFollow(item.fansUser,index)"
+        >
           <image class="fans-icon" src="../../static/me/huxiang.png" />
           <text class="fz-12 fc-999 mr-l-4">互相关注</text>
         </div>
+        <div class="mr-r-20 fl-cen follow-has-btn" v-else @tap="closeFollow(item.fansUser,index)">
+          <text class="fz-12 fc-999 mr-l-4">取消关注</text>
+        </div>
       </div>
     </div>
-    <div class="follow-no-more">
+    <div class="follow-no-more" v-if="!more">
       <text class="fc-999 fz-12">— 没有更多啦 —</text>
     </div>
   </div>
@@ -22,15 +29,71 @@ export default {
   data() {
     return {
       checkType: "left",
+      pageNo: 1,
+      pageSize: 10,
+      userNo: "",
+      total: 0,
+      queryType: "获取粉丝",
+      fansList: [],
+      more: true,
     };
   },
+  onShow() {
+    this.userNo = uni.getStorageSync('userno');
+    this.getFansList();
+  },
+  // 上拉刷新
+  async onPullDownRefresh() {
+    await this.resetData();
+    this.getFansList();
+    uni.stopPullDownRefresh();
+  },
+  async onReachBottom() {
+    if (!this.more) return;
+    this.pageNo++;
+    this.getFansList();
+  },
   methods: {
+    // 关注
+    handleFollow(row, i) {
+      this.$api.articleGz({
+        idol: row.userno,
+        fans: this.userNo,
+      });
+      this.fansList[i].gzState = true;
+    },
+    // 取消关注
+    closeFollow(row, i) {
+      this.$api.articleCloseGz({
+        currentUserNo: this.userNo,
+        targetNo: row.userno,
+      });
+      this.fansList[i].gzState = false;
+    },
+    resetData() {
+      this.pageNo = 1;
+      this.pageSize = 10;
+      this.fansList = [];
+      this.more = true;
+    },
+    // 获取粉丝列表
+    async getFansList() {
+      const { data } = await this.$api.getUserFansOrAttentions({
+        pageNo: this.pageNo,
+        pageSize: this.pageSize,
+        userNo: this.userNo,
+        queryType: this.queryType,
+      });
+      this.fansList = this.fansList.concat(data.list);
+      this.total = data.total;
+      if (this.pageNo * this.pageSize >= this.total) return (this.more = false);
+    },
     labelCheck(type) {
       this.checkType = type;
     },
-    lookUserDetail() {
+    lookUserDetail(row) {
       uni.navigateTo({
-        url: "/subPackages/me/personDetails",
+        url: `/subPackages/me/personDetails?userno=${row.fans}`,
       });
     },
   },

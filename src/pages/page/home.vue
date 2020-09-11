@@ -72,6 +72,7 @@
         <view class="fl-cen liji-zx mr-t-10">
           <image class="doc-img" src="../../static/home/dctor.png" />
           <text class="fz-15 fc-fff">立即咨询</text>
+          <button type="primary" class="concat-visibiliti-btn" open-type="contact"></button>
         </view>
       </view>
       <view class="mr-t-30">
@@ -631,6 +632,7 @@ page {
   border-radius: 50%;
 }
 .liji-zx {
+  position: relative;
   width: 186rpx;
   height: 42rpx;
   border-radius: 17rpx 17rpx 17rpx 17rpx;
@@ -705,5 +707,13 @@ page {
   width: 100%;
   height: 100%;
   border-radius: 20rpx;
+}
+.concat-visibiliti-btn {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
 }
 </style>

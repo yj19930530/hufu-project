@@ -1,8 +1,9 @@
-let http = '', httpImg = '', httpDetailImg = '', uploadImgUrl = "", atcImgUrl = "", url = "http://47.114.135.205:9966";
+let http = '', httpImg = '', httpDetailImg = '', uploadImgUrl = "", atcImgUrl = "", url = "https://test.chuyinxiang.net";
 const env = process.env.NODE_ENV;
 switch (env) {
     case 'test': {
-        http = 'http://47.114.135.205:9998';
+        http = 'http://47.114.135.205:9998'; 
+        // url = "http://47.114.135.205:9966";
         break;
     }
     case 'test-ha': {

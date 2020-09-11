@@ -1,7 +1,7 @@
 <template>
   <div id="follow-container">
     <!-- 关注tab 选项 -->
-    <div class="follow-top-label fl-al">
+    <!-- <div class="follow-top-label fl-al">
       <div class="follow-label-check fl-co" @tap="labelCheck('left')">
         <text class="fz-14" :class="[checkType==='left'?'':'fc-999']">我的关注</text>
         <div
@@ -16,15 +16,15 @@
           :class="[checkType==='right'?'follow-check-color1':'follow-check-color2']"
         ></div>
       </div>
-    </div>
+    </div>-->
     <div class="follow-has-list">
-      <div class="follow-item-content fl-bt" v-for="item in 14" :key="item">
-        <div class="mr-l-20 fl-al" @tap="lookUserDetail">
-          <image class="follow-left-header" src="../../static/circle/back-img.png" />
-          <text class="fz-15 fw-bold">初印象的小助理</text>
+      <div class="follow-item-content fl-bt" v-for="(item,index) in followList" :key="index">
+        <div class="mr-l-20 fl-al" @tap="lookUserDetail(item)">
+          <image class="follow-left-header" :src="item.idolUser.avatarUrl" />
+          <text class="fz-15 fw-bold">{{item.idolUser.nickName}}</text>
         </div>
-        <div class="mr-r-20 fl-cen follow-has-btn">
-          <text class="fz-12 fc-999">已关注</text>
+        <div class="mr-r-20 fl-cen follow-has-btn" @tap="closeFollow(item.idolUser,index)">
+          <text class="fz-12 fc-999">取消关注</text>
         </div>
       </div>
     </div>
@@ -38,15 +38,64 @@ export default {
   data() {
     return {
       checkType: "left",
+      pageNo: 1,
+      pageSize: 10,
+      userNo: "",
+      queryType: "获取关注",
+      total: 0,
+      more: true,
+      followList: [], // 获取关注列表
     };
   },
+  onShow() {
+    this.resetData();
+    this.userNo = uni.getStorageSync("userno");
+    this.getFollowList();
+  },
+  // 上拉刷新
+  async onPullDownRefresh() {
+    await this.resetData();
+    this.getFollowList();
+    uni.stopPullDownRefresh();
+  },
+  async onReachBottom() {
+    if (!this.more) return;
+    this.pageNo++;
+    this.getFollowList();
+  },
   methods: {
+    // 取消关注
+    closeFollow(row, i) {
+      this.$api.articleCloseGz({
+        currentUserNo: this.userNo,
+        targetNo: row.userno,
+      });
+      this.followList.splice(i, 1);
+    },
+    resetData() {
+      this.pageNo = 1;
+      this.pageSize = 10;
+      this.followList = [];
+      this.more = true;
+    },
+    // 获取关注列表
+    async getFollowList() {
+      const { data } = await this.$api.getUserFansOrAttentions({
+        pageNo: this.pageNo,
+        pageSize: this.pageSize,
+        userNo: this.userNo,
+        queryType: this.queryType,
+      });
+      this.followList = this.followList.concat(data.list);
+      this.total = data.total;
+      if (this.pageNo * this.pageSize >= this.total) return (this.more = false);
+    },
     labelCheck(type) {
       this.checkType = type;
     },
-    lookUserDetail() {
+    lookUserDetail(item) {
       uni.navigateTo({
-        url: "/subPackages/me/personDetails",
+        url: `/subPackages/me/personDetails?userno=${item.idolUser.userno}`,
       });
     },
   },

@@ -11,11 +11,14 @@ const getCirleNoteData = (data) => postRequest('/sa/index/front/findCircleNotePa
 const noteCommentSend = (data) => postRequest('/sa/index/front/publishNoteComment', data, 'no', 'no');
 // 印圈点赞
 const circleFabulous = (data) => postRequest('/sa/index/front/likeCircleNote', data, 'no', 'no');
+// 获取赞过文章
+const findCollectionOrDzArticlePage = (data) => postRequest('/sa/index/front/findCollectionOrDzArticlePage', data, 'no', 'no');
 module.exports = {
     addWriteNote,
     addCircleNote,
     getCirleNoteList,
     getCirleNoteData,
     noteCommentSend,
-    circleFabulous
+    circleFabulous,
+    findCollectionOrDzArticlePage
 }

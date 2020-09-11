@@ -3,7 +3,7 @@
     <!-- 头部 -->
     <div class="me-top-content">
       <image class="setting-img" src="../../static/me/setting.png" @tap="optNavigatorPath('set')" />
-      <image class="me-top-header" :src="userInfo.avatarUrl" @tap="preImages(userInfo.avatarUrl)" />
+      <image class="me-top-header" :src="userInfo.avatarUrl" @tap="userDetailNext" />
       <text class="fz-15 mr-t-20 header-title fc-000">FIRSTYNAS</text>
       <text class="fz-11 mr-t-10 fc-000">WELCOME TO OUR HOTEL</text>
       <div class="fl-bt me-icon-list">
@@ -29,7 +29,7 @@
           <div class="top-icon-box fl-cen">
             <image class="me-top-icon4" src="../../static/me/fensi.png" />
           </div>
-          <text class="fz-12 fc-000 mr-t-10">粉丝:9999</text>
+          <text class="fz-12 fc-000 mr-t-10">粉丝:{{userInfo.fsNum}}</text>
         </div>
       </div>
     </div>
@@ -72,21 +72,26 @@ export default {
     return {
       opId: "",
       userInfo: {},
+      userNo: "",
     };
+  },
+  onLoad() {
+    this.userNo = uni.getStorageSync("userno");
   },
   onShow() {
     this.getUserInfo();
   },
   methods: {
     async getUserInfo() {
-      const { data } = await this.$api.getUserInfo();
+      const { data } = await this.$api.getAllUserInfo({
+        userNo: this.userNo,
+      });
       this.userInfo = data;
       uni.setStorageSync("userInfo", data);
     },
-    preImages(img) {
-      console.log(img);
-      uni.previewImage({
-        urls: [img],
+    userDetailNext() {
+      uni.navigateTo({
+        url: `/subPackages/me/personDetails?userno=${this.userNo}`,
       });
     },
     // 页面跳转
@@ -130,7 +135,7 @@ export default {
         }
         case "msg": {
           uni.navigateTo({
-            url: "/subPackages/me/message",
+            url: "/subPackages/me/messageNotice",
           });
           break;
         }

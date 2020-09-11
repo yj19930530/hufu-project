@@ -1,5 +1,5 @@
 <template>
-  <div id="circle-box-container" @tap="touchstartHandle">
+  <div id="circle-box-container" @tap="resetMoreType">
     <!-- 头部tab -->
     <div class="circle-top-content" :style="[{height:488+navHeight+'rpx'}]">
       <image class="circle-top-back" src="../../static/circle/back-img.png" />
@@ -32,6 +32,7 @@
       <textarea
         :fixed="true"
         :adjust-position="true"
+        :placeholder="huifuName"
         :cursor-spacing="commentHeight+20"
         @keyboardheightchange="getHeigth"
         maxlength="300"
@@ -85,23 +86,29 @@
           <div class="item-right-coentent mr-r-20">
             <text class="fc-5d fz-15">{{item.createUser.nickName}}</text>
             <text class="fz-14 mr-t-10">{{item.content}}</text>
-            <!-- <div class="fl-btw mr-t-20">
-              <image class="comment-img-item" src="../../static/circle/back-img.png" />
-            </div>-->
             <div class="more-btn-box">
               <div class="more-menu-content">
-                <div class="more-btn-menu fl-cen" :style="[moreType?{right:'0'}:{right:'-358rpx'}]">
-                  <div class="more-menu-item fl-al" @tap.native.stop="circleFabulousHandle(item)">
+                <div
+                  class="more-btn-menu fl-cen"
+                  :class="[showIndex===index?'right-position':'right-position2']"
+                >
+                  <div
+                    class="more-menu-item fl-al"
+                    @tap.native.stop="circleFabulousHandle(item,index)"
+                  >
                     <image class="menu-icon" src="../../static/circle/zan.png" />
                     <text class="fz-14 fc-fff mr-l-8">赞</text>
                   </div>
-                  <div class="more-menu-item fl-al menu-icon-left" @tap.native.stop="getComHeight">
+                  <div
+                    class="more-menu-item fl-al menu-icon-left"
+                    @tap.native.stop="getComHeight(index)"
+                  >
                     <image class="menu-icon2" src="../../static/circle/pinlun.png" />
-                    <text v-if="moreType" class="fz-14 fc-fff mr-l-8">评论</text>
+                    <text class="fz-14 fc-fff mr-l-8">评论</text>
                   </div>
                 </div>
               </div>
-              <div class="more-img" @tap.native.stop="moreChange(item)">
+              <div class="more-img" @tap.native.stop="moreChange(item,index)">
                 <image class="more-btn-img" src="../../static/circle/more.png" />
               </div>
             </div>
@@ -114,18 +121,30 @@
             </div>
             <div class="communication-content" v-for="(row,x) in item.noteComments" :key="x">
               <div class="communication-item" v-if="row.toNo===item.createNo">
-                <text class="fz-13 fc-5d">{{row.fromUserNickName}}：</text>
+                <text
+                  class="fz-13 fc-5d"
+                  @tap.native.stop="commentUser(row)"
+                >{{row.fromUserNickName}}：</text>
                 <text class="fz-13">{{row.content}}</text>
               </div>
               <div class="communication-item mr-t-10" v-else>
-                <text class="fz-13 fc-5d">{{row.fromUserNickName}}</text>
+                <text
+                  class="fz-13 fc-5d"
+                  @tap.native.stop="commentUser(row)"
+                >{{row.fromUserNickName}}</text>
                 <text class="fz-13 fc-5d mr-l-10 mr-r-10">回复</text>
-                <text class="fz-13 fc-5d">{{row.toUserNickName}}：</text>
+                <text
+                  class="fz-13 fc-5d"
+                  @tap.native.stop="commentUser2(row)"
+                >{{row.toUserNickName}}：</text>
                 <text class="fz-13">{{row.content}}</text>
               </div>
             </div>
           </div>
         </div>
+      </div>
+      <div v-if="!more" class="fl-cen mr-t-20">
+        <text class="fc-999 fz-12">没有更多</text>
       </div>
     </div>
     <!-- 笔记 -->
@@ -134,7 +153,15 @@
         <text class="fz-15 fw-bold">初印象笔记</text>
       </div>
       <div class="note-center-box">
-        <NoteItem v-for="(item,index) in circleList" :objData="item" :key="index" :numIndex="index" />
+        <NoteItem
+          v-for="(item,index) in circleList"
+          :objData="item"
+          :key="index"
+          :numIndex="index"
+        />
+      </div>
+      <div v-if="!more" class="fl-cen mr-t-20">
+        <text class="fc-999 fz-12">没有更多</text>
       </div>
     </div>
     <image @tap="writeFunc" class="write-img" src="../../static/circle/write.png" />
@@ -147,7 +174,6 @@ export default {
     return {
       optName: "left",
       labelName: "护肤日记",
-      moreType: false,
       commentType: false,
       commentHeight: 0,
       pageNo: 1,
@@ -162,16 +188,39 @@ export default {
         toNo: "", // 目标人id
       },
       userNo: "",
+      showIndex: -1,
+      huifuName: "",
+      more: false,
     };
   },
   onLoad() {
     this.userNo = uni.getStorageSync("userno");
   },
   onShow() {
+    this.resetData();
     if (this.optName === "left") {
       this.getCirleLeftList();
     } else {
       this.getCirleRightList();
+    }
+  },
+  // 上拉刷新
+  async onPullDownRefresh() {
+    await this.resetData();
+    if (this.optName === "left") {
+      this.getCirleLeftList();
+    } else {
+      this.getCirleRightList();
+    }
+    uni.stopPullDownRefresh();
+  },
+  async onReachBottom() {
+    if (!this.more) return;
+    this.pageNo++;
+    if (this.optName === "left") {
+      this.getCirleLeftList2();
+    } else {
+      this.getCirleRightList2();
     }
   },
   computed: {
@@ -180,32 +229,60 @@ export default {
     },
   },
   methods: {
+    resetData() {
+      this.circleList = [];
+      this.more = true;
+      this.pageNo = 1;
+      this.pageSize = 10;
+    },
     // 获取印圈列表
     async getCirleLeftList() {
+      toast.showLoading("加载中");
       const { data } = await this.$api.getCirleNoteData({
         pageNo: this.pageNo,
         pageSize: this.pageSize,
         label: this.labelName,
       });
-      if (this.pageNo > 1 && data.list.length) {
-        this.circleList = [...this.circleList, ...data.list];
-      } else {
-        this.circleList = data.list;
-      }
+      this.circleList = data.list;
+      if (this.pageNo * this.pageSize >= data.total) this.more = false;
       this.total = data.total;
+      uni.hideLoading();
+    },
+    async getCirleLeftList2() {
+      toast.showLoading("加载中");
+      const { data } = await this.$api.getCirleNoteData({
+        pageNo: this.pageNo,
+        pageSize: this.pageSize,
+        label: this.labelName,
+      });
+      this.circleList = this.circleList.concat(data.list);
+      if (this.pageNo * this.pageSize >= data.total) this.more = false;
+      this.total = data.total;
+      uni.hideLoading();
     },
     // 查询初映象笔记列表
     async getCirleRightList() {
+      toast.showLoading("加载中");
       const { data } = await this.$api.getCirleNoteList({
         pageNo: this.pageNo,
         pageSize: this.pageSize,
       });
-      if (this.pageNo > 1 && data.list.length) {
-        this.circleList = [...this.circleList, ...data.list];
-      } else {
-        this.circleList = data.list;
-      }
+      if (this.pageNo * this.pageSize >= data.total) this.more = false;
+      this.circleList = data.list;
       this.total = data.total;
+      uni.hideLoading();
+    },
+    async getCirleRightList2() {
+      toast.showLoading("加载中");
+      const { data } = await this.$api.getCirleNoteList({
+        pageNo: this.pageNo,
+        pageSize: this.pageSize,
+      });
+      this.circleList = this.circleList.concat(data.list);
+      if (this.pageNo * this.pageSize >= data.total) this.more = false;
+      this.circleList = data.list;
+      this.total = data.total;
+      uni.hideLoading();
     },
     // 寫評論
     writeFunc() {
@@ -215,23 +292,23 @@ export default {
         });
       } else {
         uni.navigateTo({
-          url: "/subPackages/circle/writeDetal",
+          url: "/subPackages/me/publishAtc",
         });
       }
     },
-    getComHeight() {
-      if (this.moreType) {
+    getComHeight(i) {
+      if (this.circleList[i].moreType) {
         this.commentType = true;
       } else {
         this.commentType = false;
       }
-      this.moreType = !this.moreType;
+      this.circleList[i].moreType = !this.circleList[i].moreType;
     },
     getHeigth(val) {
       this.commentHeight = val.detail.height;
     },
     tabChange(type) {
-       if (this.optName === type) return;
+      if (this.optName === type) return;
       this.optName = type;
       if (this.optName === "left") {
         this.getCirleLeftList();
@@ -244,26 +321,29 @@ export default {
       this.labelName = type;
       this.getCirleLeftList();
     },
-    moreChange(item) {
-      this.moreType = !this.moreType;
-      if (this.moreType) {
-        this.userCommentForm.noteId = item.id;
-        this.userCommentForm.commentType = 0;
-        this.userCommentForm.fromNo = this.userNo;
-        this.userCommentForm.toNo = item.createNo;
-      }
+    resetMoreType() {
+      this.showIndex = -1;
     },
-    touchstartHandle() {
-      this.moreType = false;
+    moreChange(item, i) {
+      if (this.showIndex === i) {
+        this.showIndex = -1;
+      } else {
+        this.showIndex = i;
+      }
+      this.userCommentForm.noteId = item.id;
+      this.userCommentForm.commentType = 0;
+      this.userCommentForm.fromNo = this.userNo;
+      this.userCommentForm.toNo = item.createNo;
     },
     inputBlurChange() {
       this.commentType = false;
-      this.sumitForm();
+      this.huifuName = "";
     },
     // 发布评论
     async sumitForm() {
       await this.$api.noteCommentSend(this.userCommentForm);
       this.getCirleLeftList();
+      this.showIndex = -1;
       this.userCommentForm = {
         noteId: "", // 印圈Id
         commentType: "", // 1回复 0评论
@@ -271,14 +351,26 @@ export default {
         fromNo: "", // 评论人id
         toNo: "", // 目标人id
       };
+      this.huifuName = "";
+    },
+    // 回复用户
+    commentUser(row) {
+      if (row.fromNo === this.userNo) return;
+      this.huifuName = "回复 " + row.fromUserNickName;
+      this.commentType = true;
+    },
+    commentUser2(row) {
+      if (row.toNo === this.userNo) return;
+      this.huifuName = "回复 " + row.toUserNickName;
+      this.commentType = true;
     },
     // 点赞
-    async circleFabulousHandle(row) {
+    async circleFabulousHandle(row, i) {
       await this.$api.circleFabulous({
         circleNoteId: row.id,
         likeNo: this.userNo,
       });
-      this.moreType = false;
+      this.showIndex = -1;
       this.getCirleLeftList();
     },
   },
@@ -286,7 +378,7 @@ export default {
 </script>
 <style scoped>
 #circle-box-container {
-  height: 100%;
+  padding-bottom: 20rpx;
   background-color: #f8f8f8;
 }
 .circle-top-content {
@@ -360,7 +452,7 @@ export default {
   background-color: #7dca91;
 }
 .comment-content {
-  padding: 20rpx 0 0 0;
+  padding: 20rpx 0 30rpx 0;
   background-color: #ffffff;
 }
 .header-img {
@@ -389,6 +481,7 @@ export default {
 .more-btn-box {
   position: relative;
   display: flex;
+  align-items: center;
   justify-content: flex-end;
   height: 74rpx;
 }
@@ -478,5 +571,11 @@ export default {
 }
 .has-zan-list {
   width: 500rpx;
+}
+.right-position {
+  right: 0;
+}
+.right-position2 {
+  right: -358rpx;
 }
 </style>

@@ -1,21 +1,20 @@
 <template>
   <div id="write-container">
-    <image class="write-back-img" src="../../static/circle/back-img.png" />
     <div class="write-center-content">
       <div class="write-center-box">
+        <div class="write-title-box fl-al">
+          <input v-model="writeForm.title" class="title-input-style fz-17" placeholder="添加标题" />
+        </div>
         <textarea
           maxlength="300"
-          placeholder="你的护肤历程是对其他初印象姐妹的鼓励,是变美的动力，大家渴望看到你洋洋洒洒的护肤记录，所以请不要吝啬你的文采哦~"
-          class="textarea-content fz-14 fc-999"
+          placeholder="这一刻的想法…"
+          class="textarea-content fz-14 fc-999 mr-t-30"
           v-model="writeForm.content"
         />
-        <div class="fl-bt mr-t-20">
-          <text class="fz-14">上传多张照片更容易上热搜榜哦</text>
-          <text class="fc-999 fz-14">0/9</text>
-        </div>
         <!-- 上傳圖片 -->
         <div class="mr-t-30 fl-btc">
           <image
+            mode="widthFix"
             @longtap="logoTime(index)"
             v-for="(item,index) in imgList"
             @tap="preImage(index)"
@@ -28,14 +27,14 @@
             class="add-img-btn fl-cen mr-r-50 mr-b-20"
             @tap="uploadImgComment"
           >
-            <text class="fz-20">+</text>
+            <image class="add-style" src="../../static/circle/add.png" />
           </div>
         </div>
-        <div>
+        <div class="delete-img-title">
           <text class="fz-12 fc-999">提示：长按可删除图片</text>
         </div>
         <div class="sumit-btn fl-cen" @tap="submitWrite">
-          <text class="fz-15 fc-fff">护肤打卡</text>
+          <text class="fz-20 fc-fff">发表</text>
         </div>
       </div>
     </div>
@@ -62,12 +61,12 @@ export default {
         creatorNo: "",
         content: "",
         noteImgs: "",
+        title:''
       },
       nowIndex: 0,
     };
   },
   onLoad(obj) {
-    if (obj.label) this.writeForm.label = obj.label;
     this.writeForm.creatorNo = uni.getStorageSync("userno");
   },
   methods: {
@@ -97,6 +96,7 @@ export default {
     // 发表
     submitWrite() {
       toast.showLoading("发表中");
+      if (this.writeForm.title === "") return toast.showToast("标题不能为空");
       if (this.writeForm.content === "") return toast.showToast("内容不能为空");
       if (!this.imgList.length) {
         delete this.writeForm.noteImgs;
@@ -163,43 +163,44 @@ export default {
 }
 .write-center-content {
   position: absolute;
-  left: 68rpx;
-  top: 118rpx;
-  right: 68rpx;
+  left: 30rpx;
+  top: 0rpx;
+  right: 30rpx;
   bottom: 118rpx;
   border-radius: 20rpx;
   background-color: #ffffff;
 }
 .write-center-box {
   margin: auto;
-  padding-top: 64rpx;
-  width: 536rpx;
+  width: 606rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 .textarea-content {
   padding: 10rpx;
-  width: 516rpx;
+  width: 100%;
   height: 206rpx;
-  border-radius: 10rpx;
-  border: 1rpx solid #979797;
 }
 .add-img-btn {
-  width: 128rpx;
-  height: 128rpx;
-  border: 1rpx solid #999999;
+  width: 606rpx;
+  height: 260rpx;
+  background-color: #f8f8f8;
 }
 .img-updata-item {
-  margin-right: 50rpx;
-  margin-bottom: 20rpx;
-  width: 128rpx;
-  height: 128rpx;
+  margin-bottom: 10rpx;
+  width: 606rpx;
   border-radius: 10rpx;
 }
 .sumit-btn {
-  margin: 64rpx auto 0;
-  width: 346rpx;
-  height: 80rpx;
-  background: linear-gradient(to top, #333333, #666666);
-  border-radius: 40rpx 40rpx;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 999;
+  width: 100%;
+  height: 108rpx;
+  background: linear-gradient(to right, #333333, #666666);
 }
 .delete-content {
   position: fixed;
@@ -231,5 +232,21 @@ export default {
 }
 .text-letter-spc {
   letter-spacing: 20rpx;
+}
+.write-title-box {
+  width: 606rpx;
+  height: 120rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+.title-input-style {
+  width: 100%;
+}
+.add-style {
+  width: 100rpx;
+  height: 100rpx;
+}
+.delete-img-title {
+  margin-top: 300rpx;
+  width: 606rpx;
 }
 </style>

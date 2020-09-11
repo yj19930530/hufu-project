@@ -1,15 +1,37 @@
 <template>
   <div class="water-item-content">
-    <image class="water-item-img" src="../../static/circle/back-img.png" />
+    <image class="water-item-img" :src="httpImg+detailData.gimg" />
     <div class="water-item-describe">
-      <text class="fz-15">初印象-多效修护精华水（蓝铜胜肽）</text>
+      <text class="fz-15">{{detailData.gname}}</text>
       <div class="mr-t-44">
-        <text class="fz-17 fw-bold fc-f1">¥289</text>
-        <text class="fz-14 fc-999 mr-l-20 text-through">¥369</text>
+        <text class="fz-17 fw-bold fc-f1">¥{{detailData.bprice}}</text>
+        <text class="fz-14 fc-999 mr-l-20 text-through">¥{{detailData.price4}}</text>
       </div>
     </div>
   </div>
 </template>
+<script>
+import { httpDetailImg, httpImg } from "../../config/develop";
+export default {
+  data() {
+    return {
+      httpImg: httpImg, // 图片路径
+      httpDetailImg: httpDetailImg, // 图片路径
+    };
+  },
+  props: {
+    objData: {
+      type: Object,
+      default: {},
+    },
+  },
+  computed: {
+    detailData() {
+      return this.objData;
+    },
+  },
+};
+</script>
 <style scoped>
 .water-item-content {
   margin-bottom: 30rpx;
@@ -25,6 +47,6 @@
   padding: 14rpx 20rpx;
 }
 .text-through {
-    text-decoration: line-through;
+  text-decoration: line-through;
 }
 </style>

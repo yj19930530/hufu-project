@@ -5,8 +5,14 @@ const getMessageCount = (data) => postRequest('/sa/index/front/systemMessageCoun
 const getIconList = (data) => postRequest('/sa/index/front/columnInfoList', data, '', '');
 // 分类全部状态列表
 const getClassAllList = (data) => postRequest('/smallprogramMain/handle_getGoodsOrderBy', data, 'no', 'no');
+// 获取相关文章
+const getAboutAtc = (data) => postRequest('/sa/index/front/findIndexOrOtherArticlePage', data, 'no','no');
+// 分类列表
+const getClassList = (data) => postRequest('/smallprogramMain/handle_getTypes', data, 'no','');
 module.exports = {
     getMessageCount,
     getIconList,
-    getClassAllList
+    getClassAllList,
+    getAboutAtc,
+    getClassList
 }

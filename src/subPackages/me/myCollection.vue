@@ -20,10 +20,10 @@
     <div class="collection-content-left">
       <div class="fl-al all-collection">
         <text class="iconfont iconjurassic_danju fz-11 fc-999"></text>
-        <text class="fz-12 mr-l-4">全部收藏(2)</text>
+        <text class="fz-12 mr-l-4">全部{{checkType==='left'?'收藏':'赞过'}}({{atcList.length}})</text>
       </div>
       <div class="note-center-box">
-        <NoteItem v-for="item in 8" :key="item" :numIndex="item" />
+        <NoteItem v-for="(item,index) in atcList" :key="index" :numIndex="index" :objData="item" />
       </div>
     </div>
     <div class="follow-no-more">
@@ -37,14 +37,59 @@ export default {
   data() {
     return {
       checkType: "left",
+      atcList: [],
+      pageNo: 1,
+      pageSize: 10,
+      total: 0,
+      more: true,
+      userNoMy: "",
     };
+  },
+  onLoad() {
+    this.userNoMy = uni.getStorageSync("userno");
+  },
+  async onShow() {
+    await this.resetData();
+    this.getIsZanAndShouList();
+  },
+  // 上拉刷新
+  async onPullDownRefresh() {
+    await this.resetData();
+    this.getIsZanAndShouList();
+    uni.stopPullDownRefresh();
+  },
+  async onReachBottom() {
+    if (!this.more) return;
+    this.pageNo++;
+    this.getIsZanAndShouList();
   },
   components: {
     NoteItem,
   },
   methods: {
-    labelCheck(type) {
+    resetData() {
+      this.pageNo = 1;
+      this.pageSize = 10;
+      this.atcList = [];
+      this.more = true;
+    },
+    // 获取赞过 收藏的文章列表
+    async getIsZanAndShouList() {
+      const { data } = await this.$api.findCollectionOrDzArticlePage({
+        pageNo: this.pageNo,
+        pageSize: this.pageSize,
+        userNo: this.userNoMy,
+        queryType: this.checkType === "left" ? "收藏" : "赞过",
+      });
+      this.atcList = this.atcList.concat(data.list);
+      this.total = data.total;
+      if (this.pageNo * this.pageSize >= this.total) return (this.more = false);
+    },
+    async labelCheck(type) {
+      if (this.checkType === type) return;
       this.checkType = type;
+      await this.resetData();
+      this.getIsZanAndShouList();
     },
   },
 };

@@ -1,18 +1,19 @@
 <template>
   <div class="article-item-box">
-    <image class="article-item-img" src="../../static/circle/back-img.png" />
+    <image class="article-item-img" :src="atcImgUrl+detailInfo.displayimg" />
     <div class="mr-t-6 box-width">
       <div class="box-width-padding">
         <div class="article-item-title">
-          <text class="fz-14">标题：干！痒！红！是阿萨德萨达阿萨德</text>
+          <text class="fz-14">标题：{{detailInfo.title}}</text>
         </div>
-        <text class="fz-14 mr-4">作者：小初</text>
+        <text class="fz-14 mr-4">作者：{{detailInfo.sui.nickName}}</text>
         <div class="fl-bt mr-t-16">
           <div class="article-item-btn fl-cen" @tap="ganVideoDetai">
             <text class="fz-12 fc-fff">查看干货</text>
           </div>
           <div class="article-item-btn fl-cen">
             <text class="fz-12 fc-fff">立即分享</text>
+            <button type="primary" class="share-visibiliti-btn" open-type="share"></button>
           </div>
         </div>
       </div>
@@ -20,7 +21,24 @@
   </div>
 </template>
 <script>
+const { atcImgUrl } = require("../../config/develop");
 export default {
+   data() {
+    return {
+      atcImgUrl: atcImgUrl,
+    };
+  },
+    props: {
+    itemObj: {
+      type: Object,
+      default: {},
+    },
+  },
+  computed: {
+    detailInfo() {
+      return this.itemObj;
+    },
+  },
   methods: {
     ganVideoDetai() {
       uni.navigateTo({
@@ -49,6 +67,7 @@ export default {
   border-radius: 10rpx;
 }
 .article-item-btn {
+  position: relative;
   width: 120rpx;
   height: 36rpx;
   border-radius: 18rpx 18rpx;
@@ -65,5 +84,13 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.share-visibiliti-btn {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
 }
 </style>

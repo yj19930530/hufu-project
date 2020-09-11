@@ -1,12 +1,12 @@
 <template>
-  <div class="note-item-box">
+  <div class="note-item-box" @tap="lookDetail">
     <image
       class="note-item-img"
       :class="[index===0?'note-item-height':'']"
-      src="../../static/circle/back-img.png"
+      :src="atcImgUrl+objDetail.displayimg"
     />
     <div class="note-item-bot">
-      <div class="fz-12 text-lang-dian2">{{objDetail.contens}}</div>
+      <div class="fz-12 text-lang-dian2">{{objDetail.title}}</div>
       <div class="fl-bt mr-t-10">
         <div class="fl-ff text-lang-dian">
           <image class="note-item-header" :src="objDetail.sui.avatarUrl" />
@@ -21,9 +21,12 @@
   </div>
 </template>
 <script>
+const { atcImgUrl } = require("../../config/develop");
 export default {
   data() {
-    return {};
+    return {
+      atcImgUrl: atcImgUrl,
+    };
   },
   props: {
     numIndex: {
@@ -41,6 +44,13 @@ export default {
     },
     objDetail() {
       return this.objData;
+    },
+  },
+  methods: {
+    lookDetail() {
+      uni.navigateTo({
+        url: `/subPackages/college/atcDetail?id=${this.objDetail.id}`,
+      });
     },
   },
 };

@@ -32,7 +32,7 @@
         </div>
       </div>
       <div class="article-list-content fl-btw mr-t-6">
-        <VideoItem v-for="item in ganVideo" :key="item.id" />
+        <VideoItem v-for="item in ganVideo" :key="item.id" :itemObj="item" />
       </div>
     </div>
   </div>
@@ -60,6 +60,7 @@ export default {
       const { data } = await this.$api.getCollegeList({
         pageNo: 1,
         pageSize: 4,
+        index: 1,
       });
       this.ganVideo = data.ghsp;
       this.ganAtc = data["hfxy-hfwz"];

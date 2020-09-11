@@ -9,6 +9,33 @@
     </div>
   </div>
 </template>
+<script>
+const { toast } = require("../../utils/index");
+export default {
+  data() {
+    return {
+      dataList: [],
+    };
+  },
+  onLoad() {
+    this.getMsgData();
+  },
+  methods: {
+    async getMsgData() {
+      toast.showLoading("加载中");
+      this.$api
+        .getMsgList()
+        .then((res) => {
+          this.dataList = res.data;
+          uni.hideLoading();
+        })
+        .catch((err) => {
+          uni.hideLoading();
+        });
+    },
+  },
+};
+</script>
 <style>
 page {
   background-color: #f8f8f8;
@@ -16,7 +43,7 @@ page {
 </style>
 <style scoped>
 #messageNotice-container {
-  margin:auto;
+  margin: auto;
   width: 710rpx;
 }
 .messageNotice-item-content {
