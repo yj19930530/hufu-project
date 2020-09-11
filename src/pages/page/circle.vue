@@ -93,6 +93,14 @@
                   :class="[showIndex===index?'right-position':'right-position2']"
                 >
                   <div
+                    v-if="item.dzState"
+                    class="more-menu-item fl-al"
+                  >
+                    <image class="menu-icon" src="../../static/circle/zan.png" />
+                    <text class="fz-14 mr-l-8">赞</text>
+                  </div>
+                  <div
+                    v-else
                     class="more-menu-item fl-al"
                     @tap.native.stop="circleFabulousHandle(item,index)"
                   >
