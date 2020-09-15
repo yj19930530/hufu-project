@@ -6,7 +6,7 @@
     <!-- 搜索 -->
     <view class="top-search-opt">
       <view class="fl-bt">
-        <image class="left-img-btn mr-l-20" src="../../static/home/liwu.png" />
+        <image @tap="openWecat" class="left-img-btn mr-l-20" src="../../static/home/liwu.png" />
         <view class="fl-al search-content" @tap="optNavigatorPath('ss')">
           <image class="search-style mr-l-30" src="../../static/home/ss.png" />
           <text class="fz-12 fc-89 mr-l-10">请输入文章名称</text>
@@ -19,7 +19,7 @@
     </view>
     <!-- icon 功能 -->
     <view class="option-content fl-bt">
-      <view class="fl-co">
+      <view class="fl-co" @tap="openWecat">
         <image class="opt-item" src="../../static/home/icon1.png" />
         <text class="mr-t-10 fz-11">免费体验</text>
       </view>
@@ -31,15 +31,15 @@
         <image class="opt-item" src="../../static/home/icon3.png" />
         <text class="mr-t-10 fz-11">补水保湿</text>
       </view>
-      <view class="fl-co">
+      <view class="fl-co" @tap="optNavigatorPath('water')">
         <image class="opt-item" src="../../static/home/icon4.png" />
         <text class="mr-t-10 fz-11">焕白提亮</text>
       </view>
-      <view class="fl-co">
+      <view class="fl-co" @tap="optNavigatorPath('water')">
         <image class="opt-item" src="../../static/home/icon5.png" />
         <text class="mr-t-10 fz-11">祛痘淡印</text>
       </view>
-      <view class="fl-co">
+      <view class="fl-co" @tap="optNavigatorPath('water')">
         <image class="opt-item" src="../../static/home/icon6.png" />
         <text class="mr-t-10 fz-11">收缩毛孔</text>
       </view>
@@ -126,20 +126,21 @@
       </view>
       <view class="fl-bt mr-t-20">
         <view class="brand-item-content">
+          <button type="primary" class="concat-visibiliti-btn" open-type="contact"></button>
           <image class="brand-item-img" src="../../static/home/pinpai1.png" />
           <view class="fl-co">
             <text class="fz-14 mr-t-6">一对一服务>></text>
             <text class="fz-10 mr-t-4">ONE-TO-ONE SERVICE</text>
           </view>
         </view>
-        <view class="brand-item-content">
+        <view class="brand-item-content" @tap="openWecat">
           <image class="brand-item-img" src="../../static/home/pinpai2.png" />
           <view class="fl-co">
             <text class="fz-14">定制解决方案>></text>
             <text class="fz-10">CUSTOM SOLUTIONS</text>
           </view>
         </view>
-        <view class="brand-item-content">
+        <view class="brand-item-content" @tap="openWecat">
           <image class="brand-item-img" src="../../static/home/pinpai3.png" />
           <view class="fl-co">
             <text class="fz-14">初印象商城>></text>
@@ -155,7 +156,7 @@
           <text class="fc-333 fz-15 fw-bold mr-l-20">印象圈</text>
           <text class="fz-12 mr-l-10">护肤心得分享，赢福利</text>
         </view>
-        <text class="fz-12 fc-999 mr-r-10">查看更多></text>
+        <text class="fz-12 fc-999 mr-r-10" @tap="getMoreNote">查看更多></text>
       </view>
       <view class="swiper-content mr-t-10">
         <swiper
@@ -296,11 +297,11 @@
       </view>
     </view>
     <!-- 用户展览 -->
-    <view class="user-case">
+    <view class="user-case" v-for="(item,index) in ganVideo" :key="index">
       <view class="fl-bt">
         <view class="fl-al">
-          <image class="img-header" src="../../static/home/liwu.png" />
-          <text class="fz-15 mr-l-20 fc-000">李桑桑很Summer</text>
+          <image class="img-header" :src="item.sui.avatarUrl" />
+          <text class="fz-15 mr-l-20 fc-000">{{item.sui.nickName}}</text>
         </view>
         <view class="follow-btn fl-cen">
           <text class="fz-12 fc-fff">关注</text>
@@ -315,20 +316,21 @@
         id="myVideo"
         class="video-style mr-t-10"
         controls
-        src="https://media.w3.org/2010/05/sintel/trailer.mp4"
+        :src="atcImgUrl+item.video"
         @fullscreenchange="videoChange"
         @waiting="waittingVideo"
       ></video>
       <view class="describe-text mr-t-10">
         <text
           class="fz-12 fc-000"
-        >从满脸陈年痘到如今光滑陶瓷肌，战痘史的那些血和泪，我替你们总结了最科学有效的祛痘方法！今天桑桑给大家准备了一条历时超久的痘痘肌护理干货，没有广告，全程良心分享，希望对大家有所帮助！</text>
+        >{{item.contens}}</text>
       </view>
     </view>
   </view>
 </template>
 <script>
 const { toast } = require("../../utils/index");
+const {atcImgUrl} = require('../../config/develop')
 import Nav from "../../components/navbar/nav";
 export default {
   data() {
@@ -341,6 +343,9 @@ export default {
       duration: 500,
       msgNumber: 0, // 消息数量
       iconList: [], // icon list
+      bannerList:[],
+      ganVideo:[],
+      atcImgUrl:atcImgUrl
     };
   },
   components: {
@@ -356,8 +361,34 @@ export default {
   },
   onLoad() {
     this.getIconData();
+    this.getBannerData();
+    this.getVideo();
   },
   methods: {
+    async getVideo(){
+      const { data } = await this.$api.getCollegeList({
+        pageNo: 1,
+        pageSize: 1,
+        index: 2,
+        label: "干货视频",
+      });
+      this.ganVideo = data.page.list;
+    },
+    // 跳转商城
+    openWecat(){
+       uni.navigateToMiniProgram({
+        appId: "wxc55777954099b5a6",
+      });
+    },
+    getMoreNote(){
+      uni.switchTab({
+        url: '/pages/page/circle'
+      });
+    },
+    async getBannerData(){
+      const {data} = await this.$api.pullBannerAd();
+      this.bannerList = data
+    },
     async getIconData() {
       toast.showLoading("加载中");
       const { data } = await this.$api.getIconList();
@@ -690,6 +721,7 @@ page {
   width: 710rpx;
 }
 .brand-item-content {
+  position: relative;
   width: 230rpx;
 }
 .brand-item-img {

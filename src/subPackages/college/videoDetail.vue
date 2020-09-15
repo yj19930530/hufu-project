@@ -23,10 +23,10 @@
       </div>
       <div class="video-item-user fl-bt">
         <div class="fl-al">
-          <image class="video-user-img" src="../../static/circle/back-img.png" />
-          <text class="fz-15">初印象的小助理</text>
+          <image class="video-user-img" :src="item.sui.avatarUrl" />
+          <text class="fz-15">{{item.sui.nickName}}</text>
         </div>
-        <div class="share-btn-box">
+        <div class="share-btn-box" @tap="toSharePath">
           <text class="iconfont iconfenxiang fz-20 fc-333"></text>
           <button type="primary" class="share-visibiliti-btn" open-type="share"></button>
         </div>
@@ -45,6 +45,12 @@ export default {
       pageNo: 1,
       pageSize: 10,
       atcImgUrl: atcImgUrl,
+    };
+  },
+    onShareAppMessage(res) {
+    return {
+      title: "干货视频",
+      path: "/subPackages/college/videoDetail",
     };
   },
   // 下拉刷新

@@ -1,5 +1,5 @@
 <template>
-  <div class="water-item-content">
+  <div class="water-item-content" @tap="openWecat">
     <image class="water-item-img" :src="httpImg+detailData.gimg" />
     <div class="water-item-describe">
       <text class="fz-15">{{detailData.gname}}</text>
@@ -28,6 +28,14 @@ export default {
   computed: {
     detailData() {
       return this.objData;
+    },
+  },
+  methods: {
+    openWecat() {
+      uni.navigateToMiniProgram({
+        appId: "wxc55777954099b5a6",
+        path: `/subPackages/home/shopDetail?gId=${this.detailData.gid}`,
+      });
     },
   },
 };

@@ -62,7 +62,7 @@
       </div>
       <div class="mr-t-20">
         <div class="mr-t-20 fl-ff about-atc-item" v-for="item in atcList" :key="item.id">
-          <image class="atc-left-img" src="../../static/circle/back-img.png" />
+          <image class="atc-left-img" :src="atcImgUrl+item.displayimg" />
           <div class="atc-right-content">
             <div class="text-lang-dian2 mr-t-6">
               <text class="fz-15">{{item.title}}</text>
@@ -87,6 +87,7 @@
   </div>
 </template>
 <script>
+const { atcImgUrl } = require("../../config/develop");
 import WaterItem from "../../components/waterItem/water";
 export default {
   data() {
@@ -109,6 +110,7 @@ export default {
       swiperIndex: 0,
       atcList: [],
       allList: [],
+      atcImgUrl: atcImgUrl,
     };
   },
   onLoad() {
@@ -134,9 +136,9 @@ export default {
       });
       this.atcList = data.list;
       let re = new RegExp("<[^<>]+>", "g");
-      this.atcList.forEach(item=>{
+      this.atcList.forEach((item) => {
         item.contens = item.contens.replace(re, "");
-      })
+      });
     },
     checkIndex(i) {
       this.swiperIndex = i;

@@ -29,7 +29,7 @@
           <div class="top-icon-box fl-cen">
             <image class="me-top-icon4" src="../../static/me/fensi.png" />
           </div>
-          <text class="fz-12 fc-000 mr-t-10">粉丝:{{userInfo.fsNum}}</text>
+          <text class="fz-12 fc-000 mr-t-10">粉丝:{{userInfo.fsNum?userInfo.fsNum:'0'}}</text>
         </div>
       </div>
     </div>
@@ -37,7 +37,7 @@
     <div class="me-servic-content text-center">
       <text class="fz-15 fw-bold">我的服务</text>
       <div class="me-servic-func fl-bt mr-t-40">
-        <div class="fl-co mr-l-59">
+        <div class="fl-co mr-l-59" @tap="openWecat">
           <image class="servic-func-icon" src="../../static/me/shangchang.png" />
           <text class="fz-12">官方商场</text>
         </div>
@@ -82,6 +82,12 @@ export default {
     this.getUserInfo();
   },
   methods: {
+    // 跳转商城
+    openWecat() {
+      uni.navigateToMiniProgram({
+        appId: "wxc55777954099b5a6",
+      });
+    },
     async getUserInfo() {
       const { data } = await this.$api.getAllUserInfo({
         userNo: this.userNo,

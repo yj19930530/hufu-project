@@ -27,10 +27,13 @@ const getAtcInfo = (data) => postRequest('/web/article/getArticleInfo', data);
 const articleDz = (data) => postRequest('/web/article/dz', data, 'no');
 // 文章收藏
 const articleSc = (data) => postRequest('/web/article/sc', data, 'no');
+// 获取用户文章
+const findNotifyRemindPage = (data) => postRequest('/sa/index/front/findNotifyRemindPage', data, 'no', 'no');
 // 获取关注 粉丝
-const getUserFansOrAttentions = (data) => postRequest('/sa/index/getUserFansOrAttentions', data, 'no','no');
+const getUserFansOrAttentions = (data) => postRequest('/sa/index/getUserFansOrAttentions', data, 'no', 'no');
 module.exports = {
     userLoginGetOpenId,
+    findNotifyRemindPage,
     addUserInfo,
     getUserInfo,
     editUserInfo,

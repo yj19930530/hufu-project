@@ -15,17 +15,18 @@
   </view>
 </template>
 <script>
+const { toast } = require("../../utils/index");
 export default {
   data() {
     return {};
   },
   onLoad() {
-    const opId = uni.getStorageSync("opId");
-    if (opId) {
-      uni.switchTab({
-        url: "/pages/page/home",
-      });
-    }
+    // const opId = uni.getStorageSync("opId");
+    // if (opId) {
+    //   uni.switchTab({
+    //     url: "/pages/page/home",
+    //   });
+    // }
   },
   methods: {
     // 用户授权登录
@@ -41,13 +42,15 @@ export default {
             uni.login({
               provider: "weixin",
               success: function (loginRes) {
+                toast.showLoading("登录中");
                 _this.$api
                   .userLoginGetOpenId({
                     code: loginRes.code,
-                    type:2
+                    type: 2,
                   })
-                  .then(async(res) => {
-                     let opId = "",
+                  .then(async (res) => {
+                    uni.hideLoading();
+                    let opId = "",
                       dataObj = null,
                       token = "";
                     if (res.state !== 500) {
@@ -65,6 +68,7 @@ export default {
                       dataObj = data.user;
                       token = data.token;
                     }
+
                     uni.setStorageSync("opId", opId);
                     uni.setStorageSync("userno", dataObj.userno);
                     uni.setStorageSync("token", token);

@@ -1,6 +1,6 @@
 <template>
   <div id="water-container" class="fl-btw">
-    <WaterItem v-for="(item,index) in allList" :key="index" />
+    <WaterItem v-for="item in allList" :key="item.id" :objData="item" />
   </div>
 </template>
 <script>

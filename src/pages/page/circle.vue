@@ -92,12 +92,9 @@
                   class="more-btn-menu fl-cen"
                   :class="[showIndex===index?'right-position':'right-position2']"
                 >
-                  <div
-                    v-if="item.dzState"
-                    class="more-menu-item fl-al"
-                  >
+                  <div v-if="item.dzState" class="more-menu-item fl-al">
                     <image class="menu-icon" src="../../static/circle/zan.png" />
-                    <text class="fz-14 mr-l-8">赞</text>
+                    <text class="fz-14 mr-l-8 fc-fff">已赞</text>
                   </div>
                   <div
                     v-else
@@ -128,7 +125,10 @@
               >{{zRow.nickName}},</text>
             </div>
             <div class="communication-content" v-for="(row,x) in item.noteComments" :key="x">
-              <div class="communication-item" v-if="row.toNo===item.createNo">
+              <div
+                class="communication-item"
+                v-if="row.commentType===0"
+              >
                 <text
                   class="fz-13 fc-5d"
                   @tap.native.stop="commentUser(row)"
@@ -288,7 +288,6 @@ export default {
       });
       this.circleList = this.circleList.concat(data.list);
       if (this.pageNo * this.pageSize >= data.total) this.more = false;
-      this.circleList = data.list;
       this.total = data.total;
       uni.hideLoading();
     },
@@ -346,10 +345,12 @@ export default {
     inputBlurChange() {
       this.commentType = false;
       this.huifuName = "";
+      this.sumitForm();
     },
     // 发布评论
     async sumitForm() {
       await this.$api.noteCommentSend(this.userCommentForm);
+      if (this.userCommentForm.content === "") return;
       this.getCirleLeftList();
       this.showIndex = -1;
       this.userCommentForm = {
@@ -365,11 +366,19 @@ export default {
     commentUser(row) {
       if (row.fromNo === this.userNo) return;
       this.huifuName = "回复 " + row.fromUserNickName;
+      this.userCommentForm.noteId = row.noteId;
+      this.userCommentForm.commentType = 1;
+      this.userCommentForm.fromNo = this.userNo;
+      this.userCommentForm.toNo = row.toNo;
       this.commentType = true;
     },
     commentUser2(row) {
       if (row.toNo === this.userNo) return;
       this.huifuName = "回复 " + row.toUserNickName;
+      this.userCommentForm.noteId = row.noteId;
+      this.userCommentForm.commentType = 1;
+      this.userCommentForm.fromNo = this.userNo;
+      this.userCommentForm.toNo = row.toNo;
       this.commentType = true;
     },
     // 点赞

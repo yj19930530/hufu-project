@@ -12,7 +12,7 @@
           </div>
         </div>
         <text class="fz-12 fc-fff mr-t-10">得分仅供参考</text>
-        <text class="fz-12 fc-fff mr-t-10">我的肤质得分击败了12886个用户</text>
+        <text class="fz-12 fc-fff mr-t-10">我的肤质得分击败了0个用户</text>
       </div>
     </div>
     <!-- 项目打分 -->
@@ -145,10 +145,15 @@
         <text class="fz-15 fw-bold mr-l-10">推荐产品</text>
       </div>
       <div class="score-product-box fl-btw">
-        <div class="fl-co product-item-box" v-for="item in 6" :key="item">
-          <image class="product-item-img" src="../../static/circle/back-img.png" />
+        <div
+          class="fl-co product-item-box"
+          @tap="toShopimgPath"
+          v-for="item in objDetal.good"
+          :key="item.id"
+        >
+          <image class="product-item-img" :src="httpImg+item.img" />
           <div class="mr-t-20 product-item-text">
-            <text class="fz-12">多效舒缓保湿水</text>
+            <text class="fz-12">{{item.name}}</text>
           </div>
         </div>
       </div>
@@ -166,11 +171,13 @@
   </div>
 </template>
 <script>
+const { httpImg } = require("../../config/develop");
 export default {
   data() {
     return {
       detailId: "",
       objDetal: {},
+      httpImg: httpImg,
     };
   },
   onLoad(obj) {
@@ -178,6 +185,11 @@ export default {
     this.getSkinInfo();
   },
   methods: {
+    toShopimgPath() {
+      uni.navigateToMiniProgram({
+        appId: "wxc55777954099b5a6",
+      });
+    },
     // 获取info
     getSkinInfo() {
       this.$api

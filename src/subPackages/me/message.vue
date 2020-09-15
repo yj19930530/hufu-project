@@ -1,48 +1,45 @@
 <template>
-  <div id="msg-container">
-    <div class="msg-item-content fl-bt" v-for="item in 4" :key="item" @tap="detailToPath">
-      <div class="msg-left-img mr-l-20">
-        <image class="msg-img-style" src="../../static/circle/back-img.png" />
-        <div class="yuandian"></div>
+  <div id="messageNotice-container">
+    <div class="messageNotice-item-content mr-b-20" v-for="(item,index) in msgList" :key="index">
+      <div class="fl-bt">
+        <text class="fz-15">{{item.operatorName}}</text>
+        <text class="fz-12 fc-999">{{timerReturn(item.createTime)}}</text>
       </div>
-      <div class="msg-right-content">
-        <text class="fz-15">系统推送</text>
-        <div class="text-lang-dian">
-          <text class="fz-12 fc-999">恭喜您！您有一份价值588元的订单已经下单成功了恭喜您！您有一份价值588元的订单已经下单成功了</text>
-        </div>
-      </div>
+      <text class="fz-12 fc-999 mr-t-6">{{item.showInfo}}</text>
     </div>
   </div>
 </template>
 <script>
-const { toast } = require("../../utils/index");
+const { toast, common } = require("../../utils/index");
 export default {
   data() {
     return {
-      dataList: [],
+      userNo: "",
+      pageNo: 1,
+      pageSize: 10,
+      total: 0,
+      more: false,
+      msgList: [],
     };
   },
   onLoad() {
-    this.getMsgData();
+    this.userNo = uni.getStorageSync("userno");
+    this.getMsgList();
   },
   methods: {
-    // 获取数据
-    async getMsgData() {
-      toast.showLoading("加载中");
-      this.$api
-        .getMsgList()
-        .then((res) => {
-          this.dataList = res.data;
-          uni.hideLoading();
-        })
-        .catch((err) => {
-          uni.hideLoading();
-        });
+    timerReturn(time) {
+      return common.dateTime(time);
     },
-    detailToPath() {
-      uni.navigateTo({
-        url: "/subPackages/me/messageNotice",
+    async getMsgList() {
+      toast.showLoading("加载中");
+      const { data } = await this.$api.findNotifyRemindPage({
+        pageNo: this.pageNo,
+        pageSize: this.pageSize,
+        userNo: this.userNo,
       });
+      this.msgList = this.msgList.concat(data.list);
+      this.total = data.total;
+      uni.hideLoading();
     },
   },
 };
@@ -53,36 +50,16 @@ page {
 }
 </style>
 <style scoped>
-#msg-container {
-  margin-top: 20rpx;
+#messageNotice-container {
+  padding-top: 20rpx;
+  margin: auto;
+  width: 710rpx;
 }
-.msg-left-img {
-  position: relative;
-  width: 80rpx;
-  height: 80rpx;
-  border-radius: 50%;
-}
-.msg-img-style {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-}
-.msg-item-content {
-  width: 100%;
-  height: 136rpx;
+.messageNotice-item-content {
+  display: flex;
+  flex-direction: column;
+  padding: 22rpx 20rpx 30rpx 20rpx;
+  border-radius: 20rpx;
   background-color: #ffffff;
-  border-bottom: 1rpx solid #f8f8f8;
-}
-.yuandian {
-  position: absolute;
-  right: 0rpx;
-  top: 0rpx;
-  width: 20rpx;
-  height: 20rpx;
-  border-radius: 50%;
-  background-color: #f11b20;
-}
-.msg-right-content {
-  width: 620rpx;
 }
 </style>

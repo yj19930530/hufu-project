@@ -9,10 +9,13 @@ const getClassAllList = (data) => postRequest('/smallprogramMain/handle_getGoods
 const getAboutAtc = (data) => postRequest('/sa/index/front/findIndexOrOtherArticlePage', data, 'no','no');
 // 分类列表
 const getClassList = (data) => postRequest('/smallprogramMain/handle_getTypes', data, 'no','');
+// 获取首页banner
+const pullBannerAd = (data) => postRequest('/sa/index/front/pullBannerAd', data, 'no','no');
 module.exports = {
     getMessageCount,
     getIconList,
     getClassAllList,
     getAboutAtc,
-    getClassList
+    getClassList,
+    pullBannerAd
 }
