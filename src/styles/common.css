@@ -227,6 +227,9 @@
     margin-bottom: 50rpx;
   }
   /* right */
+  .mr-r-4 {
+    margin-right: 4rpx;
+  }
   .mr-r-10 {
     margin-right: 10rpx;
   }

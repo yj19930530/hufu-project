@@ -1,9 +1,9 @@
-let http = '', httpImg = '', httpDetailImg = '', uploadImgUrl = "", atcImgUrl = "", url = "https://test.chuyinxiang.net";
+let http = '', httpImg = '', circleNoteUrl = '', userImgUrl = '', httpDetailImg = '', uploadImgUrl = "", atcImgUrl = "", url = "https://test.chuyinxiang.net";
 const env = process.env.NODE_ENV;
 switch (env) {
     case 'test': {
-        http = 'http://47.114.135.205:9966'; 
-        // url = "http://47.114.135.205:9966";
+        http = 'http://47.114.135.205:9966';
+        // url = "https://test.chuyinxiang.net";
         // url = "http://192.168.1.72:9966/erpManageSystem";
         break;
     }
@@ -17,6 +17,8 @@ switch (env) {
         httpDetailImg = url + '/static/images/upload/goodDetails/';
         uploadImgUrl = url + '/static/images/upload/smallProgram/';
         atcImgUrl = url + '/static/images/upload/smallProgram/article/';
+        circleNoteUrl = url + '/static/images/upload/circleNote/';
+        userImgUrl = url + '/static/images/upload/user/';
         break;
     }
 }
@@ -25,5 +27,7 @@ module.exports = {
     httpImg,
     httpDetailImg,
     uploadImgUrl,
-    atcImgUrl
+    atcImgUrl,
+    circleNoteUrl,
+    userImgUrl
 }

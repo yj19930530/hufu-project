@@ -9,6 +9,7 @@
     </div>
     <div class="fl-cen mr-t-20">
       <div class="shar-btn-style fl-cen">
+        <button class="share-btn-style" open-type="share"></button>
         <text class="fz-15 fc-fff">分享给好友</text>
       </div>
       <div class="shar-btn-style mr-l-100 fl-cen" @tap="saveImage">
@@ -22,6 +23,12 @@ export default {
   data() {
     return {};
   },
+  onShareAppMessage() {
+    return {
+      title: '首页',
+      path: `/pages/page/home`,
+    };
+  },
   onLoad() {
     this.initPoster();
   },
@@ -29,7 +36,7 @@ export default {
     //  生成海报
     initPoster() {
       let url = "/static/me/poster.png";
-      let codeUrl = "/static/circle/back-img.png";
+      let codeUrl = "/static/me/wecatimg.jpg";
       let context = uni.createCanvasContext("firstCanvas", this);
       context.drawImage(url, 0, 0, uni.upx2px(532), uni.upx2px(942));
       context.drawImage(
@@ -51,7 +58,6 @@ export default {
     },
     // 保存海报
     saveImage() {
-      console.log("in");
       uni.canvasToTempFilePath({
         x: 0,
         y: 0,
@@ -91,9 +97,18 @@ export default {
   padding: 12rpx 64rpx;
 }
 .shar-btn-style {
+  position: relative;
   width: 260rpx;
   height: 70rpx;
   border-radius: 35rpx 35rpx;
   background: linear-gradient(to right, #333333, #666666);
+}
+.share-btn-style {
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
 }
 </style>

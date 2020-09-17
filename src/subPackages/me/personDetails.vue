@@ -4,7 +4,7 @@
     <div class="detail-top-content">
       <div class="fl-bt">
         <div class="user-img-box fl-al">
-          <image class="detail-user-img" :src="userInfo.avatarUrl" />
+          <image class="detail-user-img" :src="userImgUrl+userInfo.avatarUrl" />
           <text class="mr-l-30 fz-15">{{userInfo.nickName}}</text>
         </div>
         <div class="fl-cen follow-btn" v-if="isGz" @tap="closeFollow">
@@ -73,6 +73,7 @@
 </template>
 <script>
 import NoteItem from "../../components/noteItem/note";
+const { userImgUrl } = require("../../config/develop");
 export default {
   data() {
     return {
@@ -87,6 +88,7 @@ export default {
       titleText: "动态",
       isGz: false,
       userNoMy: "",
+      userImgUrl:userImgUrl
     };
   },
   components: {

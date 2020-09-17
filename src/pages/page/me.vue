@@ -3,9 +3,18 @@
     <!-- 头部 -->
     <div class="me-top-content">
       <image class="setting-img" src="../../static/me/setting.png" @tap="optNavigatorPath('set')" />
-      <image class="me-top-header" :src="userInfo.avatarUrl" @tap="userDetailNext" />
-      <text class="fz-15 mr-t-20 header-title fc-000">FIRSTYNAS</text>
-      <text class="fz-11 mr-t-10 fc-000">WELCOME TO OUR HOTEL</text>
+      <div v-if="noLoginType" class="me-top-header" @tap="userDetailNext">
+        <open-data class="me-top-header" type="userAvatarUrl"></open-data>
+      </div>
+      <image
+        v-else
+        class="me-top-header"
+        :src="userImgUrl+userInfo.avatarUrl"
+        @tap="userDetailNext"
+      />
+      <text class="fz-12 fc-999 mr-t-20 mr-b-20" v-if="noLoginType">未登陆</text>
+      <text v-if="!noLoginType" class="fz-15 mr-t-20 header-title fc-000">FIRSTYNAS</text>
+      <text v-if="!noLoginType" class="fz-11 mr-t-10 fc-000">WELCOME TO OUR HOTEL</text>
       <div class="fl-bt me-icon-list">
         <div class="fl-co me-icon-item" @tap="optNavigatorPath('edit')">
           <div class="top-icon-box fl-cen">
@@ -67,16 +76,23 @@
   </div>
 </template>
 <script>
+const { userImgUrl } = require("../../config/develop");
 export default {
   data() {
     return {
       opId: "",
       userInfo: {},
       userNo: "",
+      avatarUrl: "",
+      noLoginType: false,
+      userImgUrl:userImgUrl
     };
   },
   onLoad() {
     this.userNo = uni.getStorageSync("userno");
+    if (!this.userNo) {
+      this.noLoginType = true;
+    }
   },
   onShow() {
     this.getUserInfo();
@@ -89,6 +105,7 @@ export default {
       });
     },
     async getUserInfo() {
+      if (!this.userNo) return;
       const { data } = await this.$api.getAllUserInfo({
         userNo: this.userNo,
       });
@@ -96,12 +113,24 @@ export default {
       uni.setStorageSync("userInfo", data);
     },
     userDetailNext() {
+      if (!this.userNo) {
+        uni.reLaunch({
+          url: "/pages/page/login",
+        });
+        return;
+      }
       uni.navigateTo({
         url: `/subPackages/me/personDetails?userno=${this.userNo}`,
       });
     },
     // 页面跳转
     optNavigatorPath(path) {
+      if (!this.userNo) {
+        uni.reLaunch({
+          url: "/pages/page/login",
+        });
+        return;
+      }
       switch (path) {
         case "edit": {
           uni.navigateTo({
@@ -141,7 +170,7 @@ export default {
         }
         case "msg": {
           uni.navigateTo({
-            url: "/subPackages/me/messageNotice",
+            url: "/subPackages/me/message",
           });
           break;
         }
@@ -180,6 +209,7 @@ export default {
   width: 161rpx;
   height: 161rpx;
   border-radius: 50%;
+  overflow: hidden;
 }
 .me-icon-list {
   margin-top: 28rpx;

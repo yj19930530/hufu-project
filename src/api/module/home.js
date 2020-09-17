@@ -11,11 +11,14 @@ const getAboutAtc = (data) => postRequest('/sa/index/front/findIndexOrOtherArtic
 const getClassList = (data) => postRequest('/smallprogramMain/handle_getTypes', data, 'no','');
 // 获取首页banner
 const pullBannerAd = (data) => postRequest('/sa/index/front/pullBannerAd', data, 'no','no');
+// 清空消息数量
+const readAll = (data) => postRequest('/sa/index/front/readAll', data, 'no','no');
 module.exports = {
     getMessageCount,
     getIconList,
     getClassAllList,
     getAboutAtc,
     getClassList,
-    pullBannerAd
+    pullBannerAd,
+    readAll
 }

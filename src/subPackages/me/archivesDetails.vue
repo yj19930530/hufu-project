@@ -198,7 +198,6 @@ export default {
         })
         .then((res) => {
           this.objDetal = res.data;
-          console.log(res);
         });
     },
   },

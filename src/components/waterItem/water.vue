@@ -1,6 +1,6 @@
 <template>
   <div class="water-item-content" @tap="openWecat">
-    <image class="water-item-img" :src="httpImg+detailData.gimg" />
+    <image mode="aspectFill" class="water-item-img" :src="httpImg+detailData.gimg" />
     <div class="water-item-describe">
       <text class="fz-15">{{detailData.gname}}</text>
       <div class="mr-t-44">
@@ -30,11 +30,18 @@ export default {
       return this.objData;
     },
   },
+  onLoad() {
+    this.userNo = uni.getStorageSync("userno");
+  },
   methods: {
     openWecat() {
       uni.navigateToMiniProgram({
         appId: "wxc55777954099b5a6",
         path: `/subPackages/home/shopDetail?gId=${this.detailData.gid}`,
+        extraData: {
+          userno: this.userNo,
+          usernoType: true,
+        },
       });
     },
   },

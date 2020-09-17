@@ -9,9 +9,11 @@ export default {
   data() {
     return {
       allList: [],
+      waterId: "",
     };
   },
-  onLoad() {
+  onLoad(obj) {
+    this.waterId = obj.id;
     this.getTableList();
   },
   components: {
@@ -21,7 +23,11 @@ export default {
     // 获取商品列表
     async getTableList() {
       const { data } = await this.$api.getClassList();
-      this.allList = data.all;
+      data.all.forEach((item) => {
+        if (item.columns == this.waterId) {
+          this.allList.push(item);
+        }
+      });
     },
   },
 };

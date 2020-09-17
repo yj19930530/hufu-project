@@ -8,6 +8,17 @@
         <text class="fz-12 fc-999">作者：{{atcObj.sui.nickName}}</text>
       </div>
     </div>
+    <div class="fl-cen mr-t-20 mr-b-20" v-if="atcObj.video">
+      <video
+        id="myVideo"
+        class="video-style mr-t-10"
+        controls
+        :poster="httpImg+atcObj.preview"
+        :src="httpImg+atcObj.video"
+        @play="allPing"
+        @fullscreenchange="videoChange"
+      ></video>
+    </div>
     <!-- 内容 -->
     <div class="atc-detail-content">
       <Uparse :content="atcObj.contens" />
@@ -15,7 +26,7 @@
     <!-- 用户 -->
     <div class="atc-user-content fl-bt">
       <div class="mr-l-30 fl-al">
-        <image class="user-left-img" :src="atcObj.sui.avatarUrl" />
+        <image class="user-left-img" :src="userImgUrl+atcObj.sui.avatarUrl" />
         <text class="fz-15 fw-bold">{{atcObj.sui.nickName}}</text>
       </div>
       <div class="follow-btn mr-r-30 fl-cen" v-if="!atcObj.fans.length" @tap="handleClick('gz')">
@@ -30,7 +41,7 @@
     <div class="comment-box fl-co" v-if="commentType">
       <div class="comment-title-box mr-b-10">
         <text class="fz-17 fw-bold">评论:</text>
-        <text class="fz-17 fw-bold mr-t-4">这是一个标题这是一个标题这是一个标题这是一个标题</text>
+        <text class="fz-17 fw-bold mr-t-4">{{atcObj.title}}</text>
       </div>
       <textarea
         :fixed="true"
@@ -49,6 +60,7 @@
         <div class="fl-al">
           <div class="comment-upload-img" v-for="(item,index) in commentImgList" :key="index">
             <image
+              mode="aspectFill"
               @tap="prewImgFunc(index,commentImgList)"
               class="upload-img-item"
               :src="item.imgPath"
@@ -79,7 +91,7 @@
     </div>
     <div class="comment-content" v-for="(item,index) in componentList" :key="index">
       <div class="comment-item-box">
-        <image class="header-img mr-l-20" :src="item.avatarUrl" />
+        <image class="header-img mr-l-20" :src="userImgUrl+item.avatarUrl" />
         <div class="item-right-coentent mr-r-20">
           <text class="fc-333 fz-15">{{item.nickName}}</text>
           <text class="fz-14 mr-t-10">{{item.componentInfo}}</text>
@@ -88,7 +100,7 @@
               v-for="(img,imgIndex) in item.img"
               @tap="prewImgFunc2(imgIndex,item.img)"
               :key="imgIndex"
-              mode="scaleToFill"
+              mode="aspectFill"
               class="comment-img-item"
               :class="[imgIndex!==2?'mr-r-20':'']"
               :src="httpImg+img"
@@ -96,14 +108,17 @@
           </div>
           <div class="communication-content mr-t-20">
             <div v-for="(rowItem,rowIndex) in item.reply" :key="rowIndex">
-              <div class="communication-item" v-if="rowItem.replyUserno===rowItem.userno">
-                <text class="fz-13 fc-5d">{{rowItem.nickName}}：</text>
+              <div
+                class="communication-item"
+                v-if="rowItemcommentType===0||rowItem.userno===rowItem.replyUserno"
+              >
+                <text @tap="handleClick('hf2',rowItem)" class="fz-13 fc-5d">{{rowItem.nickName}}：</text>
                 <text class="fz-13">{{rowItem.componentInfo}}</text>
               </div>
               <div class="communication-item mr-t-10" v-else>
-                <text class="fz-13 fc-5d" @tap="handleClick('hf',rowItem)">{{rowItem.nickName}}</text>
+                <text class="fz-13 fc-5d" @tap="handleClick('hf2',rowItem)">{{rowItem.nickName}}</text>
                 <text class="fz-13 fc-5d mr-l-10">回复</text>
-                <text class="fz-13 fc-5d" @tap="handleClick('hf',item)">{{item.nickName}}：</text>
+                <text class="fz-13 fc-5d mr-l-10" @tap="handleClick('hf3',rowItem)">{{rowItem.replyName}}：</text>
                 <text class="fz-13">{{rowItem.componentInfo}}</text>
               </div>
             </div>
@@ -155,7 +170,7 @@
 </template>
 <script>
 const { toast, common } = require("../../utils/index");
-const { atcImgUrl } = require("../../config/develop");
+const { atcImgUrl, userImgUrl } = require("../../config/develop");
 export default {
   data() {
     return {
@@ -168,7 +183,7 @@ export default {
         componentType: 1,
         componentInfo: "",
         img: [],
-        componentObj: "artice",
+        componentObj: "article",
         componentId: "",
         replyUserno: "",
       }, // 评论表单
@@ -178,34 +193,52 @@ export default {
       hType: true, // 评论上传图片type
       textLength: 0, // 评论文字长度
       httpImg: atcImgUrl, // 图片显示
+      userImgUrl: userImgUrl, // 图片显示
       pageNo: 1,
-      pageSize: 4,
+      pageSize: 10,
       componentList: [],
       total: 0,
       more: true,
     };
   },
-  onLoad(obj) {
+  async onLoad(obj) {
     this.userInfo = uni.getStorageSync("userInfo");
+    this.userNo = uni.getStorageSync("userno");
     this.atcId = obj.id;
+    await this.addBrowse();
     this.getAtcData();
+    this.playerVideo();
   },
   onShareAppMessage() {
     this.$api.articleZc({
       aid: this.atcObj.id,
     });
     return {
-      title: "自定义分享标题",
-      path: "/pages/page/home",
+      title: this.atcObj.title,
+      path: `/subPackages/college/atcDetail?id=${this.atcObj.id}`,
     };
   },
   methods: {
+    async addBrowse() {
+      await this.$api.handleAddArticleBrowse({
+        id: this.atcId,
+        userno: this.userNo,
+      });
+    },
+    playerVideo() {
+      this.videoContext = uni.createVideoContext("myVideo");
+      this.videoContext.play();
+    },
+    allPing() {
+      this.videoContext.requestFullScreen();
+    },
     // 获取文章
     async getCompotentData(id) {
+      this.more = true;
       const { data } = await this.$api.getComponentPage({
-        pageNo: this.pageNo,
-        pageSize: this.pageSize,
-        componentObj: "artice",
+        pageNo: 1,
+        pageSize: this.pageSize * this.pageNo,
+        componentObj: "article",
         componentId: id,
       });
       data.list.forEach((item) => {
@@ -215,11 +248,13 @@ export default {
           item.img = [];
         }
       });
-      this.componentList = this.componentList.concat(data.list);
+      this.componentList = data.list;
+      // this.componentList = this.componentList.concat(data.list);
       this.total = data.total;
       if (this.pageNo * this.pageSize >= this.total) this.more = false;
     },
     getMoreCom() {
+      if (!this.more) return;
       this.pageNo++;
       this.getCompotentData(this.atcObj.id);
     },
@@ -231,6 +266,7 @@ export default {
       });
       this.getCompotentData(data.id);
       this.atcObj = data;
+      this.atcObj.contens = data.contens ? data.contens : "没有内容";
       uni.hideLoading();
       this.pageType = true;
     },
@@ -238,7 +274,7 @@ export default {
     async uploadImgComment() {
       if (this.commentForm.img.length === 3)
         return toast.showToast("只能上传三张图片");
-      const data = await common.updataImg(3);
+      const data = await common.updataImg(3, "前台文章");
       this.commentImgList = [...this.commentImgList, ...data];
     },
     // 删除图片
@@ -285,12 +321,14 @@ export default {
       toast.showLoading("发送中");
       await this.$api.atcPlRequest(this.commentForm);
       this.resetInput();
+      this.more = true;
       const { data } = await this.$api.getComponentPage({
         pageNo: 1,
         pageSize: this.pageNo * this.pageSize,
-        componentObj: "artice",
+        componentObj: "article",
         componentId: this.atcObj.id,
       });
+      if (this.pageNo * this.pageSize >= this.total) this.more = false;
       data.list.forEach((item) => {
         if (item.img) {
           item.img = item.img.split(",");
@@ -311,7 +349,7 @@ export default {
         componentInfo: "",
         img: [],
         replyUserno: "",
-        componentObj: "artice",
+        componentObj: "article",
         componentId: "",
       };
     },
@@ -326,13 +364,25 @@ export default {
     },
     // 评论文章弹框
     getComHeight() {
+      if (!this.userNo) {
+        uni.reLaunch({
+          url: "/pages/page/login",
+        });
+        return;
+      }
       this.commentForm.componentType = 1;
       this.commentForm.replyUserno = this.atcObj.userno;
       this.commentForm.componentId = this.atcObj.id;
       this.commentType = true;
       this.hType = true;
-      this.commentForm.componentObj = "artice";
+      this.commentForm.componentObj = "article";
       this.commentPlace = "想说些什么呢~（评论将在审核后显示）";
+    },
+    videoChange(e) {
+      if (!e.detail.fullScreen) {
+        this.playerType = false;
+        this.videoContext.stop();
+      }
     },
     getText() {
       let arr = this.commentForm.componentInfo.split("");
@@ -343,6 +393,12 @@ export default {
       switch (name) {
         // 关注
         case "gz": {
+          if (!this.userNo) {
+            uni.reLaunch({
+              url: "/pages/page/login",
+            });
+            return;
+          }
           await this.$api.articleGz({
             idol: this.atcObj.userno,
             fans: this.userInfo.userno,
@@ -352,6 +408,12 @@ export default {
         }
         // 取消关注
         case "qgz": {
+          if (!this.userNo) {
+            uni.reLaunch({
+              url: "/pages/page/login",
+            });
+            return;
+          }
           await this.$api.articleCloseGz({
             currentUserNo: this.userInfo.userno,
             targetNo: this.atcObj.userno,
@@ -360,6 +422,12 @@ export default {
           break;
         }
         case "dz": {
+          if (!this.userNo) {
+            uni.reLaunch({
+              url: "/pages/page/login",
+            });
+            return;
+          }
           // 点赞
           let type = "";
           if (this.atcObj.isPrais !== 0) type = 1;
@@ -371,6 +439,12 @@ export default {
           break;
         }
         case "sc": {
+          if (!this.userNo) {
+            uni.reLaunch({
+              url: "/pages/page/login",
+            });
+            return;
+          }
           // 收藏
           let type = "";
           if (this.atcObj.isCollection !== 0) type = 1;
@@ -390,6 +464,12 @@ export default {
         }
         // 评论回复
         case "hf": {
+          if (!this.userNo) {
+            uni.reLaunch({
+              url: "/pages/page/login",
+            });
+            return;
+          }
           // 回复评论
           this.commentForm.componentType = 2;
           this.commentForm.componentId = row.id;
@@ -398,6 +478,40 @@ export default {
           this.commentType = true;
           this.hType = false;
           this.commentPlace = `回复 ${row.nickName}`;
+          break;
+        }
+        case "hf2": {
+          if (!this.userNo) {
+            uni.reLaunch({
+              url: "/pages/page/login",
+            });
+            return;
+          }
+          // 回复评论
+          this.commentForm.componentType = 2;
+          this.commentForm.componentId = row.componentId;
+          this.commentForm.replyUserno = row.userno;
+          this.commentForm.componentObj = "component";
+          this.commentType = true;
+          this.hType = false;
+          this.commentPlace = `回复 ${row.nickName}`;
+          break;
+        }
+        case "hf3": {
+          if (!this.userNo) {
+            uni.reLaunch({
+              url: "/pages/page/login",
+            });
+            return;
+          }
+          // 回复评论
+          this.commentForm.componentType = 2;
+          this.commentForm.componentId = row.componentId;
+          this.commentForm.replyUserno = row.replyUserno;
+          this.commentForm.componentObj = "component";
+          this.commentType = true;
+          this.hType = false;
+          this.commentPlace = `回复 ${row.replyName}`;
           break;
         }
         default: {
@@ -420,6 +534,10 @@ export default {
 .atc-detail-content {
   margin: auto;
   width: 690rpx;
+}
+.video-style {
+  width: 710rpx;
+  height: 360rpx;
 }
 .atc-user-content {
   margin-top: 40rpx;
@@ -531,6 +649,7 @@ export default {
   z-index: 999999999;
 }
 .comment-title-box {
+  width: 100%;
   padding-bottom: 20rpx;
   display: flex;
   flex-direction: column;

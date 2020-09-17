@@ -1,6 +1,6 @@
 <template>
   <div class="article-item-box">
-    <image class="article-item-img" :src="atcImgUrl+detailInfo.displayimg" />
+    <image mode="aspectFill" class="article-item-img" :src="atcImgUrl+detailInfo.preview" />
     <div class="mr-t-6 box-width">
       <div class="box-width-padding">
         <div class="article-item-title">
@@ -33,6 +33,12 @@ export default {
       type: Object,
       default: {},
     },
+  },
+  onShareAppMessage() {
+    return {
+      title: this.detailInfo.title,
+      path: "/subPackages/college/videoDetail",
+    };
   },
   computed: {
     detailInfo() {

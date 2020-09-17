@@ -82,10 +82,20 @@
       </div>
       <div class="comment-content" v-for="(item,index) in circleList" :key="index">
         <div class="comment-item-box">
-          <image class="header-img mr-l-20" :src="item.createUser.avatarUrl" />
+          <image class="header-img mr-l-20" :src="userImgUrl+item.createUser.avatarUrl" />
           <div class="item-right-coentent mr-r-20">
             <text class="fc-5d fz-15">{{item.createUser.nickName}}</text>
             <text class="fz-14 mr-t-10">{{item.content}}</text>
+            <div class="comment-img-box mr-t-10">
+              <image
+                mode="aspectFill"
+                class="comment-img-item mr-r-4"
+                v-for="(img,ix) in item.imgs"
+                :key="ix"
+                @tap="preImgItem(item.imgs,ix)"
+                :src="atcImgUrl+img"
+              />
+            </div>
             <div class="more-btn-box">
               <div class="more-menu-content">
                 <div
@@ -118,6 +128,7 @@
               </div>
             </div>
             <div class="has-zan-list text-lang-dian2 mr-b-10" v-if="item.likeUsers.length">
+              <image class="menu-icon3" src="../../static/circle/zan2.png" />
               <text
                 class="fz-12 fc-5d"
                 v-for="(zRow,zIx) in item.likeUsers"
@@ -125,10 +136,7 @@
               >{{zRow.nickName}},</text>
             </div>
             <div class="communication-content" v-for="(row,x) in item.noteComments" :key="x">
-              <div
-                class="communication-item"
-                v-if="row.commentType===0"
-              >
+              <div class="communication-item" v-if="row.commentType===0||row.toNo===row.fromNo">
                 <text
                   class="fz-13 fc-5d"
                   @tap.native.stop="commentUser(row)"
@@ -177,6 +185,7 @@
 </template>
 <script>
 const { toast } = require("../../utils/index");
+const { circleNoteUrl, userImgUrl } = require("../../config/develop");
 export default {
   data() {
     return {
@@ -199,12 +208,16 @@ export default {
       showIndex: -1,
       huifuName: "",
       more: false,
+      atcImgUrl: circleNoteUrl,
+      userImgUrl: userImgUrl,
+      preType: false,
     };
   },
   onLoad() {
     this.userNo = uni.getStorageSync("userno");
   },
-  onShow() {
+  onShow(obj) {
+    if (this.preType) return;
     this.resetData();
     if (this.optName === "left") {
       this.getCirleLeftList();
@@ -231,6 +244,9 @@ export default {
       this.getCirleRightList2();
     }
   },
+  destroyed() {
+    this.showIndex = -1;
+  },
   computed: {
     navHeight() {
       return getApp().globalData.navHeight;
@@ -242,6 +258,7 @@ export default {
       this.more = true;
       this.pageNo = 1;
       this.pageSize = 10;
+      this.showIndex = -1;
     },
     // 获取印圈列表
     async getCirleLeftList() {
@@ -250,11 +267,29 @@ export default {
         pageNo: this.pageNo,
         pageSize: this.pageSize,
         label: this.labelName,
+        currentNo: this.userNo,
       });
       this.circleList = data.list;
       if (this.pageNo * this.pageSize >= data.total) this.more = false;
       this.total = data.total;
+      this.imgPathsReturn(this.circleList);
       uni.hideLoading();
+    },
+    imgPathsReturn(list) {
+      list.forEach((item) => {
+        if (item.paths) item.imgs = item.paths.split(",");
+      });
+    },
+    imgPathsReturn2(list) {
+      list.forEach((item) => {
+        if (item.displayimg) {
+          let arr = item.displayimg.split(",");
+          item.displayimg = arr[0];
+        } else {
+          let arr = item.imgs.split(",");
+          item.displayimg = arr[0];
+        }
+      });
     },
     async getCirleLeftList2() {
       toast.showLoading("加载中");
@@ -262,8 +297,10 @@ export default {
         pageNo: this.pageNo,
         pageSize: this.pageSize,
         label: this.labelName,
+        currentNo: this.userNo,
       });
       this.circleList = this.circleList.concat(data.list);
+      this.imgPathsReturn(this.circleList);
       if (this.pageNo * this.pageSize >= data.total) this.more = false;
       this.total = data.total;
       uni.hideLoading();
@@ -278,6 +315,7 @@ export default {
       if (this.pageNo * this.pageSize >= data.total) this.more = false;
       this.circleList = data.list;
       this.total = data.total;
+      this.imgPathsReturn2(this.circleList);
       uni.hideLoading();
     },
     async getCirleRightList2() {
@@ -289,10 +327,18 @@ export default {
       this.circleList = this.circleList.concat(data.list);
       if (this.pageNo * this.pageSize >= data.total) this.more = false;
       this.total = data.total;
+      this.imgPathsReturn2(this.circleList);
       uni.hideLoading();
     },
     // 寫評論
     writeFunc() {
+      if (!this.userNo) {
+        uni.reLaunch({
+          url: "/pages/page/login",
+        });
+        return;
+      }
+      this.preType = false;
       if (this.optName === "left") {
         uni.navigateTo({
           url: `/subPackages/circle/writeDetal?label=${this.labelName}`,
@@ -304,15 +350,29 @@ export default {
       }
     },
     getComHeight(i) {
-      if (this.circleList[i].moreType) {
-        this.commentType = true;
-      } else {
-        this.commentType = false;
+      if (!this.userNo) {
+        uni.reLaunch({
+          url: "/pages/page/login",
+        });
+        return;
       }
-      this.circleList[i].moreType = !this.circleList[i].moreType;
+      this.commentType = true;
+      this.showIndex = -1;
+      // this.circleList[i].moreType = !this.circleList[i].moreType;
     },
     getHeigth(val) {
       this.commentHeight = val.detail.height;
+    },
+    preImgItem(list, index) {
+      let arrImg = [];
+      list.forEach((item) => {
+        arrImg.push(this.atcImgUrl + item);
+      });
+      uni.previewImage({
+        current: index,
+        urls: arrImg,
+      });
+      this.preType = true;
     },
     tabChange(type) {
       if (this.optName === type) return;
@@ -345,12 +405,11 @@ export default {
     inputBlurChange() {
       this.commentType = false;
       this.huifuName = "";
-      this.sumitForm();
     },
     // 发布评论
     async sumitForm() {
+      if (this.userCommentForm.content.trim() === "") return;
       await this.$api.noteCommentSend(this.userCommentForm);
-      if (this.userCommentForm.content === "") return;
       this.getCirleLeftList();
       this.showIndex = -1;
       this.userCommentForm = {
@@ -364,15 +423,27 @@ export default {
     },
     // 回复用户
     commentUser(row) {
+      if (!this.userNo) {
+        uni.reLaunch({
+          url: "/pages/page/login",
+        });
+        return;
+      }
       if (row.fromNo === this.userNo) return;
       this.huifuName = "回复 " + row.fromUserNickName;
       this.userCommentForm.noteId = row.noteId;
       this.userCommentForm.commentType = 1;
       this.userCommentForm.fromNo = this.userNo;
-      this.userCommentForm.toNo = row.toNo;
+      this.userCommentForm.toNo = row.fromNo;
       this.commentType = true;
     },
     commentUser2(row) {
+      if (!this.userNo) {
+        uni.reLaunch({
+          url: "/pages/page/login",
+        });
+        return;
+      }
       if (row.toNo === this.userNo) return;
       this.huifuName = "回复 " + row.toUserNickName;
       this.userCommentForm.noteId = row.noteId;
@@ -383,6 +454,12 @@ export default {
     },
     // 点赞
     async circleFabulousHandle(row, i) {
+      if (!this.userNo) {
+        uni.reLaunch({
+          url: "/pages/page/login",
+        });
+        return;
+      }
       await this.$api.circleFabulous({
         circleNoteId: row.id,
         likeNo: this.userNo,
@@ -491,8 +568,8 @@ export default {
 }
 .comment-img-item {
   margin-bottom: 6rpx;
-  width: 200rpx;
-  height: 200rpx;
+  width: 190rpx;
+  height: 190rpx;
   border-radius: 10rpx;
 }
 .more-btn-box {
@@ -540,6 +617,11 @@ export default {
 .menu-icon2 {
   width: 31rpx;
   height: 30rpx;
+}
+.menu-icon3 {
+  margin-right: 8rpx;
+  width: 26rpx;
+  height: 25rpx;
 }
 .communication-content {
   padding: 10rpx;
@@ -594,5 +676,9 @@ export default {
 }
 .right-position2 {
   right: -358rpx;
+}
+.comment-img-box {
+  display: flex;
+  flex-wrap: wrap;
 }
 </style>

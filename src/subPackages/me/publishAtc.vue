@@ -12,7 +12,7 @@
           v-model="writeForm.content"
         />
         <!-- 上傳圖片 -->
-        <div class="mr-t-30 fl-btc">
+        <div class="mr-t-30 fl-btc" style="width:100%">
           <image
             mode="widthFix"
             @longtap="logoTime(index)"
@@ -24,7 +24,7 @@
           />
           <div
             v-if="imgList.length!==9"
-            class="add-img-btn fl-cen mr-r-50 mr-b-20"
+            class="add-img-btn fl-cen mr-b-20"
             @tap="uploadImgComment"
           >
             <image class="add-style" src="../../static/circle/add.png" />
@@ -90,7 +90,7 @@ export default {
     },
     // 上传图片
     async uploadImgComment() {
-      const imgOBj = await common.updataImg(9 - this.imgList.length);
+      const imgOBj = await common.updataImg(9 - this.imgList.length,'前台文章');
       this.imgList = [...this.imgList, ...imgOBj];
     },
     // 发表

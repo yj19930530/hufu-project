@@ -24,13 +24,17 @@ uniRequest._extend({
 			'Content-Type': 'application/x-www-form-urlencoded',
 			'token': token
 		};
-		if (!opId) {
-			uni.reLaunch({
-				url: "/pages/page/login"
-			})
+		// if (!opId) {
+		// 	uni.reLaunch({
+		// 		url: "/pages/page/login"
+		// 	})
+		// }
+		if (noType !== 'no') {
+			if (userno) data.userno = userno;
 		}
-		if (type !== 'no') data.openId = opId;
-		if (noType !== 'no') data.userno = userno;
+		if (type !== 'no') {
+			if (opId) data.openId = opId;
+		}
 		return new Promise((resolve, reject) => {
 			uni.request({
 				url: http + url,

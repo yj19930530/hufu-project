@@ -9,7 +9,7 @@
       >
         <div class="archives-title fl-bt">
           <text class="fz-15">{{dateTimeConver(item.createTime)}}</text>
-          <text class="iconfont iconshanchu fz-18"></text>
+          <text class="iconfont iconshanchu fz-18" @tap.native.stop="deleteSkinItem(item)"></text>
         </div>
         <div class="archives-bottom-score">
           <image class="archives-score-bj" src="../../static/me/bj.png" />
@@ -64,6 +64,18 @@ export default {
     this.getSkinPage();
   },
   methods: {
+    async deleteSkinItem(row) {
+      toast.showLoading("加载中");
+      await this.$api.deleteSkinInfo({
+        id: row.id,
+      });
+      this.tableList.forEach((item, index) => {
+        if (item.id === row.id) {
+          this.tableList.splice(index, 1);
+        }
+      });
+      uni.hideLoading();
+    },
     // 获取肌肤测试分页列表
     getSkinPage() {
       toast.showLoading("加载中");

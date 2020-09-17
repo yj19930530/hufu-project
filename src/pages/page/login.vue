@@ -3,85 +3,113 @@
     <image class="login-img" src="../../static/login-img.png" />
     <button
       class="mr-t-10 login-btn fc-fff fz-14 fl-cen"
+      open-type="getPhoneNumber"
+      @getphonenumber="getPhoneNumber"
+    >用户授权获取信息</button>
+    <!-- <button
+      class="mr-t-10 login-btn fc-fff fz-14 fl-cen"
       open-type="getUserInfo"
       @getuserinfo="getUserData"
       type="default"
-    >用户授权获取信息</button>
-    <view class="fl-cen mr-t-20">
+    >用户授权获取信息</button>-->
+    <!-- <view class="fl-cen mr-t-20">
       <view class="yuandian"></view>
       <text class="fc-43 fz-12 mr-l-20 mr-r-20">授权登录</text>
       <view class="yuandian"></view>
-    </view>
+      <button
+        class="bottom"
+        type="primary"
+        open-type="getPhoneNumber"
+        @getphonenumber="getPhoneNumber"
+      >获取手机号</button>
+    </view>-->
   </view>
 </template>
 <script>
 const { toast } = require("../../utils/index");
 export default {
   data() {
-    return {};
+    return {
+      sessionKey: "",
+    };
   },
   onLoad() {
-    // const opId = uni.getStorageSync("opId");
-    // if (opId) {
-    //   uni.switchTab({
-    //     url: "/pages/page/home",
-    //   });
-    // }
+    this.sessionKey = uni.getStorageSync("sessionKey");
   },
   methods: {
-    // 用户授权登录
-    getUserData(data) {
-      const _this = this;
-      if (!data.detail.userInfo) return;
-      const userData = data.detail.userInfo;
-      let loginCode = "";
-      uni.getProvider({
-        service: "oauth",
-        success: function (res) {
-          if (~res.provider.indexOf("weixin")) {
-            uni.login({
-              provider: "weixin",
-              success: function (loginRes) {
-                toast.showLoading("登录中");
-                _this.$api
-                  .userLoginGetOpenId({
-                    code: loginRes.code,
-                    type: 2,
-                  })
-                  .then(async (res) => {
-                    uni.hideLoading();
-                    let opId = "",
-                      dataObj = null,
-                      token = "";
-                    if (res.state !== 500) {
-                      opId = res.data.openid;
-                      dataObj = res.data.user;
-                      token = res.data.token;
-                    } else {
-                      opId = res.data.openid;
-                      const { data } = await _this.$api.addUserInfo({
-                        openid: opId,
-                        nickName: userData.nickName,
-                        avatarUrl: userData.avatarUrl,
-                        gender: userData.gender,
-                      });
-                      dataObj = data.user;
-                      token = data.token;
-                    }
-
-                    uni.setStorageSync("opId", opId);
-                    uni.setStorageSync("userno", dataObj.userno);
-                    uni.setStorageSync("token", token);
-                    uni.switchTab({
-                      url: "/pages/page/home",
-                    });
-                  });
-              },
-            });
-          }
-        },
-      });
+    getPhoneNumber(e) {
+      toast.showLoading("登录中");
+      this.$api
+        .addUserInfo({
+          iv: e.detail.iv,
+          sessionKey: this.sessionKey,
+          data: e.detail.encryptedData,
+        })
+        .then((res) => {
+          uni.hideLoading();
+          uni.setStorageSync("token",res.data.token);
+          uni.setStorageSync("userno", res.data.user.userno);
+          uni.switchTab({
+            url: "/pages/page/home",
+          });
+        })
+        .catch(() => {
+          uni.hideLoading();
+        });
     },
+    // 用户授权登录
+    // getUserData(data) {
+    //   const _this = this;
+    //   if (!data.detail.userInfo) return;
+    //   const userData = data.detail.userInfo;
+    //   let loginCode = "";
+    //   uni.getProvider({
+    //     service: "oauth",
+    //     success: function (res) {
+    //       if (~res.provider.indexOf("weixin")) {
+    //         uni.login({
+    //           provider: "weixin",
+    //           success: function (loginRes) {
+    //             toast.showLoading("登录中");
+    //             _this.$api
+    //               .userLoginGetOpenId({
+    //                 code: loginRes.code,
+    //                 type: 2,
+    //               })
+    //               .then(async (res) => {
+    //                 uni.hideLoading();
+    //                 let opId = "",
+    //                   dataObj = null,
+    //                   token = "";
+    //                 if (res.state !== 500) {
+    //                   opId = res.data.openid;
+    //                   dataObj = res.data.user;
+    //                   token = res.data.token;
+    //                 } else {
+    //                   opId = res.data.openid;
+    //                   const { data } = await _this.$api.addUserInfo({
+    //                     openid: opId,
+    //                     iv: "",
+    //                     sessionKey: "",
+    //                     data: "",
+    //                   });
+    //                   dataObj = data.user;
+    //                   token = data.token;
+    //                 }
+
+    //                 uni.setStorageSync("opId", opId);
+    //                 uni.setStorageSync("userno", dataObj.userno);
+    //                 uni.setStorageSync("token", token);
+    //                 uni.switchTab({
+    //                   url: "/pages/page/home",
+    //                 });
+    //               });
+    //           },
+    //         });
+    //       }
+    //     },
+    //   });
+    // },
   },
 };
 </script>

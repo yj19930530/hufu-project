@@ -16,7 +16,7 @@
     <div class="history-box" v-if="!goodsList.length">
       <div class="fl-bt">
         <text class="fz-15 fw-bold">历史搜索</text>
-        <div class="fl-al">
+        <div class="fl-al" @tap="clearHistory">
           <image class="suosuo-icon" src="../../static/home/sousuo.png" />
           <text class="fz-12 fc-999 mr-l-4">清空历史记录</text>
         </div>
@@ -34,8 +34,11 @@
     </div>
     <!-- 搜索列表 -->
     <div class="goods-list" v-else>
-      <div class="goods-center-box fl-btw">
-        <ClassItem v-for="(item,index) in goodsList" :key="index" :objItem="item" />
+      <div class="note-center-box">
+        <NoteItem v-for="(item,index) in goodsList" :objData="item" :key="index" :numIndex="index" />
+      </div>
+      <div class="fl-cen mr-t-20" v-if="!more">
+        <text class="fz-12 fc-999">没有更多了</text>
       </div>
     </div>
   </div>
@@ -48,13 +51,41 @@ export default {
       inputVal: "",
       searchList: [],
       goodsList: [],
+      labelName: "护肤日记",
+      pageNo: 1,
+      pageSize: 10,
+      more: true,
     };
   },
   onLoad() {
     let val = uni.getStorageSync("search");
     if (val) this.searchList = JSON.parse(val);
   },
+  // 上拉刷新
+  async onPullDownRefresh() {
+    await this.resetData();
+    this.resetData();
+    uni.stopPullDownRefresh();
+  },
+  async onReachBottom() {
+    if (!this.more) return;
+    this.pageNo++;
+    this.getList();
+  },
   methods: {
+       // 清空历史记录
+    clearHistory() {
+      this.inputVal = "";
+      this.goodsList.length = 0;
+      this.searchList.length = 0;
+      uni.removeStorageSync("search");
+    },
+    resetData() {
+      this.goodsList = [];
+      this.more = true;
+      this.pageNo = 1;
+      this.pageSize = 10;
+    },
     clearVal() {
       this.inputVal = "";
       this.goodsList.length = 0;
@@ -67,11 +98,13 @@ export default {
     },
     async getList() {
       toast.showLoading("加载中");
-      const { data } = await this.$api.getClassAllList({
-        gName: this.inputVal,
-        idx: 1,
+      const { data } = await this.$api.getAboutAtc({
+        pageNo: this.pageNo,
+        pageSize: this.pageSize,
+        title: this.inputVal,
       });
-      this.goodsList = data;
+      if (this.pageNo * this.pageSize >= data.total) this.more = false;
+      this.goodsList = this.goodsList.concat(data.list);
       uni.hideLoading();
     },
     // 历史搜索
@@ -111,13 +144,18 @@ export default {
   background-color: #eeeeee;
 }
 .goods-list {
+  padding: 20rpx 20rpx 30rpx;
   margin-top: 16rpx;
-  padding-bottom: 30rpx;
   width: 100%;
   background-color: #f8f8f8;
 }
 .goods-center-box {
   margin: auto;
   width: 710rpx;
+}
+/* 瀑布流布局 */
+.note-center-box {
+  column-count: 2;
+  column-gap: 1;
 }
 </style>

@@ -1,14 +1,15 @@
 <template>
   <div id="ganhuo-container">
-    <div class="video-item-box mr-t-20" v-for="(item,index) in ganVideo" :key="index">
+    <div style="height:20rpx"></div>
+    <div class="video-item-box" v-for="(item,index) in ganVideo" :key="index">
       <div class="video-item-cover">
-        <image class="cover-img" :src="atcImgUrl+item.displayimg" v-if="item.playType" />
+        <image  mode="aspectFill" class="cover-img" :src="atcImgUrl+item.preview" v-if="item.playType" />
         <video
         v-if="!item.playType"
         :id="'myVideo'+index"
         class="video-style mr-t-10"
         controls
-        src="https://media.w3.org/2010/05/sintel/trailer.mp4"
+        :src="atcImgUrl+item.video"
       ></video>
         <div class="video-item-center" v-if="item.playType">
           <text class="fz-14 fc-fff">{{item.title}}</text>
@@ -23,7 +24,7 @@
       </div>
       <div class="video-item-user fl-bt">
         <div class="fl-al">
-          <image class="video-user-img" :src="item.sui.avatarUrl" />
+          <image class="video-user-img" :src="userImgUrl+item.sui.avatarUrl" />
           <text class="fz-15">{{item.sui.nickName}}</text>
         </div>
         <div class="share-btn-box" @tap="toSharePath">
@@ -36,7 +37,7 @@
 </template>
 <script>
 const { toast } = require("../../utils/index");
-const { atcImgUrl } = require("../../config/develop");
+const { atcImgUrl,userImgUrl } = require("../../config/develop");
 export default {
   data() {
     return {
@@ -45,6 +46,7 @@ export default {
       pageNo: 1,
       pageSize: 10,
       atcImgUrl: atcImgUrl,
+      userImgUrl: userImgUrl,
     };
   },
     onShareAppMessage(res) {
@@ -78,7 +80,7 @@ export default {
             let videoContent = uni.createVideoContext(`myVideo${i}`);
             videoContent.play();
             clearTimeout(timer)
-          })
+          },500)
         }else {
           this.ganVideo[index].playType = true; 
           let videoContent = uni.createVideoContext(`myVideo${i}`);
@@ -123,7 +125,7 @@ page {
 </style>
 <style scoped>
 .video-item-box {
-  padding: 20rpx 20rpx 0 20rpx;
+  padding: 0rpx 20rpx 0 20rpx;
   background-color: #ffffff;
 }
 .share-visibiliti-btn {

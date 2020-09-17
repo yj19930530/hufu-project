@@ -67,7 +67,8 @@
 				{
 					"path": "search",
 					"style": {
-						"navigationBarTitleText": "搜索"
+						"navigationBarTitleText": "搜索",
+						"enablePullDownRefresh": true
 					}
 				}
 			]
@@ -78,10 +79,7 @@
 				{
 					"path": "writeDetal",
 					"style": {
-						"navigationStyle": "custom",
-						"app-plus": {
-							"titleNView": false
-						}
+						"navigationBarTitleText": "写笔记"
 					}
 				}
 			]
@@ -213,6 +211,18 @@
 					"path": "publishAtc",
 					"style": {
 						"navigationBarTitleText": "发表文章"
+					}
+				},
+				{
+					"path": "textDetail",
+					"style": {
+						"navigationBarTitleText": ""
+					}
+				},
+				{
+					"path": "textDetail2",
+					"style": {
+						"navigationBarTitleText": ""
 					}
 				}
 			]

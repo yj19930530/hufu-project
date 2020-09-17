@@ -25,8 +25,17 @@ export default {
   data() {
     return {};
   },
+  onLoad() {
+    this.userNo = uni.getStorageSync("userno");
+  },
   methods: {
     optNavigatorPath() {
+      if (!this.userNo) {
+        uni.reLaunch({
+          url: "/pages/page/login",
+        });
+        return;
+      }
       uni.navigateTo({
         url: "/subPackages/Interrogation/test",
       });

@@ -4,6 +4,7 @@
     <div class="college-top-banner">
       <image class="college-banner-img" src="../../static/college/co-img.png" />
     </div>
+    <!-- 咨询老师 -->
     <swiper
       class="swiper-block"
       previous-margin="90rpx"
@@ -26,33 +27,8 @@
         </swiper-item>
       </block>
     </swiper>
-    <!-- 咨询老师 -->
-    <!-- <div class="Interrogation-content mr-t-20">
-      <scroll-view
-        class="scroll-box"
-        scroll-x="true"
-        :scroll-with-animation="true"
-        :scroll-into-view="infoIndex"
-      >
-        <div
-          class="doc-item-person"
-          v-for="(item,index) in docList"
-          :key="item"
-          :id="item.key"
-          @tap="infoIndexChange(index)"
-        >
-          <div class="fl-co">
-            <image class="doc-header-img" src="../../static/circle/back-img.png" />
-            <text class="fz-13 mr-t-4">{{item.name}}</text>
-            <text class="fz-10 fc-999 mr-t-6">高级专家护肤导师</text>
-            <text class="fz-10 fc-999 mr-t-6">特聘专业护肤师</text>
-            <button class="handle-btn fz-11 fl-cen" open-type="contact" type="primary">立即咨询</button>
-          </div>
-        </div>
-      </scroll-view>
-    </div>-->
     <!-- 相关文章 -->
-    <div class="about-atc-content">
+    <div class="about-atc-content" v-if="atcList.length">
       <div class="about-atc-title fl-bt">
         <text class="fz-15 mr-l-10 fw-bold">相关文章</text>
         <div class="fl-al mr-r-10">
@@ -61,16 +37,24 @@
         </div>
       </div>
       <div class="mr-t-20">
-        <div class="mr-t-20 fl-ff about-atc-item" v-for="item in atcList" :key="item.id">
+        <div
+          class="mr-t-20 fl-ff about-atc-item"
+          v-for="item in atcList"
+          :key="item.id"
+          @tap="lookDetail(item)"
+        >
           <image class="atc-left-img" :src="atcImgUrl+item.displayimg" />
           <div class="atc-right-content">
-            <div class="text-lang-dian2 mr-t-6">
+            <div class="text-lang-dian2 text-lang-height mr-t-16">
               <text class="fz-15">{{item.title}}</text>
             </div>
-            <div class="mr-t-10 text-lang-dian2">
-              <!-- <Uparse :content="item.contens" /> -->
-              <text class="fz-12 fc-999">{{item.contens}}</text>
+            <div class="liulan-box">
+              <image class="liulan-icon mr-r-10" src="../../static/college/liulan.png" />
+              <text class="fz-12 fc-999">{{item.browse}}</text>
             </div>
+            <!-- <div class="mr-t-10 text-lang-dian2">
+              <text class="fz-12 fc-999">{{item.contens}}</text>
+            </div> -->
           </div>
         </div>
       </div>
@@ -111,9 +95,11 @@ export default {
       atcList: [],
       allList: [],
       atcImgUrl: atcImgUrl,
+      labelText: "",
     };
   },
-  onLoad() {
+  onLoad(obj) {
+    this.labelText = obj.text;
     this.aboutAtc();
     this.getTableList();
   },
@@ -121,6 +107,11 @@ export default {
     WaterItem,
   },
   methods: {
+    lookDetail(row) {
+      uni.navigateTo({
+        url: `/subPackages/college/atcDetail?id=${row.id}`,
+      });
+    },
     // 获取商品列表
     async getTableList() {
       const { data } = await this.$api.getClassList();
@@ -132,6 +123,7 @@ export default {
       const { data } = await this.$api.getAboutAtc({
         pageNo: 1,
         pageSize: 2,
+        label: this.labelText,
         // brand: text,
       });
       this.atcList = data.list;
@@ -146,9 +138,8 @@ export default {
     swiperChange(e) {
       this.swiperIndex = e.detail.current;
     },
-    scroll(e) {
-      console.log(e);
-    },
+    // scroll(e) {
+    // },
     infoIndexChange(index) {
       this.infoIndex = this.docList[index].key;
     },
@@ -190,13 +181,6 @@ page {
 }
 .scroll-box {
   white-space: nowrap;
-}
-.doc-item-person {
-  display: inline-block;
-  margin: 0 10rpx;
-  width: 226rpx;
-  height: 322rpx;
-  background-color: #ffffff;
 }
 .doc-header-img {
   margin-top: 24rpx;
@@ -265,5 +249,18 @@ page {
   transform: scale(1.4);
   transition: all 0.2s ease-in 0s;
   z-index: 20;
+}
+.liulan-box {
+  margin-top: 42rpx;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.liulan-icon {
+  width: 36rpx;
+  height: 26rpx;
+}
+.text-lang-height {
+  height: 84rpx;
 }
 </style>

@@ -72,7 +72,7 @@ function getData(key) {
     return uni.getStorageSync(key)
 }
 // 上传图片
-function updataImg(num) {
+function updataImg(num, type) {
     return new Promise((resolve, reject) => {
         uni.showLoading({
             title: '上传中'
@@ -84,12 +84,12 @@ function updataImg(num) {
                 let imgArr = [];
                 res.tempFilePaths.forEach(item => {
                     uni.uploadFile({
-                        url: http + '/smallprogramMain/handleUploadFileArticle',
+                        url: http + '/smallprogramMain/uploadImg',
                         name: 'file',
                         filePath: item,
                         header: { 'token': token },
                         formData: {
-                            types: 'img'
+                            uploadFilePlateType: type
                         },
                         success: (r) => {
                             let uploadData = JSON.parse(r.data);
@@ -131,47 +131,44 @@ function updataImgOnce() {
             count: 1,
             sizeType: 'compressed',
             success: res => {
+                let imgArr = [];
                 res.tempFilePaths.forEach(item => {
-                    uni.showLoading({
-                        title: '上传中'
-                    });
                     uni.uploadFile({
-                        url: http + '/web/skin/uploadImg',
-                        name: 'image',
-                        header: {
-                            'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundaryJ0BstsRQ55xWJzBB'
-                        },
+                        url: http + '/smallprogramMain/uploadImg',
+                        name: 'file',
                         filePath: item,
+                        header: { 'token': token },
+                        formData: {
+                            uploadFilePlateType: type
+                        },
                         success: (r) => {
-                            uni.hideLoading()
-                            let resolveData = JSON.parse(r.data);
-                            if (resolveData.code === -100) {
-                                uni.showModal({
-                                    title: '提示',
-                                    content: resolveData.msg,
-                                    showCancel: false,
-                                    confirmText: '返回登录',
-                                    success: function () {
-                                        uni.reLaunch({
-                                            url: "/pages/page/login"
-                                        })
-                                    }
-                                });
-                            } else {
-                                let imgObj = JSON.parse(r.data);
-                                resolve({
-                                    imgPath: imgObj.data,
-                                    // imgObj: imgObj.data
+                            let uploadData = JSON.parse(r.data);
+                            uni.hideLoading();
+                            if (uploadData.state !== 200) {
+                                uni.showToast({
+                                    title: uploadData.message,
                                 })
+                            } else {
+                                imgArr.push({
+                                    imgPath: item,
+                                    imgObj: uploadData.data
+                                })
+                                if (res.tempFilePaths.length === imgArr.length) {
+                                    resolve(imgArr)
+                                }
                             }
-                        }, fail: () => {
-                            uni.hideLoading()
+
+                        },
+                        fail: () => {
+                            uni.hideLoading();
                         }
+
                     });
                 })
 
             },
             fail: () => {
+                uni.hideLoading();
                 reject(false)
             }
         })

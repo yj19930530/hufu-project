@@ -7,6 +7,9 @@
       </div>
       <text class="fz-12 fc-999 mr-t-6">{{item.showInfo}}</text>
     </div>
+    <div class="fl-cen" v-if="!msgList.length">
+      <text class="fc-999 fz-12">没有数据</text>
+    </div>
   </div>
 </template>
 <script>
@@ -35,7 +38,7 @@ export default {
       const { data } = await this.$api.findNotifyRemindPage({
         pageNo: this.pageNo,
         pageSize: this.pageSize,
-        userNo: this.userNo,
+        currentUserNo: this.userNo,
       });
       this.msgList = this.msgList.concat(data.list);
       this.total = data.total;

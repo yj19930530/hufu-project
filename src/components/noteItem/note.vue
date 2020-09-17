@@ -2,6 +2,7 @@
   <div class="note-item-box" @tap="lookDetail">
     <image
       class="note-item-img"
+      mode="aspectFill"
       :class="[index===0?'note-item-height':'']"
       :src="atcImgUrl+objDetail.displayimg"
     />
@@ -9,7 +10,7 @@
       <div class="fz-12 text-lang-dian2">{{objDetail.title}}</div>
       <div class="fl-bt mr-t-10">
         <div class="fl-ff text-lang-dian">
-          <image class="note-item-header" :src="objDetail.sui.avatarUrl" />
+          <image class="note-item-header" :src="userImgUrl+objDetail.sui.avatarUrl" />
           <text class="fz-10 fc-999 mr-l-10">{{objDetail.sui.nickName}}</text>
         </div>
         <div class="fl-al">
@@ -21,11 +22,12 @@
   </div>
 </template>
 <script>
-const { atcImgUrl } = require("../../config/develop");
+const { atcImgUrl,userImgUrl } = require("../../config/develop");
 export default {
   data() {
     return {
       atcImgUrl: atcImgUrl,
+      userImgUrl:userImgUrl
     };
   },
   props: {
@@ -46,6 +48,7 @@ export default {
       return this.objData;
     },
   },
+
   methods: {
     lookDetail() {
       uni.navigateTo({

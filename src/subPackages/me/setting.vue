@@ -1,10 +1,10 @@
 <template>
   <div id="setting-container">
-    <div class="setting-item fl-bt">
+    <div class="setting-item fl-bt" @tap="navPathToUs">
       <text class="mr-l-30 fz-15">关于我们</text>
       <text class="iconfont iconyoujiantou mr-r-30 fc-999"></text>
     </div>
-    <div class="setting-item fl-bt">
+    <div class="setting-item fl-bt" @tap="navPathToUs2">
       <text class="mr-l-30 fz-15">隐私协议</text>
       <text class="iconfont iconyoujiantou mr-r-30 fc-999"></text>
     </div>
@@ -19,6 +19,16 @@ export default {
     return {};
   },
   methods: {
+    navPathToUs() {
+      uni.navigateTo({
+        url: `/subPackages/me/textDetail`,
+      });
+    },
+    navPathToUs2() {
+      uni.navigateTo({
+        url: `/subPackages/me/textDetail2`,
+      });
+    },
     loginOut() {
       uni.showModal({
         title: "提示",

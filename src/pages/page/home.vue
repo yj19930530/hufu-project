@@ -18,30 +18,14 @@
       </view>
     </view>
     <!-- icon 功能 -->
-    <view class="option-content fl-bt">
-      <view class="fl-co" @tap="openWecat">
-        <image class="opt-item" src="../../static/home/icon1.png" />
-        <text class="mr-t-10 fz-11">免费体验</text>
-      </view>
+    <view class="option-content">
       <view class="fl-co" @tap="optNavigatorPath('test')">
         <image class="opt-item" src="../../static/home/icon2.png" />
         <text class="mr-t-10 fz-11">魔镜测试</text>
       </view>
-      <view class="fl-co" @tap="optNavigatorPath('water')">
-        <image class="opt-item" src="../../static/home/icon3.png" />
-        <text class="mr-t-10 fz-11">补水保湿</text>
-      </view>
-      <view class="fl-co" @tap="optNavigatorPath('water')">
-        <image class="opt-item" src="../../static/home/icon4.png" />
-        <text class="mr-t-10 fz-11">焕白提亮</text>
-      </view>
-      <view class="fl-co" @tap="optNavigatorPath('water')">
-        <image class="opt-item" src="../../static/home/icon5.png" />
-        <text class="mr-t-10 fz-11">祛痘淡印</text>
-      </view>
-      <view class="fl-co" @tap="optNavigatorPath('water')">
-        <image class="opt-item" src="../../static/home/icon6.png" />
-        <text class="mr-t-10 fz-11">收缩毛孔</text>
+      <view class="fl-co" v-for="item in iconList" :key="item.id" @tap="optNavigatorPath('water',item.id)">
+        <image class="opt-item" :src="uploadImgUrl+item.icoPath" />
+        <text class="mr-t-10 fz-11">{{item.infoName}}</text>
       </view>
     </view>
     <!-- banner -->
@@ -133,7 +117,7 @@
             <text class="fz-10 mr-t-4">ONE-TO-ONE SERVICE</text>
           </view>
         </view>
-        <view class="brand-item-content" @tap="openWecat">
+        <view class="brand-item-content">
           <image class="brand-item-img" src="../../static/home/pinpai2.png" />
           <view class="fl-co">
             <text class="fz-14">定制解决方案>></text>
@@ -187,7 +171,7 @@
       </view>
       <view
         class="special-item-box mr-t-20"
-        @tap="optNavigatorPath('ask')"
+        @tap="optNavigatorPath('ask','祛痘咨询专区')"
       >
         <view class="fl-bt">
           <view class="fl-fc mr-l-30">
@@ -209,7 +193,7 @@
       </view>
       <view
         class="special-item-box mr-t-20"
-        @tap="optNavigatorPath('ask')"
+        @tap="optNavigatorPath('ask','淡斑咨询专区')"
       >
         <view class="fl-bt">
           <view class="fl-fc mr-l-30">
@@ -231,7 +215,7 @@
       </view>
       <view
         class="special-item-box mr-t-20"
-        @tap="optNavigatorPath('ask')"
+        @tap="optNavigatorPath('ask','美白咨询专区')"
       >
         <view class="fl-bt">
           <view class="fl-fc mr-l-30">
@@ -253,7 +237,7 @@
       </view>
       <view
         class="special-item-box mr-t-20"
-        @tap="optNavigatorPath('ask')"
+        @tap="optNavigatorPath('ask','抗皱咨询专区')"
       >
         <view class="fl-bt">
           <view class="fl-fc mr-l-30">
@@ -275,7 +259,7 @@
       </view>
       <view
         class="special-item-box mr-t-20"
-        @tap="optNavigatorPath('ask')"
+        @tap="optNavigatorPath('ask','修敏咨询专区')"
       >
         <view class="fl-bt">
           <view class="fl-fc mr-l-30">
@@ -297,40 +281,43 @@
       </view>
     </view>
     <!-- 用户展览 -->
-    <view class="user-case" v-for="(item,index) in ganVideo" :key="index">
-      <view class="fl-bt">
-        <view class="fl-al">
-          <image class="img-header" :src="item.sui.avatarUrl" />
+    <view class="user-case" v-for="(item,index) in ganVideo" :key="index" @tap="lookDetail(item)">
+      <view class="fl-bt" style="height:104rpx;padding:0 20rpx">
+        <view class="fl-al" @tap.native.stop="userDetailNext(item)">
+          <image class="img-header" :src="userImgUrl+item.sui.avatarUrl" />
           <text class="fz-15 mr-l-20 fc-000">{{item.sui.nickName}}</text>
         </view>
-        <view class="follow-btn fl-cen">
+        <view class="follow-btn fl-cen" v-if="!item.isGz" @tap.native.stop="gzUserHandle(item)">
           <text class="fz-12 fc-fff">关注</text>
         </view>
+        <view class="follow-btn fl-cen" v-else @tap.native.stop="closeGzHandle(item)">
+          <text class="fz-12 fc-fff">已关注</text>
+        </view>
       </view>
-      <view class="video-style-box mr-t-10" v-if="!playerType" @tap="playerVideo">
-        <image class="video-style-img" src="../../static/home/9.png" />
+      <div style="height:20rpx;background-color: #ffffff;"></div>
+      <view class="video-style-box" v-if="!playerType" @tap.native.stop="playerVideo">
+        <image class="video-style-img" :src="atcImgUrl+item.imgShow" />
         <image class="video-player-btn" src="../../static/home/player.png" />
       </view>
       <video
         v-else
         id="myVideo"
-        class="video-style mr-t-10"
+        class="video-style"
         controls
         :src="atcImgUrl+item.video"
         @fullscreenchange="videoChange"
-        @waiting="waittingVideo"
       ></video>
-      <view class="describe-text mr-t-10">
+      <view class="describe-text fl-al">
         <text
-          class="fz-12 fc-000"
-        >{{item.contens}}</text>
+          class="fz-15 fw-bold fc-000"
+        >{{item.title}}</text>
       </view>
     </view>
   </view>
 </template>
 <script>
 const { toast } = require("../../utils/index");
-const {atcImgUrl} = require('../../config/develop')
+const {atcImgUrl,uploadImgUrl,userImgUrl} = require('../../config/develop')
 import Nav from "../../components/navbar/nav";
 export default {
   data() {
@@ -345,7 +332,10 @@ export default {
       iconList: [], // icon list
       bannerList:[],
       ganVideo:[],
-      atcImgUrl:atcImgUrl
+      atcImgUrl:atcImgUrl,
+      uploadImgUrl:uploadImgUrl,
+      userImgUrl:userImgUrl,
+      userNo:'',
     };
   },
   components: {
@@ -358,32 +348,88 @@ export default {
   },
   onShow() {
     this.getMsgNumber();
-  },
-  onLoad() {
-    this.getIconData();
-    this.getBannerData();
     this.getVideo();
   },
+  onLoad() {
+    this.userNo = uni.getStorageSync("userno");
+    this.getIconData();
+    this.getBannerData();
+  },
   methods: {
+    userDetailNext(row) {
+      if (!this.userNo) {
+        uni.reLaunch({
+          url: "/pages/page/login",
+        });
+        return;
+      }
+      uni.navigateTo({
+        url: `/subPackages/me/personDetails?userno=${row.userno}`,
+      });
+    },
+    lookDetail(row) {
+      uni.navigateTo({
+        url: `/subPackages/college/atcDetail?id=${row.id}`,
+      });
+    },
     async getVideo(){
-      const { data } = await this.$api.getCollegeList({
+      const { data } = await this.$api.getAboutAtc({
         pageNo: 1,
         pageSize: 1,
-        index: 2,
-        label: "干货视频",
+        // index: 2,
+        label: "首页单条文章",
+        currentUserNo: this.userNo
+        // currentNo: this.userNo
       });
-      this.ganVideo = data.page.list;
+      this.ganVideo = data.list;
+      if(this.ganVideo.displayimg){
+        let arr = this.ganVideo[0].displayimg.split(',')
+        this.ganVideo[0].imgShow = arr[0]
+      }{
+        let arr = this.ganVideo[0].preview.split(',')
+        this.ganVideo[0].imgShow = arr[0]
+      }
     },
     // 跳转商城
     openWecat(){
        uni.navigateToMiniProgram({
         appId: "wxc55777954099b5a6",
+        extraData:{
+          userno:this.userNo,
+          usernoType:true
+        },
       });
     },
     getMoreNote(){
       uni.switchTab({
         url: '/pages/page/circle'
       });
+    },
+    async gzUserHandle(row){
+      if (!this.userNo) {
+        uni.reLaunch({
+          url: "/pages/page/login",
+        });
+        return;
+      }
+      await this.$api.articleGz({
+        idol: row.userno,
+        fans: this.userNo,
+      });
+      this.getVideo();
+    },
+    async closeGzHandle(row){
+      if (!this.userNo) {
+        uni.reLaunch({
+          url: "/pages/page/login",
+        });
+        return;
+      }
+      await this.$api.articleCloseGz({
+        currentUserNo: this.userNo,
+        targetNo: row.userno,
+      });
+      this.getVideo();
     },
     async getBannerData(){
       const {data} = await this.$api.pullBannerAd();
@@ -402,9 +448,12 @@ export default {
     },
     playerVideo() {
       this.playerType = true;
-      this.videoContext = uni.createVideoContext("myVideo");
-      this.videoContext.requestFullScreen();
-      this.videoContext.play();
+      const timer = setTimeout(()=>{
+        this.videoContext = uni.createVideoContext("myVideo");
+        this.videoContext.requestFullScreen();
+        this.videoContext.play();
+        clearTimeout(timer)
+      },500)
     },
     videoChange(e) {
       if (!e.detail.fullScreen) {
@@ -412,24 +461,30 @@ export default {
         this.videoContext.stop();
       }
     },
-    waittingVideo(e) {
-      console.log(e);
-    },
-    optNavigatorPath(path) {
+    optNavigatorPath(path,text) {
       switch (path) {
         case "water": {
           uni.navigateTo({
-            url: "/subPackages/home/water",
+            url: `/subPackages/home/water?id=${text}`,
           });
           break;
         }
         case "msg": {
+          this.$api.readAll({
+            currentUserNo:this.userNo
+          })
           uni.navigateTo({
             url: "/subPackages/me/message",
           });
           break;
         }
         case "test": {
+          if (!this.userNo) {
+            uni.reLaunch({
+              url: "/pages/page/login",
+            });
+            return;
+          }          
           uni.navigateTo({
             url: "/subPackages/Interrogation/test",
           });
@@ -437,7 +492,7 @@ export default {
         }
         case "ask": {
           uni.navigateTo({
-            url: "/subPackages/home/Interrogation",
+            url: `/subPackages/home/Interrogation?text=${text}`,
           });
           break;
         }
@@ -503,10 +558,12 @@ page {
   margin: auto;
   width: 710rpx;
   height: 192rpx;
+  display: flex;
   background-color: #ffffff;
   border-radius: 20px;
 }
 .opt-item {
+  margin-right: 20rpx;
   width: 94rpx;
   height: 94rpx;
 }
@@ -522,7 +579,7 @@ page {
   top: 64rpx;
 }
 .zixun-banner {
-  width: 100%;
+  width: 100%;   
   height: 100%;
 }
 .kuang-content {
@@ -684,8 +741,10 @@ page {
 }
 .user-case {
   position: relative;
-  top: -30rpx;
-  padding: 10rpx 20rpx 30rpx 20rpx;
+  top: 16rpx;
+  margin: auto;
+  /* padding: 10rpx 20rpx 30rpx 20rpx; */
+  width: 710rpx;
   background-color: #ebedec;
 }
 .video-style {
@@ -712,7 +771,8 @@ page {
   z-index: 99;
 }
 .describe-text {
-  line-height: 1;
+  line-height: 1.5;
+  padding: 10rpx 10rpx;
 }
 .brand-content {
   position: relative;

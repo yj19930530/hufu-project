@@ -20,6 +20,7 @@
             v-for="(item,index) in imgList"
             @tap="preImage(index)"
             :key="index"
+            mode="aspectFill"
             class="img-updata-item"
             :src="item.imgPath"
           />
@@ -91,7 +92,7 @@ export default {
     },
     // 上传图片
     async uploadImgComment() {
-      const imgOBj = await common.updataImg(9 - this.imgList.length);
+      const imgOBj = await common.updataImg(9 - this.imgList.length,'印圈笔记');
       this.imgList = [...this.imgList, ...imgOBj];
     },
     // 发表
@@ -136,7 +137,7 @@ export default {
               showCancel: false,
               confirmText: "返回",
               success: function (res) {
-                uni.navigateBack();
+                uni.navigateBack('');
               },
             });
             uni.navigateBack();
