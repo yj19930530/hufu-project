@@ -26,7 +26,7 @@
     <!-- 用户 -->
     <div class="atc-user-content fl-bt">
       <div class="mr-l-30 fl-al">
-        <image class="user-left-img" :src="userImgUrl+atcObj.sui.avatarUrl" />
+        <image class="user-left-img" :src="userImgUrl+atcObj.sui.avatarUrl" @tap="userDetailNext(atcObj.sui.userno)" />
         <text class="fz-15 fw-bold">{{atcObj.sui.nickName}}</text>
       </div>
       <div class="follow-btn mr-r-30 fl-cen" v-if="!atcObj.fans.length" @tap="handleClick('gz')">
@@ -91,7 +91,7 @@
     </div>
     <div class="comment-content" v-for="(item,index) in componentList" :key="index">
       <div class="comment-item-box">
-        <image class="header-img mr-l-20" :src="userImgUrl+item.avatarUrl" />
+        <image class="header-img mr-l-20" :src="userImgUrl+item.avatarUrl" @tap="userDetailNext(item.userno)" />
         <div class="item-right-coentent mr-r-20">
           <text class="fc-333 fz-15">{{item.nickName}}</text>
           <text class="fz-14 mr-t-10">{{item.componentInfo}}</text>
@@ -106,7 +106,10 @@
               :src="httpImg+img"
             />
           </div>
-          <div class="communication-content mr-t-20">
+          <div
+            class="communication-content mr-t-20"
+            :class="[item.reply.length?'communication-content-bgf8':'communication-content-bgfff']"
+          >
             <div v-for="(rowItem,rowIndex) in item.reply" :key="rowIndex">
               <div
                 class="communication-item"
@@ -118,7 +121,10 @@
               <div class="communication-item mr-t-10" v-else>
                 <text class="fz-13 fc-5d" @tap="handleClick('hf2',rowItem)">{{rowItem.nickName}}</text>
                 <text class="fz-13 fc-5d mr-l-10">回复</text>
-                <text class="fz-13 fc-5d mr-l-10" @tap="handleClick('hf3',rowItem)">{{rowItem.replyName}}：</text>
+                <text
+                  class="fz-13 fc-5d mr-l-10"
+                  @tap="handleClick('hf3',rowItem)"
+                >{{rowItem.replyName}}：</text>
                 <text class="fz-13">{{rowItem.componentInfo}}</text>
               </div>
             </div>
@@ -157,7 +163,7 @@
         </div>
         <div class="fl-al btn-widht-style" @tap.native.stop="getComHeight">
           <text class="iconfont iconpinglun fz-20"></text>
-          <text class="fz-12 mr-l-2">{{atcObj.componentNum}}</text>
+          <text class="fz-12 mr-l-2">{{total}}</text>
         </div>
         <div class="fl-al btn-widht-style share-box-style">
           <text class="iconfont iconfenxiang fz-20"></text>
@@ -384,6 +390,17 @@ export default {
         this.videoContext.stop();
       }
     },
+    userDetailNext(userno) {
+      if (!this.userNo) {
+        uni.reLaunch({
+          url: "/pages/page/login",
+        });
+        return;
+      }
+      uni.navigateTo({
+        url: `/subPackages/me/personDetails?userno=${userno}`,
+      });
+    },
     getText() {
       let arr = this.commentForm.componentInfo.split("");
       this.textLength = arr.length;
@@ -394,11 +411,13 @@ export default {
         // 关注
         case "gz": {
           if (!this.userNo) {
+            this.more = true;
             uni.reLaunch({
               url: "/pages/page/login",
             });
             return;
           }
+          if (this.atcObj.userno === this.userInfo.userno) return;
           await this.$api.articleGz({
             idol: this.atcObj.userno,
             fans: this.userInfo.userno,
@@ -619,7 +638,12 @@ export default {
 }
 .communication-content {
   padding: 20rpx;
+}
+.communication-content-bgf8 {
   background-color: #f8f8f8;
+}
+.communication-content-bgfff {
+  background-color: #ffffff;
 }
 .communication-item {
   line-height: 1.2;

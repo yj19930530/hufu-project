@@ -58,6 +58,7 @@ export default {
   methods: {
     // 关注
     handleFollow(row, i) {
+      if (row.userno === this.userNo) return;
       this.$api.articleGz({
         idol: row.userno,
         fans: this.userNo,

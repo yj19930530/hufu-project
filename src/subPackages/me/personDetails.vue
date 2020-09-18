@@ -131,6 +131,7 @@ export default {
     },
     // 关注
     async handleFollow() {
+      if (this.userNoMy === this.userNo) return;
       await this.$api.articleGz({
         idol: this.userNo,
         fans: this.userNoMy,

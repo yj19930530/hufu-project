@@ -29,7 +29,7 @@
       </view>
     </view>
     <!-- banner -->
-    <view class="zixun-content">
+    <view class="zixun-content mr-t-30">
       <image class="zixun-banner" src="../../static/home/9.png" />
       <view class="zixun-content-center">
         <view class="zixun-banner-content fl-fc">
@@ -134,7 +134,7 @@
       </view>
     </view>
     <!-- 印象圈 -->
-    <view class="circle-content">
+    <view class="circle-content" v-if="bannerList.length">
       <view class="aks-title-box fl-bt">
         <view>
           <text class="fc-333 fz-15 fw-bold mr-l-20">印象圈</text>
@@ -412,6 +412,7 @@ export default {
         });
         return;
       }
+      if (row.userno === this.userNo) return;
       await this.$api.articleGz({
         idol: row.userno,
         fans: this.userNo,
@@ -557,13 +558,16 @@ page {
   top: -122rpx;
   margin: auto;
   width: 710rpx;
-  height: 192rpx;
+  /* height: 192rpx; */
   display: flex;
+  align-content: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
   background-color: #ffffff;
   border-radius: 20px;
 }
 .opt-item {
-  margin-right: 20rpx;
+  margin-top: 20rpx;
   width: 94rpx;
   height: 94rpx;
 }

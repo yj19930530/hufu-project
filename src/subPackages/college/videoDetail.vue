@@ -10,6 +10,7 @@
         class="video-style mr-t-10"
         controls
         :src="atcImgUrl+item.video"
+        @ended="videoEndHandle(index)"
       ></video>
         <div class="video-item-center" v-if="item.playType">
           <text class="fz-14 fc-fff">{{item.title}}</text>
@@ -71,6 +72,11 @@ export default {
     this.getVideo();
   },
   methods: {
+    videoEndHandle(i){
+      let videoContent = uni.createVideoContext(`myVideo${i}`);
+      videoContent.stop();   
+      this.ganVideo[i].playType = true;   
+    },
     // 播放视频
     playerVideo(i){
       this.ganVideo.forEach((item,index)=>{
@@ -82,9 +88,9 @@ export default {
             clearTimeout(timer)
           },500)
         }else {
-          this.ganVideo[index].playType = true; 
           let videoContent = uni.createVideoContext(`myVideo${i}`);
-          videoContent.stop();         
+          videoContent.stop();   
+          this.ganVideo[index].playType = true;       
         }
       })
   

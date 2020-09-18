@@ -12,7 +12,7 @@
         :src="userImgUrl+userInfo.avatarUrl"
         @tap="userDetailNext"
       />
-      <text class="fz-12 fc-999 mr-t-20 mr-b-20" v-if="noLoginType">未登陆</text>
+      <text class="fz-12 fc-999 mr-t-20 mr-b-20" v-if="noLoginType">未登录</text>
       <text v-if="!noLoginType" class="fz-15 mr-t-20 header-title fc-000">FIRSTYNAS</text>
       <text v-if="!noLoginType" class="fz-11 mr-t-10 fc-000">WELCOME TO OUR HOTEL</text>
       <div class="fl-bt me-icon-list">
