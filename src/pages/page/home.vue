@@ -134,7 +134,7 @@
       </view>
     </view>
     <!-- 印象圈 -->
-    <view class="circle-content" v-if="bannerList.length">
+    <!-- <view class="circle-content" v-if="bannerList.length">
       <view class="aks-title-box fl-bt">
         <view>
           <text class="fc-333 fz-15 fw-bold mr-l-20">印象圈</text>
@@ -163,7 +163,7 @@
           </swiper-item>
         </swiper>
       </view>
-    </view>
+    </view> -->
     <!-- 问诊专区 -->
     <view class="special-content">
       <view class="aks-title-box fl-al">

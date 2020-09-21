@@ -23,10 +23,17 @@
     <div class="atc-detail-content">
       <Uparse :content="atcObj.contens" />
     </div>
+    <div class="fl-co atc-detail-content">
+      <image mode="widthFix" class="show-img-item" v-for="(item,index) in imgShowList" :key="index" :src="httpImg+item" @tap="prewImgFunc2(index,imgShowList)" />
+    </div>
     <!-- 用户 -->
     <div class="atc-user-content fl-bt">
       <div class="mr-l-30 fl-al">
-        <image class="user-left-img" :src="userImgUrl+atcObj.sui.avatarUrl" @tap="userDetailNext(atcObj.sui.userno)" />
+        <image
+          class="user-left-img"
+          :src="userImgUrl+atcObj.sui.avatarUrl"
+          @tap="userDetailNext(atcObj.sui.userno)"
+        />
         <text class="fz-15 fw-bold">{{atcObj.sui.nickName}}</text>
       </div>
       <div class="follow-btn mr-r-30 fl-cen" v-if="!atcObj.fans.length" @tap="handleClick('gz')">
@@ -91,7 +98,11 @@
     </div>
     <div class="comment-content" v-for="(item,index) in componentList" :key="index">
       <div class="comment-item-box">
-        <image class="header-img mr-l-20" :src="userImgUrl+item.avatarUrl" @tap="userDetailNext(item.userno)" />
+        <image
+          class="header-img mr-l-20"
+          :src="userImgUrl+item.avatarUrl"
+          @tap="userDetailNext(item.userno)"
+        />
         <div class="item-right-coentent mr-r-20">
           <text class="fc-333 fz-15">{{item.nickName}}</text>
           <text class="fz-14 mr-t-10">{{item.componentInfo}}</text>
@@ -205,6 +216,7 @@ export default {
       componentList: [],
       total: 0,
       more: true,
+      imgShowList: [],
     };
   },
   async onLoad(obj) {
@@ -272,6 +284,8 @@ export default {
       });
       this.getCompotentData(data.id);
       this.atcObj = data;
+      if (this.atcObj.imgs) this.imgShowList = this.atcObj.imgs.split(",");
+      console.log(this.imgShowList);
       this.atcObj.contens = data.contens ? data.contens : "没有内容";
       uni.hideLoading();
       this.pageType = true;
@@ -308,7 +322,6 @@ export default {
       uni.previewImage({
         current: index,
         urls: urlArr,
-        longPressActions: {},
       });
     },
     // 发表评论
@@ -748,5 +761,9 @@ export default {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+}
+.show-img-item {
+  margin-top: 10rpx;
+  width: 100%;
 }
 </style>

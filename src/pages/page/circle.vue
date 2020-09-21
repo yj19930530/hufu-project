@@ -218,7 +218,10 @@ export default {
   },
   onShow(obj) {
     if (this.preType) return;
-    this.resetData();
+    this.more = true;
+    this.pageNo = 1;
+    this.pageSize = 10;
+    this.showIndex = -1;
     if (this.optName === "left") {
       this.getCirleLeftList();
     } else {
@@ -377,6 +380,10 @@ export default {
     tabChange(type) {
       if (this.optName === type) return;
       this.optName = type;
+      this.more = true;
+      this.pageNo = 1;
+      this.pageSize = 10;
+      this.showIndex = -1;
       if (this.optName === "left") {
         this.getCirleLeftList();
       } else {
@@ -639,7 +646,7 @@ export default {
 /* 瀑布流布局 */
 .note-center-box {
   column-count: 2;
-  column-gap: 1;
+  /* column-gap: 1; */
 }
 .comment-content-input {
   font-size: 28rpx;

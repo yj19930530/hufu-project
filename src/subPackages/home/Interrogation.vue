@@ -78,15 +78,15 @@ export default {
     return {
       docList: [
         {
-          name: "小凤老师1",
+          name: "小凤老师",
           key: "A",
         },
         {
-          name: "小凤老师2",
+          name: "大风老师",
           key: "B",
         },
         {
-          name: "小凤老师3",
+          name: "花花老师",
           key: "C",
         },
       ],
