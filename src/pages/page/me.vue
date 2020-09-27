@@ -6,12 +6,7 @@
       <div v-if="noLoginType" class="me-top-header" @tap="userDetailNext">
         <open-data class="me-top-header" type="userAvatarUrl"></open-data>
       </div>
-      <image
-        v-else
-        class="me-top-header"
-        :src="userImgUrl+userInfo.avatarUrl"
-        @tap="userDetailNext"
-      />
+      <image v-else class="me-top-header" :src="userImgUrl+userInfo.avatarUrl" @tap="userDetailNext" />
       <text class="fz-12 fc-999 mr-t-20 mr-b-20" v-if="noLoginType">未登录</text>
       <text v-if="!noLoginType" class="fz-15 mr-t-20 header-title fc-000">FIRSTYNAS</text>
       <text v-if="!noLoginType" class="fz-11 mr-t-10 fc-000">WELCOME TO OUR HOTEL</text>
@@ -85,7 +80,8 @@ export default {
       userNo: "",
       avatarUrl: "",
       noLoginType: false,
-      userImgUrl:userImgUrl
+      userImgUrl: userImgUrl,
+      userImg: "",
     };
   },
   onLoad() {
@@ -110,6 +106,12 @@ export default {
         userNo: this.userNo,
       });
       this.userInfo = data;
+      // const headerType = this.userInfo.avatarUrl.indexOf("https");
+      // if (headerType === 0) {
+      //   this.userImg = this.userInfo.avatarUrl;
+      // } else {
+      //   this.userImg = this.userImgUrl + this.userInfo.avatarUrl;
+      // }
       uni.setStorageSync("userInfo", data);
     },
     userDetailNext() {

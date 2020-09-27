@@ -192,9 +192,21 @@ export default {
         userNo: this.userNo,
       });
       this.atcList = this.atcList.concat(data.list);
+	  this.imgPathsReturn(this.atcList)
       this.total = data.total;
       if (this.pageNo * this.pageSize >= this.total) return (this.more = false);
     },
+	imgPathsReturn(list) {
+	  list.forEach((item) => {
+	    if (item.displayimg) {
+	      let arr = item.displayimg.split(",");
+	      item.displayimg = arr[0];
+	    } else {
+	      let arr = item.imgs.split(",");
+	      item.displayimg = arr[0];
+	    }
+	  });
+	},
     // 获取赞过 收藏的文章列表
     async getIsZanAndShouList() {
       const { data } = await this.$api.findCollectionOrDzArticlePage({
@@ -204,6 +216,7 @@ export default {
         queryType: this.checkType === "center" ? "收藏" : "赞过",
       });
       this.atcList = this.atcList.concat(data.list);
+	  this.imgPathsReturn(this.atcList)
       this.total = data.total;
       if (this.pageNo * this.pageSize >= this.total) return (this.more = false);
     },

@@ -3,8 +3,11 @@
     <div class="art-content fl-btw">
       <ArtItem v-for="item in ganAtc" :key="item.id" :itemObj="item" />
     </div>
-    <div class="fl-cen mr-t-30" v-if="!more">
+    <div class="fl-cen mr-t-30" v-if="!more&&ganAtc.length">
       <text class="fz-12 fc-999">没有更多了</text>
+    </div>
+    <div class="fl-cen" style="margin-top:200rpx" v-if="!ganAtc.length">
+      <image class="no-data-img" src="../../static/notdata.png" />
     </div>
   </div>
 </template>

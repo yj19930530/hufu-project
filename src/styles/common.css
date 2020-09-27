@@ -258,6 +258,7 @@
   text-align: center;
 }
 .no-data-img {
+  margin-top: 50rpx;
   width: 340rpx;
   height: 361rpx;
 }

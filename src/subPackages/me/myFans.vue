@@ -41,6 +41,7 @@ export default {
     };
   },
   onShow() {
+    this.resetData();
     this.userNo = uni.getStorageSync('userno');
     this.getFansList();
   },

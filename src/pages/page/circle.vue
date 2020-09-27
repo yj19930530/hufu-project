@@ -133,7 +133,7 @@
                 class="fz-12 fc-5d"
                 v-for="(zRow,zIx) in item.likeUsers"
                 :key="zIx"
-              >{{zRow.nickName}},</text>
+              >{{zRow.nickName}}{{item.likeUsers.length===zIx+1?'':','}}</text>
             </div>
             <div class="communication-content" v-for="(row,x) in item.noteComments" :key="x">
               <div class="communication-item" v-if="row.commentType===0||row.toNo===row.fromNo">
@@ -143,7 +143,7 @@
                 >{{row.fromUserNickName}}：</text>
                 <text class="fz-13">{{row.content}}</text>
               </div>
-              <div class="communication-item mr-t-10" v-else>
+              <div class="communication-item" v-else>
                 <text
                   class="fz-13 fc-5d"
                   @tap.native.stop="commentUser(row)"
@@ -159,8 +159,11 @@
           </div>
         </div>
       </div>
-      <div v-if="!more" class="fl-cen mr-t-20">
+      <div v-if="!more&&circleList.length" class="fl-cen mr-t-20">
         <text class="fc-999 fz-12">没有更多</text>
+      </div>
+      <div class="fl-cen" v-if="!circleList.length">
+        <image class="no-data-img" src="../../static/notdata.png" />
       </div>
     </div>
     <!-- 笔记 -->
@@ -176,8 +179,11 @@
           :numIndex="index"
         />
       </div>
-      <div v-if="!more" class="fl-cen mr-t-20">
+      <div v-if="!more&&circleList.length" class="fl-cen mr-t-20">
         <text class="fc-999 fz-12">没有更多</text>
+      </div>
+      <div class="fl-cen" v-if="!circleList.length">
+        <image class="no-data-img" src="../../static/notdata.png" />
       </div>
     </div>
     <image @tap="writeFunc" class="write-img" src="../../static/circle/write.png" />
@@ -480,7 +486,7 @@ export default {
 <style scoped>
 #circle-box-container {
   padding-bottom: 20rpx;
-  background-color: #f8f8f8;
+  /* background-color: #f8f8f8; */
 }
 .circle-top-content {
   position: relative;

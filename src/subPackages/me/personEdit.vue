@@ -29,7 +29,7 @@
         </div>
       </div>
     </picker>
-    <div class="person-edit-item fl-bt">
+    <!-- <div class="person-edit-item fl-bt">
       <text class="fz-15 mr-l-30">手机号</text>
       <div class="fl-al mr-r-30">
         <input
@@ -40,7 +40,7 @@
         />
         <text class="iconfont iconyoujiantou fz-14 fc-999 mr-l-4"></text>
       </div>
-    </div>
+    </div> -->
     <div class="save-user-info fl-cen" @tap="submitHandle">
       <text class="fz-20 fc-fff fw-bold">保存</text>
     </div>

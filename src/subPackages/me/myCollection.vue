@@ -17,7 +17,7 @@
         ></div>
       </div>
     </div>
-    <div class="collection-content-left">
+    <div class="collection-content-left" v-if="atcList.length">
       <div class="fl-al all-collection">
         <text class="iconfont iconjurassic_danju fz-11 fc-999"></text>
         <text class="fz-12 mr-l-4">全部{{checkType==='left'?'收藏':'赞过'}}({{atcList.length}})</text>
