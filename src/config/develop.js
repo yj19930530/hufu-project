@@ -1,8 +1,8 @@
-let http = '', httpImg = '', circleNoteUrl = '', userImgUrl = '', httpDetailImg = '', uploadImgUrl = "", atcImgUrl = "", url = "https://test.chuyinxiang.net";
+let http = '', httpImg = '', circleNoteUrl = '', userImgUrl = '', httpDetailImg = '', uploadImgUrl = "", atcImgUrl = "", url = "https://abc.chuyinxiang.net/erpManageSystem";
 const env = process.env.NODE_ENV;
 switch (env) {
     case 'test': {
-        http = 'http://47.114.135.205:9966';
+        http = 'https://abc.chuyinxiang.net/erpManageSystem';
         // url = "https://test.chuyinxiang.net";
         // url = "http://192.168.1.72:9966/erpManageSystem";
         break;

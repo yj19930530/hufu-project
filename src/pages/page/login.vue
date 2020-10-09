@@ -5,7 +5,9 @@
       class="mr-t-10 login-btn fc-fff fz-14 fl-cen"
       open-type="getPhoneNumber"
       @getphonenumber="getPhoneNumber"
-    >用户授权获取信息</button>
+    >
+      用户授权获取信息
+    </button>
     <!-- <button
       class="mr-t-10 login-btn fc-fff fz-14 fl-cen"
       open-type="getUserInfo"
@@ -34,28 +36,41 @@ export default {
     };
   },
   onLoad() {
-    this.sessionKey = uni.getStorageSync("sessionKey");
   },
   methods: {
     getPhoneNumber(e) {
+      const _this = this;
       toast.showLoading("登录中");
-      this.$api
-        .addUserInfo({
-          iv: e.detail.iv,
-          sessionKey: this.sessionKey,
-          data: e.detail.encryptedData,
-        })
-        .then((res) => {
-          uni.hideLoading();
-          uni.setStorageSync("token",res.data.token);
-          uni.setStorageSync("userno", res.data.user.userno);
-          uni.switchTab({
-            url: "/pages/page/home",
-          });
-        })
-        .catch(() => {
-          uni.hideLoading();
-        });
+      uni.login({
+        provider: "weixin",
+        success: function (loginRes) {
+          _this.$api
+            .userLoginGetOpenId({
+              code: loginRes.code,
+              type: 2,
+            })
+            .then(async (res) => {
+              uni.setStorageSync("opId", res.data.openid);
+              _this.$api
+                .addUserInfo({
+                  iv: e.detail.iv,
+                  sessionKey: res.data.sessionKey,
+                  data: e.detail.encryptedData,
+                })
+                .then((res) => {
+                  uni.hideLoading();
+                  uni.setStorageSync("token", res.data.token);
+                  uni.setStorageSync("userno", res.data.user.userno);
+                  uni.switchTab({
+                    url: "/pages/page/home",
+                  });
+                })
+                .catch(() => {
+                  uni.hideLoading();
+                });
+            });
+        },
+      });
     },
     // 用户授权登录
     // getUserData(data) {

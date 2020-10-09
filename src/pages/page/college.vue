@@ -108,9 +108,9 @@
 	}
 
 	.article-content {
-		padding-top: 48rpx;
+		padding: 48rpx 20rpx 0 20rpx;
 		margin: auto;
-		width: 710rpx;
+		/* width: 710rpx; */
 	}
 
 	.article-top-title {

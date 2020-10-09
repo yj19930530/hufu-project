@@ -74,13 +74,13 @@ function getData(key) {
 // 上传图片
 function updataImg(num, type) {
     return new Promise((resolve, reject) => {
-        uni.showLoading({
-            title: '上传中'
-        });
         uni.chooseImage({
             count: num,
             sizeType: 'compressed',
             success: res => {
+                uni.showLoading({
+                    title: '上传中'
+                });
                 let imgArr = [];
                 res.tempFilePaths.forEach(item => {
                     uni.uploadFile({
@@ -92,8 +92,8 @@ function updataImg(num, type) {
                             uploadFilePlateType: type
                         },
                         success: (r) => {
-                            let uploadData = JSON.parse(r.data);
                             uni.hideLoading();
+                            let uploadData = JSON.parse(r.data);
                             if (uploadData.state !== 200) {
                                 uni.showToast({
                                     title: uploadData.message,
@@ -131,6 +131,9 @@ function updataImgOnce() {
             count: 1,
             sizeType: 'compressed',
             success: res => {
+                uni.showLoading({
+                    title: '上传中'
+                });
                 let imgArr = [];
                 res.tempFilePaths.forEach(item => {
                     uni.uploadFile({

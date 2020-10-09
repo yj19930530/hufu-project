@@ -506,7 +506,7 @@ export default {
 .circle-top-title {
   width: 482rpx;
   height: 130rpx;
-  border: 1rpx solid #ffffff;
+  border: 1px solid #ffffff;
 }
 .yuandian {
   margin: 0 26rpx;
@@ -571,7 +571,7 @@ export default {
   padding-bottom: 20rpx;
   display: flex;
   justify-content: space-between;
-  border-bottom: 1rpx solid #f8f8f8;
+  border-bottom: 1px solid #f8f8f8;
 }
 .item-right-coentent {
   display: flex;

@@ -246,7 +246,7 @@ export default {
   margin-top: -10rpx;
 }
 .score-item-opt {
-  border-bottom: 1rpx solid #cccccc;
+  border-bottom: 1px solid #cccccc;
 }
 .score-opt-title {
   display: flex;

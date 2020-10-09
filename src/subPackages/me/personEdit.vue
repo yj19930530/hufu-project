@@ -4,7 +4,7 @@
     <div class="person-edit-item fl-bt" @tap="uploadImgFunc">
       <text class="fz-15 mr-l-30">修改头像</text>
       <div class="fl-al mr-r-30">
-        <image class="edit-item-img" :src="userImgUrl+form.avatarUrl" />
+        <image mode="aspectFill" class="edit-item-img" :src="userImgUrl+form.avatarUrl" />
         <text class="iconfont iconyoujiantou fz-14 fc-999 mr-l-4"></text>
       </div>
     </div>
@@ -130,7 +130,7 @@ export default {
   width: 100%;
   height: 108rpx;
   background-color: #ffffff;
-  border-bottom: 1rpx solid #f8f8f8;
+  border-bottom: 1px solid #f8f8f8;
 }
 .edit-item-img {
   width: 80rpx;

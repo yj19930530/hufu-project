@@ -63,7 +63,7 @@ export default {
   margin-bottom: 16rpx;
   width: 346rpx;
   height: 488rpx;
-  border: 1rpx solid #626262;
+  border: 1px solid #626262;
   border-radius: 10rpx;
   background-color: #ffffff;
 }

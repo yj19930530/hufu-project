@@ -153,7 +153,7 @@ export default {
 .age-list-choose {
   width: 162rpx;
   height: 44rpx;
-  border: 1rpx solid #999999;
+  border: 1px solid #999999;
 }
 .photograph-img-choose {
   width: 370rpx;

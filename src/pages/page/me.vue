@@ -6,7 +6,7 @@
       <div v-if="noLoginType" class="me-top-header" @tap="userDetailNext">
         <open-data class="me-top-header" type="userAvatarUrl"></open-data>
       </div>
-      <image v-else class="me-top-header" :src="userImgUrl+userInfo.avatarUrl" @tap="userDetailNext" />
+      <image v-else class="me-top-header" mode="aspectFill" :src="userImgUrl+userInfo.avatarUrl" @tap="userDetailNext" />
       <text class="fz-12 fc-999 mr-t-20 mr-b-20" v-if="noLoginType">未登录</text>
       <text v-if="!noLoginType" class="fz-15 mr-t-20 header-title fc-000">FIRSTYNAS</text>
       <text v-if="!noLoginType" class="fz-11 mr-t-10 fc-000">WELCOME TO OUR HOTEL</text>
@@ -221,7 +221,7 @@ export default {
   width: 72rpx;
   height: 72rpx;
   border-radius: 50%;
-  border: 1rpx solid #7d7d7d;
+  border: 1px solid #7d7d7d;
 }
 .me-top-icon {
   width: 41rpx;
@@ -276,7 +276,7 @@ export default {
 .servic-shar-btn {
   width: 80rpx;
   height: 40rpx;
-  border: 1rpx solid #626262;
+  border: 1px solid #626262;
   border-radius: 20rpx 20rpx;
 }
 .setting-img {

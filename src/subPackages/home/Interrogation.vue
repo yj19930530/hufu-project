@@ -17,7 +17,7 @@
         <swiper-item class="swiper-item" @tap="checkIndex(index)">
           <div class="slide-image" :class="[swiperIndex === index ? 'active' : '']">
             <div class="fl-co">
-              <image class="doc-header-img" src="../../static/circle/back-img.png" />
+              <image class="doc-header-img" src="../../static/home/yisheng.png" />
               <text class="fz-13 mr-t-4">{{item.name}}</text>
               <text class="fz-10 fc-999 mr-t-6">高级专家护肤导师</text>
               <text class="fz-10 fc-999 mr-t-6">特聘专业护肤师</text>

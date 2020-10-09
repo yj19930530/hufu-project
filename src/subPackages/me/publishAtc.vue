@@ -228,7 +228,7 @@ export default {
   width: 100%;
   height: 90rpx;
   background-color: #ffffff;
-  border: 1rpx solid #999999;
+  border: 1px solid #999999;
 }
 .text-letter-spc {
   letter-spacing: 20rpx;
@@ -236,7 +236,7 @@ export default {
 .write-title-box {
   width: 606rpx;
   height: 120rpx;
-  border-bottom: 1rpx solid #f5f5f5;
+  border-bottom: 1px solid #f5f5f5;
 }
 .title-input-style {
   width: 100%;

@@ -11,7 +11,7 @@
         />
         <div class="fl-bt mr-t-20">
           <text class="fz-14">上传多张照片更容易上热搜榜哦</text>
-          <text class="fc-999 fz-14">0/9</text>
+          <text class="fc-999 fz-14">{{imgList.length}}/9</text>
         </div>
         <!-- 上傳圖片 -->
         <div class="mr-t-30 fl-btc">
@@ -26,7 +26,7 @@
           />
           <div
             v-if="imgList.length!==9"
-            class="add-img-btn fl-cen mr-r-50 mr-b-20"
+            class="add-img-btn fl-cen mr-b-20"
             @tap="uploadImgComment"
           >
             <text class="fz-20">+</text>
@@ -174,19 +174,19 @@ export default {
 .write-center-box {
   margin: auto;
   padding-top: 64rpx;
-  width: 536rpx;
+  width: 540rpx;
 }
 .textarea-content {
   padding: 10rpx;
   width: 516rpx;
   height: 206rpx;
   border-radius: 10rpx;
-  border: 1rpx solid #979797;
+  border: 1px solid #979797;
 }
 .add-img-btn {
   width: 128rpx;
   height: 128rpx;
-  border: 1rpx solid #999999;
+  border: 1px solid #999999;
 }
 .img-updata-item {
   margin-right: 50rpx;
@@ -228,7 +228,7 @@ export default {
   width: 100%;
   height: 90rpx;
   background-color: #ffffff;
-  border: 1rpx solid #999999;
+  border: 1px solid #999999;
 }
 .text-letter-spc {
   letter-spacing: 20rpx;

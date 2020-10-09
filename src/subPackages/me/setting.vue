@@ -30,6 +30,7 @@ export default {
       });
     },
     loginOut() {
+      const _this = this;
       uni.showModal({
         title: "提示",
         content: "是否退出账号",
@@ -60,7 +61,7 @@ page {
 .setting-item {
   width: 100%;
   height: 108rpx;
-  border-bottom: 1rpx solid #f8f8f8;
+  border-bottom: 1px solid #f8f8f8;
   background-color: #ffffff;
 }
 </style>
