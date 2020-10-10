@@ -206,7 +206,11 @@
           indicator-active-color="#626262"
         >
           <swiper-item v-for="(item, index) in bannerList" :key="index">
-            <image mode="aspectFill" class="circle-show-img" :src="uploadImgUrl+item.path" />
+            <image
+              mode="aspectFill"
+              class="circle-show-img"
+              :src="uploadImgUrl + item.path"
+            />
           </swiper-item>
         </swiper>
       </view>
@@ -435,7 +439,7 @@ export default {
       atcImgUrl: atcImgUrl,
       uploadImgUrl: uploadImgUrl,
       userImgUrl: userImgUrl,
-      circleNoteUrl:circleNoteUrl,
+      circleNoteUrl: circleNoteUrl,
       userNo: "",
     };
   },
@@ -486,10 +490,13 @@ export default {
       if (this.ganVideo.displayimg) {
         let arr = this.ganVideo[0].displayimg.split(",");
         this.ganVideo[0].imgShow = arr[0];
-      }
-      {
-        let arr = this.ganVideo[0].preview.split(",");
-        this.ganVideo[0].imgShow = arr[0];
+      } else {
+        try {
+          let arr = this.ganVideo[0].preview.split(",");
+          this.ganVideo[0].imgShow = arr[0];
+        } catch {
+          console.log('err')
+        }
       }
     },
     // 跳转商城

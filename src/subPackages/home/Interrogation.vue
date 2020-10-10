@@ -23,7 +23,7 @@
               <image
                 class="doc-header-img"
                 mode="aspectFill"
-                :src="userImgUrl+item.avatarUrl"
+                :src="userImgUrl + item.avatarUrl"
               />
               <text class="fz-13 mr-t-4">{{ item.nickName }}</text>
               <text class="fz-10 fc-999 mr-t-6">高级专家护肤导师</text>
@@ -87,33 +87,18 @@
   </div>
 </template>
 <script>
-const { atcImgUrl,userImgUrl } = require("../../config/develop");
+const { atcImgUrl, userImgUrl } = require("../../config/develop");
 import WaterItem from "../../components/waterItem/water";
 export default {
   data() {
     return {
-      docList: [
-        {
-          name: "小凤老师",
-          key: "A",
-        },
-        {
-          name: "大风老师",
-          key: "B",
-        },
-        {
-          name: "花花老师",
-          key: "C",
-        },
-      ],
-      infoIndex: "D",
       swiperIndex: 0,
       atcList: [],
       allList: [],
       atcImgUrl: atcImgUrl,
       userImgUrl: userImgUrl,
       labelText: "",
-      askData:[]
+      askData: [],
     };
   },
   onLoad(obj) {
@@ -164,11 +149,6 @@ export default {
     },
     swiperChange(e) {
       this.swiperIndex = e.detail.current;
-    },
-    // scroll(e) {
-    // },
-    infoIndexChange(index) {
-      this.infoIndex = this.docList[index].key;
     },
     optNavigatorPath(path) {
       switch (path) {
