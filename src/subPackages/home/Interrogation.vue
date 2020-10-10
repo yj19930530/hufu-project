@@ -13,15 +13,28 @@
       @change="swiperChange"
       :circular="true"
     >
-      <block v-for="(item,index) in docList" :key="index">
+      <block v-for="(item, index) in askData" :key="index">
         <swiper-item class="swiper-item" @tap="checkIndex(index)">
-          <div class="slide-image" :class="[swiperIndex === index ? 'active' : '']">
+          <div
+            class="slide-image"
+            :class="[swiperIndex === index ? 'active' : '']"
+          >
             <div class="fl-co">
-              <image class="doc-header-img" src="../../static/home/yisheng.png" />
-              <text class="fz-13 mr-t-4">{{item.name}}</text>
+              <image
+                class="doc-header-img"
+                mode="aspectFill"
+                :src="userImgUrl+item.avatarUrl"
+              />
+              <text class="fz-13 mr-t-4">{{ item.nickName }}</text>
               <text class="fz-10 fc-999 mr-t-6">高级专家护肤导师</text>
               <text class="fz-10 fc-999 mr-t-6">特聘专业护肤师</text>
-              <button class="handle-btn fz-11 fl-cen" open-type="contact" type="primary">立即咨询</button>
+              <button
+                class="handle-btn fz-11 fl-cen"
+                open-type="contact"
+                type="primary"
+              >
+                立即咨询
+              </button>
             </div>
           </div>
         </swiper-item>
@@ -43,14 +56,17 @@
           :key="item.id"
           @tap="lookDetail(item)"
         >
-          <image class="atc-left-img" :src="atcImgUrl+item.displayimg" />
+          <image class="atc-left-img" :src="atcImgUrl + item.displayimg" />
           <div class="atc-right-content">
             <div class="text-lang-dian2 text-lang-height mr-t-16">
-              <text class="fz-15">{{item.title}}</text>
+              <text class="fz-15">{{ item.title }}</text>
             </div>
             <div class="liulan-box">
-              <image class="liulan-icon mr-r-10" src="../../static/college/liulan.png" />
-              <text class="fz-12 fc-999">{{item.browse}}</text>
+              <image
+                class="liulan-icon mr-r-10"
+                src="../../static/college/liulan.png"
+              />
+              <text class="fz-12 fc-999">{{ item.browse }}</text>
             </div>
             <!-- <div class="mr-t-10 text-lang-dian2">
               <text class="fz-12 fc-999">{{item.contens}}</text>
@@ -71,7 +87,7 @@
   </div>
 </template>
 <script>
-const { atcImgUrl } = require("../../config/develop");
+const { atcImgUrl,userImgUrl } = require("../../config/develop");
 import WaterItem from "../../components/waterItem/water";
 export default {
   data() {
@@ -95,18 +111,29 @@ export default {
       atcList: [],
       allList: [],
       atcImgUrl: atcImgUrl,
+      userImgUrl: userImgUrl,
       labelText: "",
+      askData:[]
     };
   },
   onLoad(obj) {
     this.labelText = obj.text;
     this.aboutAtc();
     this.getTableList();
+    this.askList();
   },
   components: {
     WaterItem,
   },
   methods: {
+    async askList() {
+      const { data } = await this.$api.getAskList({
+        pageNo: 1,
+        pageSize: 999,
+        platform: 3,
+      });
+      this.askData = data.list;
+    },
     lookDetail(row) {
       uni.navigateTo({
         url: `/subPackages/college/atcDetail?id=${row.id}`,

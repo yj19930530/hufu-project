@@ -82,7 +82,7 @@
       </div>
       <div class="comment-content" v-for="(item,index) in circleList" :key="index">
         <div class="comment-item-box">
-          <image class="header-img mr-l-20" :src="userImgUrl+item.createUser.avatarUrl" />
+          <image class="header-img mr-l-20" mode="aspectFill" :src="userImgUrl+item.createUser.avatarUrl" />
           <div class="item-right-coentent mr-r-20">
             <text class="fc-5d fz-15">{{item.createUser.nickName}}</text>
             <text class="fz-14 mr-t-10">{{item.content}}</text>

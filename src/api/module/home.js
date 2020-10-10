@@ -13,6 +13,8 @@ const getClassList = (data) => postRequest('/smallprogramMain/handle_getTypes', 
 const pullBannerAd = (data) => postRequest('/sa/index/front/pullBannerAd', data, 'no','no');
 // 清空消息数量
 const readAll = (data) => postRequest('/sa/index/front/readAll', data, 'no','no');
+// 获取问诊用户列表
+const getAskList = (data) => postRequest('/sa/index/front/findConsumerPhonePage', data, 'no','no');
 module.exports = {
     getMessageCount,
     getIconList,
@@ -20,5 +22,6 @@ module.exports = {
     getAboutAtc,
     getClassList,
     pullBannerAd,
-    readAll
+    readAll,
+    getAskList
 }

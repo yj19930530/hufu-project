@@ -1,19 +1,28 @@
 <template>
   <!--pages/range/range.wxml-->
-  <view :style="[{marginTop:navHeight+'px'}]">
+  <view :style="[{ marginTop: navHeight + 'px' }]">
     <!-- 头部导航 -->
     <Nav class="nav-position" />
     <!-- 搜索 -->
     <view class="top-search-opt">
       <view class="fl-bt">
-        <image @tap="openWecat" class="left-img-btn mr-l-20" src="../../static/home/liwu.png" />
+        <image
+          @tap="openWecat"
+          class="left-img-btn mr-l-20"
+          src="../../static/home/liwu.png"
+        />
         <view class="fl-al search-content" @tap="optNavigatorPath('ss')">
           <image class="search-style mr-l-30" src="../../static/home/ss.png" />
           <text class="fz-12 fc-89 mr-l-10">请输入文章名称</text>
         </view>
         <div class="message-content fl-al" @tap="optNavigatorPath('msg')">
-          <view class="message-number fl-cen fz-10" v-if="msgNumber>0">{{msgNumber}}</view>
-          <image class="right-message-btn mr-r-20" src="../../static/home/xinxi.png" />
+          <view class="message-number fl-cen fz-10" v-if="msgNumber > 0">{{
+            msgNumber
+          }}</view>
+          <image
+            class="right-message-btn mr-r-20"
+            src="../../static/home/xinxi.png"
+          />
         </div>
       </view>
     </view>
@@ -23,9 +32,14 @@
         <image class="opt-item" src="../../static/home/icon2.png" />
         <text class="mr-t-10 fz-11">魔镜测试</text>
       </view>
-      <view class="fl-co" v-for="item in iconList" :key="item.id" @tap="optNavigatorPath('water',item.id)">
-        <image class="opt-item" :src="uploadImgUrl+item.icoPath" />
-        <text class="mr-t-10 fz-11">{{item.infoName}}</text>
+      <view
+        class="fl-co"
+        v-for="item in iconList"
+        :key="item.id"
+        @tap="optNavigatorPath('water', item.id)"
+      >
+        <image class="opt-item" :src="uploadImgUrl + item.icoPath" />
+        <text class="mr-t-10 fz-11">{{ item.infoName }}</text>
       </view>
     </view>
     <!-- banner -->
@@ -36,7 +50,9 @@
           <view class="kuang-content">
             <view class="kuang-content-text fl-fc">
               <text class="fz-15 fc-666">初印象私人定制</text>
-              <text class="fz-15 fw-400 fc-333 mr-t-4">一对一精细化护肤咨询</text>
+              <text class="fz-15 fw-400 fc-333 mr-t-4"
+                >一对一精细化护肤咨询</text
+              >
               <text class="fz-15 fc-666 mr-t-4">解决各种肌肤问题</text>
             </view>
           </view>
@@ -52,53 +68,86 @@
       <view class="process-title fl-co">
         <text class="fc-666 fz-14 mr-t-30">初印象护肤</text>
         <text class="fc-333 fw-400 fz-18 mr-t-4">一对一护肤指导流程</text>
-        <text class="fc-666 fz-6 mr-t-4">ONE TO ONE SKIN CARE GUIDANCE PROCESS</text>
+        <text class="fc-666 fz-6 mr-t-4"
+          >ONE TO ONE SKIN CARE GUIDANCE PROCESS</text
+        >
         <view class="fl-cen liji-zx mr-t-10">
           <image class="doc-img" src="../../static/home/dctor.png" />
           <text class="fz-15 fc-fff">立即咨询</text>
-          <button type="primary" class="concat-visibiliti-btn" open-type="contact"></button>
+          <button
+            type="primary"
+            class="concat-visibiliti-btn"
+            open-type="contact"
+          ></button>
         </view>
       </view>
       <view class="mr-t-30">
         <view class="fl-bt">
           <view class="process-item mr-l-20">
             <view class="process-number fz-10 fc-fff mr-t-10 fl-cen">01</view>
-            <view class="fz-11 fc-666 rigth-pro-text mr-t-10">专业的护肤咨询 团队，独特的一 对一顾问式服务</view>
+            <view class="fz-11 fc-666 rigth-pro-text mr-t-10"
+              >专业的护肤咨询 团队，独特的一 对一顾问式服务</view
+            >
           </view>
           <image class="left-jiantou" src="../../static/home/left.png" />
           <view class="process-item">
             <view class="process-number fz-10 fc-fff mr-t-10 fl-cen">02</view>
-            <view class="fz-11 fc-666 rigth-pro-text mr-t-10">根据不同得肌肤 状态与问题，进 行精准皮肤判断</view>
+            <view class="fz-11 fc-666 rigth-pro-text mr-t-10"
+              >根据不同得肌肤 状态与问题，进 行精准皮肤判断</view
+            >
           </view>
           <image class="left-jiantou" src="../../static/home/left.png" />
           <view class="process-item mr-r-20">
             <view class="process-number fz-10 fc-fff mr-t-10 fl-cen">03</view>
-            <view class="fz-11 fc-666 rigth-pro-text mr-t-10">综合用户肤质、年龄并结合护肤习惯等进行数据分析</view>
+            <view class="fz-11 fc-666 rigth-pro-text mr-t-10"
+              >综合用户肤质、年龄并结合护肤习惯等进行数据分析</view
+            >
           </view>
         </view>
         <view class="fl-bt mr-t-16">
           <view class="process-item2 mr-l-20 visi-none"></view>
-          <image class="left-jiantou visi-none" src="../../static/home/left.png" />
+          <image
+            class="left-jiantou visi-none"
+            src="../../static/home/left.png"
+          />
           <view class="process-item2 visi-none"></view>
-          <image class="left-jiantou visi-none" src="../../static/home/left.png" />
+          <image
+            class="left-jiantou visi-none"
+            src="../../static/home/left.png"
+          />
           <view class="process-item2 mr-r-20">
-            <image class="left-jiantou xuanzhuan" src="../../static/home/left.png" />
+            <image
+              class="left-jiantou xuanzhuan"
+              src="../../static/home/left.png"
+            />
           </view>
         </view>
         <view class="fl-bt">
           <view class="process-item mr-l-20">
             <view class="process-number fz-10 fc-fff mr-t-10 fl-cen">06</view>
-            <view class="fz-11 fc-666 rigth-pro-text mr-t-10">根据回访反馈 及时调整方案，达 到效果最优化</view>
+            <view class="fz-11 fc-666 rigth-pro-text mr-t-10"
+              >根据回访反馈 及时调整方案，达 到效果最优化</view
+            >
           </view>
-          <image class="left-jiantou xuanzhuan2" src="../../static/home/left.png" />
+          <image
+            class="left-jiantou xuanzhuan2"
+            src="../../static/home/left.png"
+          />
           <view class="process-item">
             <view class="process-number fz-10 fc-fff mr-t-10 fl-cen">05</view>
-            <view class="fz-11 fc-666 rigth-pro-text mr-t-10">甄选天然的护肤 原料，一种肌肤问 题一个解决方案</view>
+            <view class="fz-11 fc-666 rigth-pro-text mr-t-10"
+              >甄选天然的护肤 原料，一种肌肤问 题一个解决方案</view
+            >
           </view>
-          <image class="left-jiantou xuanzhuan2" src="../../static/home/left.png" />
+          <image
+            class="left-jiantou xuanzhuan2"
+            src="../../static/home/left.png"
+          />
           <view class="process-item mr-r-20">
             <view class="process-number fz-10 fc-fff mr-t-10 fl-cen">04</view>
-            <view class="fz-11 fc-666 rigth-pro-text mr-t-10">为每一位女性量 肤定制，提供个性化 护肤管理方案</view>
+            <view class="fz-11 fc-666 rigth-pro-text mr-t-10"
+              >为每一位女性量 肤定制，提供个性化 护肤管理方案</view
+            >
           </view>
         </view>
       </view>
@@ -110,7 +159,11 @@
       </view>
       <view class="fl-bt mr-t-20">
         <view class="brand-item-content">
-          <button type="primary" class="concat-visibiliti-btn" open-type="contact"></button>
+          <button
+            type="primary"
+            class="concat-visibiliti-btn"
+            open-type="contact"
+          ></button>
           <image class="brand-item-img" src="../../static/home/pinpai1.png" />
           <view class="fl-co">
             <text class="fz-14 mr-t-6">一对一服务>></text>
@@ -134,7 +187,7 @@
       </view>
     </view>
     <!-- 印象圈 -->
-    <!-- <view class="circle-content" v-if="bannerList.length">
+    <view class="circle-content" v-if="bannerList.length">
       <view class="aks-title-box fl-bt">
         <view>
           <text class="fc-333 fz-15 fw-bold mr-l-20">印象圈</text>
@@ -144,7 +197,7 @@
       </view>
       <view class="swiper-content mr-t-10">
         <swiper
-          style="height:100%;"
+          style="height: 100%"
           class="swiper"
           :indicator-dots="indicatorDots"
           :autoplay="autoplay"
@@ -152,18 +205,12 @@
           :duration="duration"
           indicator-active-color="#626262"
         >
-          <swiper-item>
-            <image class="circle-show-img" src="../../static/home/9.png" />
-          </swiper-item>
-          <swiper-item>
-            <image class="circle-show-img" src="../../static/home/9.png" />
-          </swiper-item>
-          <swiper-item>
-            <image class="circle-show-img" src="../../static/home/9.png" />
+          <swiper-item v-for="(item, index) in bannerList" :key="index">
+            <image mode="aspectFill" class="circle-show-img" :src="uploadImgUrl+item.path" />
           </swiper-item>
         </swiper>
       </view>
-    </view> -->
+    </view>
     <!-- 问诊专区 -->
     <view class="special-content">
       <view class="aks-title-box fl-al">
@@ -171,7 +218,7 @@
       </view>
       <view
         class="special-item-box mr-t-20"
-        @tap="optNavigatorPath('ask','祛痘咨询专区')"
+        @tap="optNavigatorPath('ask', '祛痘咨询专区')"
       >
         <view class="fl-bt">
           <view class="fl-fc mr-l-30">
@@ -180,20 +227,27 @@
             <text class="fz-14 fc-333 mr-t-20">量肤修护 袪痘抗痘</text>
           </view>
           <view class="fl-al mr-r-20">
-            <image class="yisheng-img mr-l-50" src="../../static/home/yisheng.png" />
+            <image
+              class="yisheng-img mr-l-50"
+              src="../../static/home/yisheng.png"
+            />
             <view class="next-page fl-cen">
               <text class="fz-12 fc-fff">立即前往></text>
             </view>
           </view>
         </view>
         <view class="special-item-bottom fl-co">
-          <view class="fz-14 fc-333 bottom-spe-style">·你的下巴为何反复长痘？</view>
-          <view class="fz-14 fc-333 bottom-spe-style">·脸部不同部位长痘是怎么回事？</view>
+          <view class="fz-14 fc-333 bottom-spe-style"
+            >·你的下巴为何反复长痘？</view
+          >
+          <view class="fz-14 fc-333 bottom-spe-style"
+            >·脸部不同部位长痘是怎么回事？</view
+          >
         </view>
       </view>
       <view
         class="special-item-box mr-t-20"
-        @tap="optNavigatorPath('ask','淡斑咨询专区')"
+        @tap="optNavigatorPath('ask', '淡斑咨询专区')"
       >
         <view class="fl-bt">
           <view class="fl-fc mr-l-30">
@@ -202,20 +256,27 @@
             <text class="fz-14 fc-333 mr-t-20">淡化现有斑 预防未来斑</text>
           </view>
           <view class="fl-al mr-r-20">
-            <image class="yisheng-img mr-l-50" src="../../static/home/yisheng.png" />
+            <image
+              class="yisheng-img mr-l-50"
+              src="../../static/home/yisheng.png"
+            />
             <view class="next-page fl-cen">
               <text class="fz-12 fc-fff">立即前往></text>
             </view>
           </view>
         </view>
         <view class="special-item-bottom fl-co">
-          <view class="fz-14 fc-333 bottom-spe-style">·长斑是什么原因引起的？</view>
-          <view class="fz-14 fc-333 bottom-spe-style">·色斑雀斑等斑点应该怎么淡化去除？</view>
+          <view class="fz-14 fc-333 bottom-spe-style"
+            >·长斑是什么原因引起的？</view
+          >
+          <view class="fz-14 fc-333 bottom-spe-style"
+            >·色斑雀斑等斑点应该怎么淡化去除？</view
+          >
         </view>
       </view>
       <view
         class="special-item-box mr-t-20"
-        @tap="optNavigatorPath('ask','美白咨询专区')"
+        @tap="optNavigatorPath('ask', '美白咨询专区')"
       >
         <view class="fl-bt">
           <view class="fl-fc mr-l-30">
@@ -224,20 +285,27 @@
             <text class="fz-14 fc-333 mr-t-20">精准定位 创新美白概念</text>
           </view>
           <view class="fl-al mr-r-20">
-            <image class="yisheng-img mr-l-50" src="../../static/home/yisheng.png" />
+            <image
+              class="yisheng-img mr-l-50"
+              src="../../static/home/yisheng.png"
+            />
             <view class="next-page fl-cen">
               <text class="fz-12 fc-fff">立即前往></text>
             </view>
           </view>
         </view>
         <view class="special-item-bottom fl-co">
-          <view class="fz-14 fc-333 bottom-spe-style">·夏天晒黑？教你一招美白肌肤。</view>
-          <view class="fz-14 fc-333 bottom-spe-style">·肌肤暗黄？教你告别“小黄人”。</view>
+          <view class="fz-14 fc-333 bottom-spe-style"
+            >·夏天晒黑？教你一招美白肌肤。</view
+          >
+          <view class="fz-14 fc-333 bottom-spe-style"
+            >·肌肤暗黄？教你告别“小黄人”。</view
+          >
         </view>
       </view>
       <view
         class="special-item-box mr-t-20"
-        @tap="optNavigatorPath('ask','抗皱咨询专区')"
+        @tap="optNavigatorPath('ask', '抗皱咨询专区')"
       >
         <view class="fl-bt">
           <view class="fl-fc mr-l-30">
@@ -246,7 +314,10 @@
             <text class="fz-14 fc-333 mr-t-20">轻松护理肌肤 扫除岁月痕迹</text>
           </view>
           <view class="fl-al mr-r-20">
-            <image class="yisheng-img mr-l-50" src="../../static/home/yisheng.png" />
+            <image
+              class="yisheng-img mr-l-50"
+              src="../../static/home/yisheng.png"
+            />
             <view class="next-page fl-cen">
               <text class="fz-12 fc-fff">立即前往></text>
             </view>
@@ -254,12 +325,14 @@
         </view>
         <view class="special-item-bottom fl-co">
           <view class="fz-14 fc-333 bottom-spe-style">·皱纹是如何生长的？</view>
-          <view class="fz-14 fc-333 bottom-spe-style">·皱纹越来越多，你怕了吗？</view>
+          <view class="fz-14 fc-333 bottom-spe-style"
+            >·皱纹越来越多，你怕了吗？</view
+          >
         </view>
       </view>
       <view
         class="special-item-box mr-t-20"
-        @tap="optNavigatorPath('ask','修敏咨询专区')"
+        @tap="optNavigatorPath('ask', '修敏咨询专区')"
       >
         <view class="fl-bt">
           <view class="fl-fc mr-l-30">
@@ -268,35 +341,59 @@
             <text class="fz-14 fc-333 mr-t-20">修复新定义 拒绝敏感肌</text>
           </view>
           <view class="fl-al mr-r-20">
-            <image class="yisheng-img mr-l-50" src="../../static/home/yisheng.png" />
+            <image
+              class="yisheng-img mr-l-50"
+              src="../../static/home/yisheng.png"
+            />
             <view class="next-page fl-cen">
               <text class="fz-12 fc-fff">立即前往></text>
             </view>
           </view>
         </view>
         <view class="special-item-bottom fl-co">
-          <view class="fz-14 fc-333 bottom-spe-style">·皮肤经常红痒干痛怎么办？</view>
-          <view class="fz-14 fc-333 bottom-spe-style">·如何觉醒肌肤原力，无惧敏感肌？</view>
+          <view class="fz-14 fc-333 bottom-spe-style"
+            >·皮肤经常红痒干痛怎么办？</view
+          >
+          <view class="fz-14 fc-333 bottom-spe-style"
+            >·如何觉醒肌肤原力，无惧敏感肌？</view
+          >
         </view>
       </view>
     </view>
     <!-- 用户展览 -->
-    <view class="user-case" v-for="(item,index) in ganVideo" :key="index" @tap="lookDetail(item)">
-      <view class="fl-bt" style="height:104rpx;padding:0 20rpx">
+    <view
+      class="user-case"
+      v-for="(item, index) in ganVideo"
+      :key="index"
+      @tap="lookDetail(item)"
+    >
+      <view class="fl-bt" style="height: 104rpx; padding: 0 20rpx">
         <view class="fl-al" @tap.native.stop="userDetailNext(item)">
-          <image class="img-header" :src="userImgUrl+item.sui.avatarUrl" />
-          <text class="fz-15 mr-l-20 fc-000">{{item.sui.nickName}}</text>
+          <image class="img-header" :src="userImgUrl + item.sui.avatarUrl" />
+          <text class="fz-15 mr-l-20 fc-000">{{ item.sui.nickName }}</text>
         </view>
-        <view class="follow-btn fl-cen" v-if="!item.isGz" @tap.native.stop="gzUserHandle(item)">
+        <view
+          class="follow-btn fl-cen"
+          v-if="!item.isGz"
+          @tap.native.stop="gzUserHandle(item)"
+        >
           <text class="fz-12 fc-fff">关注</text>
         </view>
-        <view class="follow-btn fl-cen" v-else @tap.native.stop="closeGzHandle(item)">
+        <view
+          class="follow-btn fl-cen"
+          v-else
+          @tap.native.stop="closeGzHandle(item)"
+        >
           <text class="fz-12 fc-fff">已关注</text>
         </view>
       </view>
-      <div style="height:20rpx;background-color: #ffffff;"></div>
-      <view class="video-style-box" v-if="!playerType" @tap.native.stop="playerVideo">
-        <image class="video-style-img" :src="atcImgUrl+item.imgShow" />
+      <div style="height: 20rpx; background-color: #ffffff"></div>
+      <view
+        class="video-style-box"
+        v-if="!playerType"
+        @tap.native.stop="playerVideo"
+      >
+        <image class="video-style-img" :src="atcImgUrl + item.imgShow" />
         <image class="video-player-btn" src="../../static/home/player.png" />
       </view>
       <video
@@ -304,20 +401,23 @@
         id="myVideo"
         class="video-style"
         controls
-        :src="atcImgUrl+item.video"
+        :src="atcImgUrl + item.video"
         @fullscreenchange="videoChange"
       ></video>
       <view class="describe-text fl-al">
-        <text
-          class="fz-15 fw-bold fc-000"
-        >{{item.title}}</text>
+        <text class="fz-15 fw-bold fc-000">{{ item.title }}</text>
       </view>
     </view>
   </view>
 </template>
 <script>
 const { toast } = require("../../utils/index");
-const {atcImgUrl,uploadImgUrl,userImgUrl} = require('../../config/develop')
+const {
+  atcImgUrl,
+  uploadImgUrl,
+  userImgUrl,
+  circleNoteUrl,
+} = require("../../config/develop");
 import Nav from "../../components/navbar/nav";
 export default {
   data() {
@@ -330,12 +430,13 @@ export default {
       duration: 500,
       msgNumber: 0, // 消息数量
       iconList: [], // icon list
-      bannerList:[],
-      ganVideo:[],
-      atcImgUrl:atcImgUrl,
-      uploadImgUrl:uploadImgUrl,
-      userImgUrl:userImgUrl,
-      userNo:'',
+      bannerList: [],
+      ganVideo: [],
+      atcImgUrl: atcImgUrl,
+      uploadImgUrl: uploadImgUrl,
+      userImgUrl: userImgUrl,
+      circleNoteUrl:circleNoteUrl,
+      userNo: "",
     };
   },
   components: {
@@ -372,40 +473,41 @@ export default {
         url: `/subPackages/college/atcDetail?id=${row.id}`,
       });
     },
-    async getVideo(){
+    async getVideo() {
       const { data } = await this.$api.getAboutAtc({
         pageNo: 1,
         pageSize: 1,
         // index: 2,
         label: "首页单条文章",
-        currentUserNo: this.userNo
+        currentUserNo: this.userNo,
         // currentNo: this.userNo
       });
       this.ganVideo = data.list;
-      if(this.ganVideo.displayimg){
-        let arr = this.ganVideo[0].displayimg.split(',')
-        this.ganVideo[0].imgShow = arr[0]
-      }{
-        let arr = this.ganVideo[0].preview.split(',')
-        this.ganVideo[0].imgShow = arr[0]
+      if (this.ganVideo.displayimg) {
+        let arr = this.ganVideo[0].displayimg.split(",");
+        this.ganVideo[0].imgShow = arr[0];
+      }
+      {
+        let arr = this.ganVideo[0].preview.split(",");
+        this.ganVideo[0].imgShow = arr[0];
       }
     },
     // 跳转商城
-    openWecat(){
-       uni.navigateToMiniProgram({
+    openWecat() {
+      uni.navigateToMiniProgram({
         appId: "wxc55777954099b5a6",
-        extraData:{
-          userno:this.userNo,
-          usernoType:true
+        extraData: {
+          userno: this.userNo,
+          usernoType: true,
         },
       });
     },
-    getMoreNote(){
+    getMoreNote() {
       uni.switchTab({
-        url: '/pages/page/circle'
+        url: "/pages/page/circle",
       });
     },
-    async gzUserHandle(row){
+    async gzUserHandle(row) {
       if (!this.userNo) {
         uni.reLaunch({
           url: "/pages/page/login",
@@ -419,7 +521,7 @@ export default {
       });
       this.getVideo();
     },
-    async closeGzHandle(row){
+    async closeGzHandle(row) {
       if (!this.userNo) {
         uni.reLaunch({
           url: "/pages/page/login",
@@ -432,9 +534,9 @@ export default {
       });
       this.getVideo();
     },
-    async getBannerData(){
-      const {data} = await this.$api.pullBannerAd();
-      this.bannerList = data
+    async getBannerData() {
+      const { data } = await this.$api.pullBannerAd();
+      this.bannerList = data;
     },
     async getIconData() {
       toast.showLoading("加载中");
@@ -449,12 +551,12 @@ export default {
     },
     playerVideo() {
       this.playerType = true;
-      const timer = setTimeout(()=>{
+      const timer = setTimeout(() => {
         this.videoContext = uni.createVideoContext("myVideo");
         this.videoContext.requestFullScreen();
         this.videoContext.play();
-        clearTimeout(timer)
-      },500)
+        clearTimeout(timer);
+      }, 500);
     },
     videoChange(e) {
       if (!e.detail.fullScreen) {
@@ -462,7 +564,7 @@ export default {
         this.videoContext.stop();
       }
     },
-    optNavigatorPath(path,text) {
+    optNavigatorPath(path, text) {
       switch (path) {
         case "water": {
           uni.navigateTo({
@@ -472,8 +574,8 @@ export default {
         }
         case "msg": {
           this.$api.readAll({
-            currentUserNo:this.userNo
-          })
+            currentUserNo: this.userNo,
+          });
           uni.navigateTo({
             url: "/subPackages/me/message",
           });
@@ -485,7 +587,7 @@ export default {
               url: "/pages/page/login",
             });
             return;
-          }          
+          }
           uni.navigateTo({
             url: "/subPackages/Interrogation/test",
           });
@@ -583,7 +685,7 @@ page {
   top: 64rpx;
 }
 .zixun-banner {
-  width: 100%;   
+  width: 100%;
   height: 100%;
 }
 .kuang-content {

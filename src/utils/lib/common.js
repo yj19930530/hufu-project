@@ -137,14 +137,12 @@ function updataImgOnce() {
                 let imgArr = [];
                 res.tempFilePaths.forEach(item => {
                     uni.uploadFile({
-                        url: http + '/smallprogramMain/uploadImg',
+                        url: http + '/web/skin/test',
                         name: 'file',
                         filePath: item,
                         header: { 'token': token },
-                        formData: {
-                            uploadFilePlateType: type
-                        },
                         success: (r) => {
+                            console.log(r)
                             let uploadData = JSON.parse(r.data);
                             uni.hideLoading();
                             if (uploadData.state !== 200) {
