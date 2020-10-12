@@ -114,14 +114,13 @@ export default {
           .then((res) => {
             uni.showModal({
               title: "提示",
-              content: "提交成功",
+              content: "护肤打卡日记已提交后台审核，后台审核成功后可见",
               showCancel: false,
               confirmText: "返回",
               success: function (res) {
                 uni.navigateBack();
               },
             });
-            uni.navigateBack();
             uni.hideLoading();
           })
           .catch(() => {
@@ -140,7 +139,6 @@ export default {
                 uni.navigateBack('');
               },
             });
-            uni.navigateBack();
             uni.hideLoading();
           })
           .catch(() => {

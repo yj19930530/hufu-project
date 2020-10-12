@@ -98,6 +98,7 @@ export default {
       toast.showLoading("发表中");
       if (this.writeForm.title === "") return toast.showToast("标题不能为空");
       if (this.writeForm.content === "") return toast.showToast("内容不能为空");
+      if (this.writeForm.noteImgs === "") return toast.showToast("图片不能为空");
       if (!this.imgList.length) {
         delete this.writeForm.noteImgs;
       } else {
@@ -113,14 +114,13 @@ export default {
           .then((res) => {
             uni.showModal({
               title: "提示",
-              content: "提交成功",
+              content: "护肤笔记已提交后台审核，后台审核成功后可见",
               showCancel: false,
               confirmText: "返回",
               success: function (res) {
                 uni.navigateBack();
               },
             });
-            uni.navigateBack();
             uni.hideLoading();
           })
           .catch(() => {
@@ -132,14 +132,13 @@ export default {
           .then((res) => {
             uni.showModal({
               title: "提示",
-              content: "提交成功",
+              content: "护肤笔记已提交后台审核，后台审核成功后可见",
               showCancel: false,
               confirmText: "返回",
               success: function (res) {
                 uni.navigateBack();
               },
             });
-            uni.navigateBack();
             uni.hideLoading();
           })
           .catch(() => {

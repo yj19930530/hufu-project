@@ -5,7 +5,7 @@
 			<image class="college-banner-img" src="../../static/college/co-img.png" />
 		</div>
 		<!-- 护肤文章 -->
-		<div class="article-content">
+		<div class="article-content" v-if="ganAtc.length">
 			<div class="article-top-title fl-bt" @tap="optNavigatorPath('atc')">
 				<div class="mr-l-10">
 					<text class="fz-15 fw-400">护肤学院</text>
@@ -21,7 +21,7 @@
 			</div>
 		</div>
 		<!-- 干货视频 -->
-		<div class="article-content">
+		<div class="article-content" v-if="ganVideo.length">
 			<div class="article-top-title fl-bt" @tap="optNavigatorPath('vid')">
 				<div class="mr-l-10">
 					<text class="fz-15 fw-400">干货视频</text>

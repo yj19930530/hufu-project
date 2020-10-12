@@ -8,6 +8,9 @@
     >
       用户授权获取信息
     </button>
+    <div class="mr-t-16 login-btn2 fz-14 fl-cen fw-bold" @tap="noLogin">
+      暂不登录
+    </div>
     <!-- <button
       class="mr-t-10 login-btn fc-fff fz-14 fl-cen"
       open-type="getUserInfo"
@@ -35,9 +38,13 @@ export default {
       sessionKey: "",
     };
   },
-  onLoad() {
-  },
+  onLoad() {},
   methods: {
+    noLogin() {
+      uni.switchTab({
+        url: "/pages/page/home",
+      });
+    },
     getPhoneNumber(e) {
       const _this = this;
       toast.showLoading("登录中");
@@ -134,6 +141,13 @@ export default {
   height: 50rpx;
   background: linear-gradient(to right, #333333, #666666);
   border-radius: 25rpx 25rpx;
+}
+.login-btn2 {
+  width: 292rpx;
+  height: 50rpx;
+  background-color: #fff;
+  color: #666666;
+  letter-spacing: 2rpx;
 }
 .login-img {
   width: 414rpx;
