@@ -1,7 +1,10 @@
 <template>
   <div id="circle-box-container" @tap="resetMoreType">
     <!-- 头部tab -->
-    <div class="circle-top-content" :style="[{height:488+navHeight+'rpx'}]">
+    <div
+      class="circle-top-content"
+      :style="[{ height: 488 + navHeight + 'rpx' }]"
+    >
       <image class="circle-top-back" src="../../static/circle/back-img.png" />
       <div class="circle-top-center fl-co">
         <div class="fl-co circle-top-title mr-t-70">
@@ -11,18 +14,34 @@
         <div class="fl-cen mr-t-70">
           <div
             class="fl-cen circle-change-label"
-            :class="[optName==='left'?'circle-change-boder':'circle-change-boder2']"
+            :class="[
+              optName === 'left'
+                ? 'circle-change-boder'
+                : 'circle-change-boder2',
+            ]"
             @tap="tabChange('left')"
           >
-            <text class="fz-12" :class="[optName==='left'?'fc-7d':'fc-fff']">初印象圈</text>
+            <text
+              class="fz-12"
+              :class="[optName === 'left' ? 'fc-7d' : 'fc-fff']"
+              >初印象圈</text
+            >
           </div>
           <div class="yuandian"></div>
           <div
             class="fl-cen circle-change-label"
-            :class="[optName==='right'?'circle-change-boder':'circle-change-boder2']"
+            :class="[
+              optName === 'right'
+                ? 'circle-change-boder'
+                : 'circle-change-boder2',
+            ]"
             @tap="tabChange('right')"
           >
-            <text class="fz-12" :class="[optName==='right'?'fc-7d':'fc-fff']">初印象笔记</text>
+            <text
+              class="fz-12"
+              :class="[optName === 'right' ? 'fc-7d' : 'fc-fff']"
+              >初印象笔记</text
+            >
           </div>
         </div>
       </div>
@@ -33,7 +52,7 @@
         :fixed="true"
         :adjust-position="true"
         :placeholder="huifuName"
-        :cursor-spacing="commentHeight+20"
+        :cursor-spacing="commentHeight + 20"
         @keyboardheightchange="getHeigth"
         maxlength="300"
         @blur="inputBlurChange"
@@ -45,14 +64,21 @@
       />
     </div>
     <!-- 评论 -->
-    <div class="circle-left-content" v-if="optName==='left'">
+    <div class="circle-left-content" v-if="optName === 'left'">
       <div class="circle-opt-content fl-bt">
-        <div class="circle-opt-item fl-co circle-icon-left" @tap="circleChange('护肤日记')">
+        <div
+          class="circle-opt-item fl-co circle-icon-left"
+          @tap="circleChange('护肤日记')"
+        >
           <image class="circle-opt-icon" src="../../static/circle/riji.png" />
           <text class="fz-10 mr-t-10 fc-000">护肤日记</text>
           <div
             class="choose-icon"
-            :class="[labelName==='护肤日记'?'choose-icon-color2':'choose-icon-color']"
+            :class="[
+              labelName === '护肤日记'
+                ? 'choose-icon-color2'
+                : 'choose-icon-color',
+            ]"
           ></div>
         </div>
         <div class="circle-opt-item fl-co" @tap="circleChange('新品测试')">
@@ -60,7 +86,11 @@
           <text class="fz-10 mr-t-10 fc-000">新品测试</text>
           <div
             class="choose-icon"
-            :class="[labelName==='新品测试'?'choose-icon-color2':'choose-icon-color']"
+            :class="[
+              labelName === '新品测试'
+                ? 'choose-icon-color2'
+                : 'choose-icon-color',
+            ]"
           ></div>
         </div>
         <div class="circle-opt-item fl-co" @tap="circleChange('回访记录')">
@@ -68,98 +98,143 @@
           <text class="fz-10 mr-t-10 fc-000">回访记录</text>
           <div
             class="choose-icon"
-            :class="[labelName==='回访记录'?'choose-icon-color2':'choose-icon-color']"
+            :class="[
+              labelName === '回访记录'
+                ? 'choose-icon-color2'
+                : 'choose-icon-color',
+            ]"
           ></div>
         </div>
-        <div class="circle-opt-item fl-co circle-icon-right" @tap="circleChange('限时活动')">
-          <image class="circle-opt-icon" src="../../static/circle/xianshi.png" />
+        <div
+          class="circle-opt-item fl-co circle-icon-right"
+          @tap="circleChange('限时活动')"
+        >
+          <image
+            class="circle-opt-icon"
+            src="../../static/circle/xianshi.png"
+          />
           <text class="fz-10 mr-t-10 fc-000">限时活动</text>
           <div
             class="choose-icon"
-            :class="[labelName==='限时活动'?'choose-icon-color2':'choose-icon-color']"
+            :class="[
+              labelName === '限时活动'
+                ? 'choose-icon-color2'
+                : 'choose-icon-color',
+            ]"
           ></div>
         </div>
       </div>
-      <div class="comment-content" v-for="(item,index) in circleList" :key="index">
+      <div
+        class="comment-content"
+        v-for="(item, index) in circleList"
+        :key="index"
+      >
         <div class="comment-item-box">
-          <image class="header-img mr-l-20" mode="aspectFill" :src="userImgUrl+item.createUser.avatarUrl" />
+          <image
+            class="header-img mr-l-20"
+            mode="aspectFill"
+            :src="userImgUrl + item.createUser.avatarUrl"
+          />
           <div class="item-right-coentent mr-r-20">
-            <text class="fc-5d fz-15">{{item.createUser.nickName}}</text>
-            <text class="fz-14 mr-t-10">{{item.content}}</text>
+            <text class="fc-5d fz-15">{{ item.createUser.nickName }}</text>
+            <text class="fz-14 mr-t-10">{{ item.content }}</text>
             <div class="comment-img-box mr-t-10">
               <image
                 mode="aspectFill"
                 class="comment-img-item mr-r-4"
-                v-for="(img,ix) in item.imgs"
+                v-for="(img, ix) in item.imgs"
                 :key="ix"
-                @tap="preImgItem(item.imgs,ix)"
-                :src="atcImgUrl+img"
+                @tap="preImgItem(item.imgs, ix)"
+                :src="atcImgUrl + img"
               />
             </div>
             <div class="more-btn-box">
               <div class="more-menu-content">
                 <div
                   class="more-btn-menu fl-cen"
-                  :class="[showIndex===index?'right-position':'right-position2']"
+                  :class="[
+                    showIndex === index ? 'right-position' : 'right-position2',
+                  ]"
                 >
                   <div v-if="item.dzState" class="more-menu-item fl-al">
-                    <image class="menu-icon" src="../../static/circle/zan.png" />
+                    <image
+                      class="menu-icon"
+                      src="../../static/circle/zan.png"
+                    />
                     <text class="fz-14 mr-l-8 fc-fff">已赞</text>
                   </div>
                   <div
                     v-else
                     class="more-menu-item fl-al"
-                    @tap.native.stop="circleFabulousHandle(item,index)"
+                    @tap.native.stop="circleFabulousHandle(item, index)"
                   >
-                    <image class="menu-icon" src="../../static/circle/zan.png" />
+                    <image
+                      class="menu-icon"
+                      src="../../static/circle/zan.png"
+                    />
                     <text class="fz-14 fc-fff mr-l-8">赞</text>
                   </div>
                   <div
                     class="more-menu-item fl-al menu-icon-left"
                     @tap.native.stop="getComHeight(index)"
                   >
-                    <image class="menu-icon2" src="../../static/circle/pinlun.png" />
+                    <image
+                      class="menu-icon2"
+                      src="../../static/circle/pinlun.png"
+                    />
                     <text class="fz-14 fc-fff mr-l-8">评论</text>
                   </div>
                 </div>
               </div>
-              <div class="more-img" @tap.native.stop="moreChange(item,index)">
-                <image class="more-btn-img" src="../../static/circle/more.png" />
+              <div class="more-img" @tap.native.stop="moreChange(item, index)">
+                <image
+                  class="more-btn-img"
+                  src="../../static/circle/more.png"
+                />
               </div>
             </div>
-            <div class="has-zan-list text-lang-dian2 mr-b-10" v-if="item.likeUsers.length">
+            <div
+              class="has-zan-list text-lang-dian2 mr-b-10"
+              v-if="item.likeUsers.length"
+            >
               <image class="menu-icon3" src="../../static/circle/zan2.png" />
               <text
                 class="fz-12 fc-5d"
-                v-for="(zRow,zIx) in item.likeUsers"
+                v-for="(zRow, zIx) in item.likeUsers"
                 :key="zIx"
-              >{{zRow.nickName}}{{item.likeUsers.length===zIx+1?'':','}}</text>
+                >{{ zRow.nickName
+                }}{{ item.likeUsers.length === zIx + 1 ? "" : "," }}</text
+              >
             </div>
-            <div class="communication-content" v-for="(row,x) in item.noteComments" :key="x">
-              <div class="communication-item" v-if="row.commentType===0||row.toNo===row.fromNo">
-                <text
-                  class="fz-13 fc-5d"
-                  @tap.native.stop="commentUser(row)"
-                >{{row.fromUserNickName}}：</text>
-                <text class="fz-13">{{row.content}}</text>
+            <div
+              class="communication-content"
+              v-for="(row, x) in item.noteComments"
+              :key="x"
+            >
+              <div
+                class="communication-item"
+                v-if="row.commentType === 0 || row.toNo === row.fromNo"
+              >
+                <text class="fz-13 fc-5d" @tap.native.stop="commentUser(row)"
+                  >{{ row.fromUserNickName }}：</text
+                >
+                <text class="fz-13">{{ row.content }}</text>
               </div>
               <div class="communication-item" v-else>
-                <text
-                  class="fz-13 fc-5d"
-                  @tap.native.stop="commentUser(row)"
-                >{{row.fromUserNickName}}</text>
+                <text class="fz-13 fc-5d" @tap.native.stop="commentUser(row)">{{
+                  row.fromUserNickName
+                }}</text>
                 <text class="fz-13 fc-5d mr-l-10 mr-r-10">回复</text>
-                <text
-                  class="fz-13 fc-5d"
-                  @tap.native.stop="commentUser2(row)"
-                >{{row.toUserNickName}}：</text>
-                <text class="fz-13">{{row.content}}</text>
+                <text class="fz-13 fc-5d" @tap.native.stop="commentUser2(row)"
+                  >{{ row.toUserNickName }}：</text
+                >
+                <text class="fz-13">{{ row.content }}</text>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div v-if="!more&&circleList.length" class="fl-cen mr-t-20">
+      <div v-if="!more && circleList.length" class="fl-cen mr-t-20">
         <text class="fc-999 fz-12">没有更多</text>
       </div>
       <div class="fl-cen" v-if="!circleList.length">
@@ -167,26 +242,31 @@
       </div>
     </div>
     <!-- 笔记 -->
-    <div class="note-content" v-if="optName==='right'">
+    <div class="note-content" v-if="optName === 'right'">
       <div class="note-title-content fl-al">
         <text class="fz-15 fw-bold">初印象笔记</text>
       </div>
       <div class="note-center-box">
         <NoteItem
-          v-for="(item,index) in circleList"
+          v-for="(item, index) in circleList"
           :objData="item"
           :key="index"
           :numIndex="index"
         />
       </div>
-      <div v-if="!more&&circleList.length" class="fl-cen mr-t-20">
+      <div v-if="!more && circleList.length" class="fl-cen mr-t-20">
         <text class="fc-999 fz-12">没有更多</text>
       </div>
       <div class="fl-cen" v-if="!circleList.length">
         <image class="no-data-img" src="../../static/notdata.png" />
       </div>
     </div>
-    <image @tap="writeFunc" class="write-img" src="../../static/circle/write.png" />
+    <image
+      v-if="optName==='left'"
+      @tap="writeFunc"
+      class="write-img"
+      src="../../static/circle/write.png"
+    />
   </div>
 </template>
 <script>
@@ -295,6 +375,7 @@ export default {
           let arr = item.displayimg.split(",");
           item.displayimg = arr[0];
         } else {
+          if (!item.imgs) return;
           let arr = item.imgs.split(",");
           item.displayimg = arr[0];
         }
@@ -322,7 +403,16 @@ export default {
         pageSize: this.pageSize,
       });
       if (this.pageNo * this.pageSize >= data.total) this.more = false;
-      this.circleList = data.list;
+      let arr1 = [],
+        arr2 = [];
+      data.list.forEach((item, index) => {
+        if (index % 2 === 0) {
+          arr1.push(item);
+        } else {
+          arr2.push(item);
+        }
+      });
+      this.circleList = [...arr1, ...arr2];
       this.total = data.total;
       this.imgPathsReturn2(this.circleList);
       uni.hideLoading();
@@ -334,6 +424,16 @@ export default {
         pageSize: this.pageSize,
       });
       this.circleList = this.circleList.concat(data.list);
+      let arr1 = [],
+        arr2 = [];
+      this.circleList.forEach((item, index) => {
+        if (index % 2 === 0) {
+          arr1.push(item);
+        } else {
+          arr2.push(item);
+        }
+      });
+      this.circleList = [...arr1, ...arr2];
       if (this.pageNo * this.pageSize >= data.total) this.more = false;
       this.total = data.total;
       this.imgPathsReturn2(this.circleList);

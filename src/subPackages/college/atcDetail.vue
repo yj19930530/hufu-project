@@ -285,7 +285,6 @@ export default {
       this.getCompotentData(data.id);
       this.atcObj = data;
       if (this.atcObj.imgs) this.imgShowList = this.atcObj.imgs.split(",");
-      console.log(this.imgShowList);
       this.atcObj.contens = data.contens ? data.contens : "没有内容";
       uni.hideLoading();
       this.pageType = true;

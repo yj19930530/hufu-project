@@ -4,8 +4,11 @@
     <div class="detail-top-content">
       <div class="fl-bt">
         <div class="user-img-box fl-al">
-          <image class="detail-user-img" :src="userImgUrl+userInfo.avatarUrl" />
-          <text class="mr-l-30 fz-15">{{userInfo.nickName}}</text>
+          <image
+            class="detail-user-img"
+            :src="userImgUrl + userInfo.avatarUrl"
+          />
+          <text class="mr-l-30 fz-15">{{ userInfo.nickName }}</text>
         </div>
         <div class="fl-cen follow-btn" v-if="isGz" @tap="closeFollow">
           <text class="fz-12">已关注</text>
@@ -16,15 +19,15 @@
       </div>
       <div class="mr-t-50 fl-bt">
         <div class="fl-co detail-has-opt">
-          <text class="fz-17 fw-bold">{{userInfo.gzNum}}</text>
+          <text class="fz-17 fw-bold">{{ userInfo.gzNum }}</text>
           <text class="fz-13 fc-999">关注</text>
         </div>
         <div class="fl-co detail-has-opt">
-          <text class="fz-17 fw-bold">{{userInfo.fsNum}}</text>
+          <text class="fz-17 fw-bold">{{ userInfo.fsNum }}</text>
           <text class="fz-13 fc-999">粉丝</text>
         </div>
         <div class="fl-co detail-has-opt">
-          <text class="fz-17 fw-bold">{{userInfo.scNum}}</text>
+          <text class="fz-17 fw-bold">{{ userInfo.scNum }}</text>
           <text class="fz-13 fc-999">收藏</text>
         </div>
       </div>
@@ -32,24 +35,42 @@
     <!-- tab 切換 -->
     <div class="fl-cen mr-t-30 mr-b-10">
       <div class="fl-co" @tap="checkFunc('left')">
-        <text class="fz-14" :class="[checkType==='left'?'fc-333':'fc-999']">动态</text>
+        <text
+          class="fz-14"
+          :class="[checkType === 'left' ? 'fc-333' : 'fc-999']"
+          >动态</text
+        >
         <div
           class="heng-style"
-          :class="[checkType==='left'?'heng-style-color1':'heng-style-color2']"
+          :class="[
+            checkType === 'left' ? 'heng-style-color1' : 'heng-style-color2',
+          ]"
         ></div>
       </div>
       <div class="fl-co mr-left-132" @tap="checkFunc('center')">
-        <text class="fz-14" :class="[checkType==='center'?'fc-333':'fc-999']">收藏</text>
+        <text
+          class="fz-14"
+          :class="[checkType === 'center' ? 'fc-333' : 'fc-999']"
+          >收藏</text
+        >
         <div
           class="heng-style"
-          :class="[checkType==='center'?'heng-style-color1':'heng-style-color2']"
+          :class="[
+            checkType === 'center' ? 'heng-style-color1' : 'heng-style-color2',
+          ]"
         ></div>
       </div>
       <div class="fl-co mr-left-132" @tap="checkFunc('right')">
-        <text class="fz-14" :class="[checkType==='right'?'fc-333':'fc-999']">赞过</text>
+        <text
+          class="fz-14"
+          :class="[checkType === 'right' ? 'fc-333' : 'fc-999']"
+          >赞过</text
+        >
         <div
           class="heng-style"
-          :class="[checkType==='right'?'heng-style-color1':'heng-style-color2']"
+          :class="[
+            checkType === 'right' ? 'heng-style-color1' : 'heng-style-color2',
+          ]"
         ></div>
       </div>
     </div>
@@ -57,10 +78,17 @@
     <div class="collection-content-left">
       <div class="fl-al all-collection">
         <text class="iconfont iconjurassic_danju fz-11 fc-999"></text>
-        <text class="fz-12 mr-l-4">全部{{titleText}}({{atcList.length}})</text>
+        <text class="fz-12 mr-l-4"
+          >全部{{ titleText }}({{ atcList.length }})</text
+        >
       </div>
       <div class="note-center-box">
-        <NoteItem v-for="(item,index) in atcList" :key="index" :numIndex="index" :objData="item" />
+        <NoteItem
+          v-for="(item, index) in atcList"
+          :key="index"
+          :numIndex="index"
+          :objData="item"
+        />
       </div>
     </div>
     <div class="follow-no-more" v-if="!more">
@@ -88,7 +116,7 @@ export default {
       titleText: "动态",
       isGz: false,
       userNoMy: "",
-      userImgUrl:userImgUrl
+      userImgUrl: userImgUrl,
     };
   },
   components: {
@@ -135,7 +163,7 @@ export default {
       await this.$api.articleGz({
         idol: this.userNo,
         fans: this.userNoMy,
-      }); 
+      });
       this.isUserGz();
     },
     async isUserGz() {
@@ -192,21 +220,31 @@ export default {
         userNo: this.userNo,
       });
       this.atcList = this.atcList.concat(data.list);
-	  this.imgPathsReturn(this.atcList)
+      let arr1 = [],
+        arr2 = [];
+      this.atcList.forEach((item, index) => {
+        if (index % 2 === 0) {
+          arr1.push(item);
+        } else {
+          arr2.push(item);
+        }
+      });
+      this.atcList = [...arr1, ...arr2];
+      this.imgPathsReturn(this.atcList);
       this.total = data.total;
       if (this.pageNo * this.pageSize >= this.total) return (this.more = false);
     },
-	imgPathsReturn(list) {
-	  list.forEach((item) => {
-	    if (item.displayimg) {
-	      let arr = item.displayimg.split(",");
-	      item.displayimg = arr[0];
-	    } else {
-	      let arr = item.imgs.split(",");
-	      item.displayimg = arr[0];
-	    }
-	  });
-	},
+    imgPathsReturn(list) {
+      list.forEach((item) => {
+        if (item.displayimg) {
+          let arr = item.displayimg.split(",");
+          item.displayimg = arr[0];
+        } else {
+          let arr = item.imgs.split(",");
+          item.displayimg = arr[0];
+        }
+      });
+    },
     // 获取赞过 收藏的文章列表
     async getIsZanAndShouList() {
       const { data } = await this.$api.findCollectionOrDzArticlePage({
@@ -216,7 +254,17 @@ export default {
         queryType: this.checkType === "center" ? "收藏" : "赞过",
       });
       this.atcList = this.atcList.concat(data.list);
-	  this.imgPathsReturn(this.atcList)
+      let arr1 = [],
+        arr2 = [];
+      this.atcList.forEach((item, index) => {
+        if (index % 2 === 0) {
+          arr1.push(item);
+        } else {
+          arr2.push(item);
+        }
+      });
+      this.atcList = [...arr1, ...arr2];
+      this.imgPathsReturn(this.atcList);
       this.total = data.total;
       if (this.pageNo * this.pageSize >= this.total) return (this.more = false);
     },

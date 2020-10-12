@@ -3,27 +3,48 @@
     <!-- 关注tab 选项 -->
     <div class="follow-top-label fl-al">
       <div class="follow-label-check fl-co" @tap="labelCheck('left')">
-        <text class="fz-14" :class="[checkType==='left'?'':'fc-999']">收藏</text>
+        <text class="fz-14" :class="[checkType === 'left' ? '' : 'fc-999']"
+          >收藏</text
+        >
         <div
           class="follow-check"
-          :class="[checkType==='left'?'follow-check-color1':'follow-check-color2']"
+          :class="[
+            checkType === 'left'
+              ? 'follow-check-color1'
+              : 'follow-check-color2',
+          ]"
         ></div>
       </div>
       <div class="follow-label-check fl-co" @tap="labelCheck('right')">
-        <text class="fz-14" :class="[checkType==='right'?'':'fc-999']">赞过</text>
+        <text class="fz-14" :class="[checkType === 'right' ? '' : 'fc-999']"
+          >赞过</text
+        >
         <div
           class="follow-check"
-          :class="[checkType==='right'?'follow-check-color1':'follow-check-color2']"
+          :class="[
+            checkType === 'right'
+              ? 'follow-check-color1'
+              : 'follow-check-color2',
+          ]"
         ></div>
       </div>
     </div>
     <div class="collection-content-left" v-if="atcList.length">
       <div class="fl-al all-collection">
         <text class="iconfont iconjurassic_danju fz-11 fc-999"></text>
-        <text class="fz-12 mr-l-4">全部{{checkType==='left'?'收藏':'赞过'}}({{atcList.length}})</text>
+        <text class="fz-12 mr-l-4"
+          >全部{{ checkType === "left" ? "收藏" : "赞过" }}({{
+            atcList.length
+          }})</text
+        >
       </div>
       <div class="note-center-box">
-        <NoteItem v-for="(item,index) in atcList" :key="index" :numIndex="index" :objData="item" />
+        <NoteItem
+          v-for="(item, index) in atcList"
+          :key="index"
+          :numIndex="index"
+          :objData="item"
+        />
       </div>
     </div>
     <div class="follow-no-more">
@@ -82,6 +103,16 @@ export default {
         queryType: this.checkType === "left" ? "收藏" : "赞过",
       });
       this.atcList = this.atcList.concat(data.list);
+      let arr1 = [],
+        arr2 = [];
+      this.atcList.forEach((item, index) => {
+        if (index % 2 === 0) {
+          arr1.push(item);
+        } else {
+          arr2.push(item);
+        }
+      });
+      this.atcList = [...arr1, ...arr2];
       this.total = data.total;
       if (this.pageNo * this.pageSize >= this.total) return (this.more = false);
     },
