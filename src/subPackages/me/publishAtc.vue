@@ -98,7 +98,7 @@ export default {
       toast.showLoading("发表中");
       if (this.writeForm.title === "") return toast.showToast("标题不能为空");
       if (this.writeForm.content === "") return toast.showToast("内容不能为空");
-      if (this.writeForm.noteImgs === "") return toast.showToast("图片不能为空");
+      if (!this.imgList.length) return toast.showToast("图片不能为空");
       if (!this.imgList.length) {
         delete this.writeForm.noteImgs;
       } else {
