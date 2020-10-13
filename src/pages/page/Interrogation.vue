@@ -48,12 +48,12 @@ export default {
   height: 100%;
 }
 .ask-content-img {
-  width: 170rpx;
-  height: 170rpx;
+  width: 192rpx;
+  height: 198rpx;
 }
 .ask-content-img2 {
-  width: 150rpx;
-  height: 166rpx;
+  width: 192rpx;
+  height: 162rpx;
 }
 .ask-icon {
   width: 20rpx;

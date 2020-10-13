@@ -58,10 +58,18 @@ export default {
             })
             .then(async (res) => {
               uni.setStorageSync("opId", res.data.openid);
+              // if (res.data.user) {
+              //   uni.setStorageSync("token", res.data.token);
+              //   uni.setStorageSync("userno", res.data.user.userno);
+              //   uni.switchTab({
+              //     url: "/pages/page/home",
+              //   });
+              //   return;
+              // }
               _this.$api
                 .addUserInfo({
                   iv: e.detail.iv,
-                  sessionKey: res.data.sessionKey,
+                  openId: res.data.openId,
                   data: e.detail.encryptedData,
                 })
                 .then((res) => {

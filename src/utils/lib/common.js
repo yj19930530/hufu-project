@@ -97,6 +97,7 @@ function updataImg(num, type) {
                             if (uploadData.state !== 200) {
                                 uni.showToast({
                                     title: uploadData.message,
+                                    icon: 'none'
                                 })
                             } else {
                                 imgArr.push({

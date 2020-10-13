@@ -1,19 +1,27 @@
 <template>
   <div class="article-item-box">
-    <image mode="aspectFill" class="article-item-img" :src="atcImgUrl+detailInfo.displayimg" />
+    <image
+      mode="aspectFill"
+      class="article-item-img"
+      :src="atcImgUrl + detailInfo.displayimg"
+    />
     <div class="mr-t-6 box-width">
       <div class="box-width-padding">
         <div class="article-item-title">
-          <text class="fz-14">标题：{{detailInfo.title}}</text>
+          <text class="fz-14">标题：{{ detailInfo.title }}</text>
         </div>
-        <text class="fz-14 mr-4">作者：{{detailInfo.sui.nickName}}</text>
+        <text class="fz-14 mr-4">作者：{{ detailInfo.sui.nickName }}</text>
         <div class="fl-bt mr-t-16">
           <div class="article-item-btn fl-cen" @tap="lookDetail">
             <text class="fz-12 fc-fff">查看干货</text>
           </div>
           <div class="article-item-btn fl-cen">
             <text class="fz-12 fc-fff">立即分享</text>
-            <button type="primary" class="share-visibiliti-btn" open-type="share"></button>
+            <button
+              type="primary"
+              class="share-visibiliti-btn"
+              open-type="share"
+            ></button>
           </div>
         </div>
       </div>
@@ -43,7 +51,7 @@ export default {
     return {
       title: this.detailInfo.title,
       path: `/subPackages/college/atcDetail?id=${this.detailInfo.id}`,
-    }
+    };
   },
   methods: {
     lookDetail() {
@@ -73,7 +81,7 @@ export default {
   border-radius: 10rpx;
 }
 .article-item-btn {
-    position: relative;
+  position: relative;
   width: 120rpx;
   height: 36rpx;
   border-radius: 18rpx 18rpx;

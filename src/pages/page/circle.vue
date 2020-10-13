@@ -262,7 +262,6 @@
       </div>
     </div>
     <image
-      v-if="optName==='left'"
       @tap="writeFunc"
       class="write-img"
       src="../../static/circle/write.png"
