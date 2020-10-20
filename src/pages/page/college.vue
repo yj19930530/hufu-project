@@ -37,6 +37,7 @@
         <VideoItem v-for="item in ganVideo" :key="item.id" :itemObj="item" />
       </div>
     </div>
+    <MovableTop />
   </div>
 </template>
 <script>

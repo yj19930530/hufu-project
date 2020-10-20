@@ -149,48 +149,61 @@
               />
             </div>
             <div class="more-btn-box">
-              <div class="more-menu-content">
-                <div
-                  class="more-btn-menu fl-cen"
-                  :class="[
-                    showIndex === index ? 'right-position' : 'right-position2',
-                  ]"
-                >
-                  <div v-if="item.dzState" class="more-menu-item fl-al">
-                    <image
-                      class="menu-icon"
-                      src="../../static/circle/zan.png"
-                    />
-                    <text class="fz-14 mr-l-8 fc-fff">已赞</text>
-                  </div>
+              <text
+                class="fz-12 fc-999"
+                :class="[item.createNo === userNo ? '' : 'box-show-hide']"
+                @tap="deleteMyCircle(item)"
+                >删除</text
+              >
+              <div class="fl-al">
+                <div class="more-menu-content">
                   <div
-                    v-else
-                    class="more-menu-item fl-al"
-                    @tap.native.stop="circleFabulousHandle(item, index)"
+                    class="more-btn-menu fl-cen"
+                    :class="[
+                      showIndex === index
+                        ? 'right-position'
+                        : 'right-position2',
+                    ]"
                   >
-                    <image
-                      class="menu-icon"
-                      src="../../static/circle/zan.png"
-                    />
-                    <text class="fz-14 fc-fff mr-l-8">赞</text>
-                  </div>
-                  <div
-                    class="more-menu-item fl-al menu-icon-left"
-                    @tap.native.stop="getComHeight(index)"
-                  >
-                    <image
-                      class="menu-icon2"
-                      src="../../static/circle/pinlun.png"
-                    />
-                    <text class="fz-14 fc-fff mr-l-8">评论</text>
+                    <div v-if="item.dzState" class="more-menu-item fl-al">
+                      <image
+                        class="menu-icon"
+                        src="../../static/circle/zan.png"
+                      />
+                      <text class="fz-14 mr-l-8 fc-fff">已赞</text>
+                    </div>
+                    <div
+                      v-else
+                      class="more-menu-item fl-al"
+                      @tap.native.stop="circleFabulousHandle(item, index)"
+                    >
+                      <image
+                        class="menu-icon"
+                        src="../../static/circle/zan.png"
+                      />
+                      <text class="fz-14 fc-fff mr-l-8">赞</text>
+                    </div>
+                    <div
+                      class="more-menu-item fl-al menu-icon-left"
+                      @tap.native.stop="getComHeight(index)"
+                    >
+                      <image
+                        class="menu-icon2"
+                        src="../../static/circle/pinlun.png"
+                      />
+                      <text class="fz-14 fc-fff mr-l-8">评论</text>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="more-img" @tap.native.stop="moreChange(item, index)">
-                <image
-                  class="more-btn-img"
-                  src="../../static/circle/more.png"
-                />
+                <div
+                  class="more-img"
+                  @tap.native.stop="moreChange(item, index)"
+                >
+                  <image
+                    class="more-btn-img"
+                    src="../../static/circle/more.png"
+                  />
+                </div>
               </div>
             </div>
             <div
@@ -266,6 +279,7 @@
       class="write-img"
       src="../../static/circle/write.png"
     />
+    <MovableTop />
   </div>
 </template>
 <script>
@@ -347,6 +361,25 @@ export default {
       this.pageNo = 1;
       this.pageSize = 10;
       this.showIndex = -1;
+    },
+    // 删除自己的笔记
+    deleteMyCircle(row) {
+      let that = this;
+      uni.showModal({
+        title: "删除笔记",
+        content: "是否删除?",
+        success: async (res) => {
+          if (res.confirm) {
+            await that.$api.deleteCircleItem({
+              noteId: row.id,
+              currentUserNo: that.userNo,
+            });
+            that.getCirleLeftList();
+          } else if (res.cancel) {
+            return;
+          }
+        },
+      });
     },
     // 获取印圈列表
     async getCirleLeftList() {
@@ -541,13 +574,31 @@ export default {
         });
         return;
       }
-      if (row.fromNo === this.userNo) return;
-      this.huifuName = "回复 " + row.fromUserNickName;
-      this.userCommentForm.noteId = row.noteId;
-      this.userCommentForm.commentType = 1;
-      this.userCommentForm.fromNo = this.userNo;
-      this.userCommentForm.toNo = row.fromNo;
-      this.commentType = true;
+      if (row.fromNo === this.userNo) {
+        let that = this;
+        uni.showModal({
+          title: "删除笔记",
+          content: "是否删除?",
+          success: async (res) => {
+            if (res.confirm) {
+              await that.$api.deleteCommentItem({
+                commentId: row.id,
+                currentUserNo: that.userNo,
+              });
+              that.getCirleLeftList();
+            } else if (res.cancel) {
+              return;
+            }
+          },
+        });
+      } else {
+        this.huifuName = "回复 " + row.fromUserNickName;
+        this.userCommentForm.noteId = row.noteId;
+        this.userCommentForm.commentType = 1;
+        this.userCommentForm.fromNo = this.userNo;
+        this.userCommentForm.toNo = row.fromNo;
+        this.commentType = true;
+      }
     },
     commentUser2(row) {
       if (!this.userNo) {
@@ -688,7 +739,7 @@ export default {
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   height: 74rpx;
 }
 .more-menu-content {
@@ -792,5 +843,8 @@ export default {
 .comment-img-box {
   display: flex;
   flex-wrap: wrap;
+}
+.box-show-hide {
+  visibility: hidden;
 }
 </style>

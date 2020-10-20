@@ -7,11 +7,16 @@ export default {
     navTop: 0,
     windowHeight: 0,
     userNo: "",
+    pingWidth: 0,
+    pingHeight:0,
   },
   onLaunch: function () {
     this.userNo = uni.getStorageSync("userno");
     // this.loginInfo();
     let menuButtonObject = wx.getMenuButtonBoundingClientRect();
+    const { windowWidth, windowHeight } = uni.getSystemInfoSync();
+    this.globalData.pingWidth = windowWidth;
+    this.globalData.pingHeight = windowHeight;
     wx.getSystemInfo({
       success: (res) => {
         let statusBarHeight = res.statusBarHeight,

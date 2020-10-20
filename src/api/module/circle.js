@@ -13,6 +13,10 @@ const noteCommentSend = (data) => postRequest('/sa/index/front/publishNoteCommen
 const circleFabulous = (data) => postRequest('/sa/index/front/likeCircleNote', data, 'no', 'no');
 // 获取赞过文章
 const findCollectionOrDzArticlePage = (data) => postRequest('/sa/index/front/findCollectionOrDzArticlePage', data, 'no', 'no');
+// 删除笔记
+const deleteCircleItem = (data) => postRequest('/sa/index/font/deleteCircleNote', data, 'no', 'no');
+// 删除评论
+const deleteCommentItem = (data) => postRequest('/sa/index/front/deleteNoteComment', data, 'no', 'no');
 module.exports = {
     addWriteNote,
     addCircleNote,
@@ -20,5 +24,7 @@ module.exports = {
     getCirleNoteData,
     noteCommentSend,
     circleFabulous,
-    findCollectionOrDzArticlePage
+    findCollectionOrDzArticlePage,
+    deleteCircleItem,
+    deleteCommentItem
 }

@@ -11,13 +11,16 @@
     </div>
     <div class="fl-co mr-t-130">
       <image class="ask-content-img2" src="../../static/ask/aks-doc.png" />
-      <text class="mr-t-30 fz-14 fc-000">百万用户信赖的在线护肤咨询服务平台</text>
+      <text class="mr-t-30 fz-14 fc-000"
+        >百万用户信赖的在线护肤咨询服务平台</text
+      >
       <text class="mr-t-4 fz-12 fc-000">一对一精准解决肌肤问题</text>
       <button class="fl-cen ask-next-btn mr-t-30" open-type="contact">
         <image class="ask-icon" src="../../static/ask/ask-icon.png" />
         <text class="mr-l-4 fz-13 fc-fff mr-l-8">立即咨询</text>
       </button>
     </div>
+    <MovableTop />
   </div>
 </template>
 <script>

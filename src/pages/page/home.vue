@@ -412,6 +412,7 @@
         <text class="fz-15 fw-bold fc-000">{{ item.title }}</text>
       </view>
     </view>
+    <MovableTop />
   </view>
 </template>
 <script>
@@ -495,7 +496,7 @@ export default {
           let arr = this.ganVideo[0].preview.split(",");
           this.ganVideo[0].imgShow = arr[0];
         } catch {
-          console.log('err')
+          console.log("err");
         }
       }
     },

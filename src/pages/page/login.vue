@@ -67,7 +67,7 @@ export default {
               //   return;
               // }
               _this.$api
-                .addUserInfo({
+                .handleInsertUserInfoNew({
                   iv: e.detail.iv,
                   openId: res.data.openId,
                   data: e.detail.encryptedData,

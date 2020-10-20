@@ -2,14 +2,30 @@
   <div id="me-container">
     <!-- 头部 -->
     <div class="me-top-content">
-      <image class="setting-img" src="../../static/me/setting.png" @tap="optNavigatorPath('set')" />
+      <image
+        class="setting-img"
+        src="../../static/me/setting.png"
+        @tap="optNavigatorPath('set')"
+      />
       <div v-if="noLoginType" class="me-top-header" @tap="userDetailNext">
         <open-data class="me-top-header" type="userAvatarUrl"></open-data>
       </div>
-      <image v-else class="me-top-header" mode="aspectFill" :src="userImgUrl+userInfo.avatarUrl" @tap="userDetailNext" />
-      <text class="fz-12 fc-999 mr-t-20 mr-b-20" v-if="noLoginType">未登录</text>
-      <text v-if="!noLoginType" class="fz-15 mr-t-20 header-title fc-000">FIRSTYNAS</text>
-      <text v-if="!noLoginType" class="fz-11 mr-t-10 fc-000">WELCOME TO OUR HOTEL</text>
+      <image
+        v-else
+        class="me-top-header"
+        mode="aspectFill"
+        :src="userImgUrl + userInfo.avatarUrl"
+        @tap="userDetailNext"
+      />
+      <text class="fz-12 fc-999 mr-t-20 mr-b-20" v-if="noLoginType"
+        >未登录</text
+      >
+      <text v-if="!noLoginType" class="fz-15 mr-t-20 header-title fc-000"
+        >FIRSTYNAS</text
+      >
+      <text v-if="!noLoginType" class="fz-11 mr-t-10 fc-000"
+        >WELCOME TO OUR HOTEL</text
+      >
       <div class="fl-bt me-icon-list">
         <div class="fl-co me-icon-item" @tap="optNavigatorPath('edit')">
           <div class="top-icon-box fl-cen">
@@ -33,7 +49,9 @@
           <div class="top-icon-box fl-cen">
             <image class="me-top-icon4" src="../../static/me/fensi.png" />
           </div>
-          <text class="fz-12 fc-000 mr-t-10">粉丝:{{userInfo.fsNum?userInfo.fsNum:'0'}}</text>
+          <text class="fz-12 fc-000 mr-t-10"
+            >粉丝:{{ userInfo.fsNum ? userInfo.fsNum : "0" }}</text
+          >
         </div>
       </div>
     </div>
@@ -42,7 +60,10 @@
       <text class="fz-15 fw-bold">我的服务</text>
       <div class="me-servic-func fl-bt mr-t-40">
         <div class="fl-co mr-l-59" @tap="openWecat">
-          <image class="servic-func-icon" src="../../static/me/shangchang.png" />
+          <image
+            class="servic-func-icon"
+            src="../../static/me/shangchang.png"
+          />
           <text class="fz-12">官方商场</text>
         </div>
         <div class="fl-co" @tap="optNavigatorPath('test')">
@@ -68,6 +89,7 @@
         </div>
       </div>
     </div>
+    <MovableTop />
   </div>
 </template>
 <script>

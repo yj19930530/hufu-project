@@ -13,7 +13,8 @@ const deleteSkinInfo = (data) => postRequest('/web/skin/deleteSkinInfo', data, '
 const getComponentPage = (data) => postRequest('/web/article/getComponentPage', data, 'no', 'no');
 // 添加文章浏览记录
 const handleAddArticleBrowse = (data) => postRequest('/smallprogramMain/handleAddArticleBrowse', data, 'no', 'no');
-
+// 删除文章评论
+const deleteAtcComment = (data) => postRequest('/web/article/deleteArticleComment', data, 'no', 'no');
 module.exports = {
     getCollegeList,
     skinText,
@@ -21,5 +22,6 @@ module.exports = {
     getSkinPage,
     getComponentPage,
     deleteSkinInfo,
-    handleAddArticleBrowse
+    handleAddArticleBrowse,
+    deleteAtcComment
 }

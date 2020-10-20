@@ -84,6 +84,7 @@
         <WaterItem v-for="item in allList" :key="item.id" :objData="item" />
       </div>
     </div>
+    <MovableTop />
   </div>
 </template>
 <script>

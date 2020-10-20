@@ -2,10 +2,10 @@
   <div id="atc-detail-container" v-if="pageType">
     <!-- 头部标题 -->
     <div class="atc-detail-title">
-      <text class="fz-17 fw-bold">{{atcObj.title}}</text>
+      <text class="fz-17 fw-bold">{{ atcObj.title }}</text>
       <div class="mr-t-30 fl-bt">
-        <text class="fz-12 fc-999">浏览 {{atcObj.browse}}</text>
-        <text class="fz-12 fc-999">作者：{{atcObj.sui.nickName}}</text>
+        <text class="fz-12 fc-999">浏览 {{ atcObj.browse }}</text>
+        <text class="fz-12 fc-999">作者：{{ atcObj.sui.nickName }}</text>
       </div>
     </div>
     <div class="fl-cen mr-t-20 mr-b-20" v-if="atcObj.video">
@@ -13,8 +13,8 @@
         id="myVideo"
         class="video-style mr-t-10"
         controls
-        :poster="httpImg+atcObj.preview"
-        :src="httpImg+atcObj.video"
+        :poster="httpImg + atcObj.preview"
+        :src="httpImg + atcObj.video"
         @play="allPing"
         @fullscreenchange="videoChange"
       ></video>
@@ -24,19 +24,30 @@
       <Uparse :content="atcObj.contens" />
     </div>
     <div class="fl-co atc-detail-content">
-      <image mode="widthFix" class="show-img-item" v-for="(item,index) in imgShowList" :key="index" :src="httpImg+item" @tap="prewImgFunc2(index,imgShowList)" />
+      <image
+        mode="widthFix"
+        class="show-img-item"
+        v-for="(item, index) in imgShowList"
+        :key="index"
+        :src="httpImg + item"
+        @tap="prewImgFunc2(index, imgShowList)"
+      />
     </div>
     <!-- 用户 -->
     <div class="atc-user-content fl-bt">
       <div class="mr-l-30 fl-al">
         <image
           class="user-left-img"
-          :src="userImgUrl+atcObj.sui.avatarUrl"
+          :src="userImgUrl + atcObj.sui.avatarUrl"
           @tap="userDetailNext(atcObj.sui.userno)"
         />
-        <text class="fz-15 fw-bold">{{atcObj.sui.nickName}}</text>
+        <text class="fz-15 fw-bold">{{ atcObj.sui.nickName }}</text>
       </div>
-      <div class="follow-btn mr-r-30 fl-cen" v-if="!atcObj.fans.length" @tap="handleClick('gz')">
+      <div
+        class="follow-btn mr-r-30 fl-cen"
+        v-if="!atcObj.fans.length"
+        @tap="handleClick('gz')"
+      >
         <text class="fz-12 fc-fff">关注</text>
       </div>
       <div class="follow-btn2 mr-r-30 fl-cen" v-else @tap="handleClick('qgz')">
@@ -48,13 +59,13 @@
     <div class="comment-box fl-co" v-if="commentType">
       <div class="comment-title-box mr-b-10">
         <text class="fz-17 fw-bold">评论:</text>
-        <text class="fz-17 fw-bold mr-t-4">{{atcObj.title}}</text>
+        <text class="fz-17 fw-bold mr-t-4">{{ atcObj.title }}</text>
       </div>
       <textarea
         :fixed="true"
         :adjust-position="true"
         :show-confirm-bar="true"
-        :cursor-spacing="commentHeight+20"
+        :cursor-spacing="commentHeight + 20"
         @keyboardheightchange="getHeigth"
         :placeholder="commentPlace"
         maxlength="300"
@@ -63,25 +74,37 @@
         v-model="commentForm.componentInfo"
         @input="getText"
       />
-      <div class="fl-fc mr-t-30 mr-b-50" style="width:670rpx">
+      <div class="fl-fc mr-t-30 mr-b-50" style="width: 670rpx">
         <div class="fl-al">
-          <div class="comment-upload-img" v-for="(item,index) in commentImgList" :key="index">
+          <div
+            class="comment-upload-img"
+            v-for="(item, index) in commentImgList"
+            :key="index"
+          >
             <image
               mode="aspectFill"
-              @tap="prewImgFunc(index,commentImgList)"
+              @tap="prewImgFunc(index, commentImgList)"
               class="upload-img-item"
               :src="item.imgPath"
             />
-            <div class="upload-img-delete fz-10 fc-fff fl-cen" @tap="deleteImg(index)">X</div>
+            <div
+              class="upload-img-delete fz-10 fc-fff fl-cen"
+              @tap="deleteImg(index)"
+            >
+              X
+            </div>
           </div>
         </div>
         <div class="fl-bt mr-t-20">
           <div class="fl-al" @tap.native.stop="uploadImgComment" v-if="hType">
-            <image class="comment-icon-upload" src="../../static/me/uploadimg.png" />
+            <image
+              class="comment-icon-upload"
+              src="../../static/me/uploadimg.png"
+            />
             <text class="fz-14 mr-l-10">上传图片</text>
             <text class="fz-14 fc-999 mr-l-10">最多上传3张</text>
           </div>
-          <text class="fz-14 fc-999">{{textLength}}/300</text>
+          <text class="fz-14 fc-999">{{ textLength }}/300</text>
         </div>
       </div>
       <div class="comment-submit-btn fl-cen" @tap="submitComment">
@@ -96,50 +119,72 @@
         <text class="fz-14 fc-999 mr-l-10">写评论</text>
       </div>
     </div>
-    <div class="comment-content" v-for="(item,index) in componentList" :key="index">
+    <div
+      class="comment-content"
+      v-for="(item, index) in componentList"
+      :key="index"
+    >
       <div class="comment-item-box">
         <image
           class="header-img mr-l-20"
-          :src="userImgUrl+item.avatarUrl"
+          :src="userImgUrl + item.avatarUrl"
           @tap="userDetailNext(item.userno)"
         />
         <div class="item-right-coentent mr-r-20">
-          <text class="fc-333 fz-15">{{item.nickName}}</text>
-          <text class="fz-14 mr-t-10">{{item.componentInfo}}</text>
-          <div class="fl-bw mr-t-20">
+          <text class="fc-333 fz-15">{{ item.nickName }}</text>
+          <text class="fz-14 mr-t-10">{{ item.componentInfo }}</text>
+          <text
+            class="fz-12 fc-999 mr-t-10"
+            :class="[item.userno == userNo ? '' : 'show-hide']"
+            @tap="deleteMyComment(item)"
+            >删除</text
+          >
+          <div class="fl-bw mr-t-10">
             <image
-              v-for="(img,imgIndex) in item.img"
-              @tap="prewImgFunc2(imgIndex,item.img)"
+              v-for="(img, imgIndex) in item.img"
+              @tap="prewImgFunc2(imgIndex, item.img)"
               :key="imgIndex"
               mode="aspectFill"
               class="comment-img-item"
-              :class="[imgIndex!==2?'mr-r-20':'']"
-              :src="httpImg+img"
+              :class="[imgIndex !== 2 ? 'mr-r-20' : '']"
+              :src="httpImg + img"
             />
           </div>
           <div
             class="communication-content mr-t-20"
-            :class="[item.reply.length?'communication-content-bgf8':'communication-content-bgfff']"
+            :class="[
+              item.reply.length
+                ? 'communication-content-bgf8'
+                : 'communication-content-bgfff',
+            ]"
           >
-            <div v-for="(rowItem,rowIndex) in item.reply" :key="rowIndex">
+            <div v-for="(rowItem, rowIndex) in item.reply" :key="rowIndex">
               <div
                 class="communication-item"
-                v-if="rowItemcommentType===0||rowItem.userno===rowItem.replyUserno"
+                v-if="
+                  rowItemcommentType === 0 ||
+                  rowItem.userno === rowItem.replyUserno
+                "
               >
-                <text @tap="handleClick('hf2',rowItem)" class="fz-13 fc-5d">{{rowItem.nickName}}：</text>
-                <text class="fz-13">{{rowItem.componentInfo}}</text>
+                <text @tap="handleClick('hf2', rowItem)" class="fz-13 fc-5d"
+                  >{{ rowItem.nickName }}：</text
+                >
+                <text class="fz-13">{{ rowItem.componentInfo }}</text>
               </div>
               <div class="communication-item mr-t-10" v-else>
-                <text class="fz-13 fc-5d" @tap="handleClick('hf2',rowItem)">{{rowItem.nickName}}</text>
+                <text class="fz-13 fc-5d" @tap="handleClick('hf2', rowItem)">{{
+                  rowItem.nickName
+                }}</text>
                 <text class="fz-13 fc-5d mr-l-10">回复</text>
                 <text
                   class="fz-13 fc-5d mr-l-10"
-                  @tap="handleClick('hf3',rowItem)"
-                >{{rowItem.replyName}}：</text>
-                <text class="fz-13">{{rowItem.componentInfo}}</text>
+                  @tap="handleClick('hf3', rowItem)"
+                  >{{ rowItem.replyName }}：</text
+                >
+                <text class="fz-13">{{ rowItem.componentInfo }}</text>
               </div>
             </div>
-            <div class="huifu-box mr-t-10" @tap="handleClick('hf',item)">
+            <div class="huifu-box mr-t-10" @tap="handleClick('hf', item)">
               <text class="fz-13 fc-5d">回复</text>
             </div>
           </div>
@@ -161,24 +206,40 @@
       </div>
       <div class="fl-cen right-opt-list mr-r-30">
         <div class="fl-al btn-widht-style" @tap.native.stop="handleClick('dz')">
-          <text class="iconfont iconweibiaoti-- fz-16" v-if="atcObj.isPrais===0"></text>
+          <text
+            class="iconfont iconweibiaoti-- fz-16"
+            v-if="atcObj.isPrais === 0"
+          ></text>
           <text class="iconfont iconweibiaoti-- fz-16 fc-f1" v-else></text>
-          <text class="fz-12 mr-l-6" v-if="atcObj.isPrais===0">{{atcObj.smallPraisNum}}</text>
-          <text class="fz-12 mr-l-6 fc-f1" v-else>{{atcObj.smallPraisNum}}</text>
+          <text class="fz-12 mr-l-6" v-if="atcObj.isPrais === 0">{{
+            atcObj.smallPraisNum
+          }}</text>
+          <text class="fz-12 mr-l-6 fc-f1" v-else>{{
+            atcObj.smallPraisNum
+          }}</text>
         </div>
         <div class="fl-al btn-widht-style" @tap.native.stop="handleClick('sc')">
-          <text class="iconfont iconshoucang fz-16" v-if="atcObj.isCollection===0"></text>
+          <text
+            class="iconfont iconshoucang fz-16"
+            v-if="atcObj.isCollection === 0"
+          ></text>
           <text class="iconfont iconshoucang fz-16 fc-f1" v-else></text>
-          <text class="fz-12 mr-l-6" v-if="atcObj.isCollection===0">{{atcObj.collectionNum}}</text>
-          <text class="fz-12 mr-l-6 fc-f1" v-else>{{atcObj.collectionNum}}</text>
+          <text class="fz-12 mr-l-6" v-if="atcObj.isCollection === 0">{{
+            atcObj.collectionNum
+          }}</text>
+          <text class="fz-12 mr-l-6 fc-f1" v-else>{{
+            atcObj.collectionNum
+          }}</text>
         </div>
         <div class="fl-al btn-widht-style" @tap.native.stop="getComHeight">
           <text class="iconfont iconpinglun fz-20"></text>
-          <text class="fz-12 mr-l-2">{{total}}</text>
+          <text class="fz-12 mr-l-2">{{ total }}</text>
         </div>
         <div class="fl-al btn-widht-style share-box-style">
           <text class="iconfont iconfenxiang fz-20"></text>
-          <text class="fz-12 mr-l-2">{{atcObj.forward?atcObj.forward:0}}</text>
+          <text class="fz-12 mr-l-2">{{
+            atcObj.forward ? atcObj.forward : 0
+          }}</text>
           <button class="share-btn-style" open-type="share"></button>
         </div>
       </div>
@@ -217,6 +278,7 @@ export default {
       total: 0,
       more: true,
       imgShowList: [],
+      userNo:''
     };
   },
   async onLoad(obj) {
@@ -413,6 +475,25 @@ export default {
         url: `/subPackages/me/personDetails?userno=${userno}`,
       });
     },
+    // 删除自己的评论
+    deleteMyComment(row) {
+      let that = this;
+      uni.showModal({
+        title: "删除评论",
+        content: "是否删除?",
+        success: async (res) => {
+          if (res.confirm) {
+            await that.$api.deleteAtcComment({
+              commentId: row.id,
+              currentUserNo: that.userNo,
+            });
+            that.getAtcData();
+          } else if (res.cancel) {
+            return;
+          }
+        },
+      });
+    },
     getText() {
       let arr = this.commentForm.componentInfo.split("");
       this.textLength = arr.length;
@@ -519,6 +600,25 @@ export default {
             return;
           }
           // 回复评论
+          if (row.userno === this.userNo) {
+            let that = this;
+            uni.showModal({
+              title: "删除评论",
+              content: "是否删除?",
+              success: async (res) => {
+                if (res.confirm) {
+                  await that.$api.deleteAtcComment({
+                    commentId: row.id,
+                    currentUserNo: that.userNo,
+                  });
+                  that.getAtcData();
+                } else if (res.cancel) {
+                  return;
+                }
+              },
+            });
+            return;
+          }
           this.commentForm.componentType = 2;
           this.commentForm.componentId = row.componentId;
           this.commentForm.replyUserno = row.userno;
@@ -533,6 +633,9 @@ export default {
             uni.reLaunch({
               url: "/pages/page/login",
             });
+            return;
+          }
+          if (row.replyUserno === this.userNo) {
             return;
           }
           // 回复评论
@@ -764,5 +867,8 @@ export default {
 .show-img-item {
   margin-top: 10rpx;
   width: 100%;
+}
+.show-hide {
+  display: none;
 }
 </style>

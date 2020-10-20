@@ -7,6 +7,8 @@ const addUserInfo = (data) => postRequest('/smallprogramMain/handleInsertUserInf
 const getUserInfo = (data) => postRequest('/smallprogramMain/handleGetUserInfo', data, '', '');
 // 修改用户
 const editUserInfo = (data) => postRequest('/smallprogramMain/handleUpdateSmallUser', data, '', '');
+// 请求添加用户
+const handleInsertUserInfoNew = (data) => postRequest('/smallprogramMain/handleInsertUserInfoNew', data);
 // 获取消息列表
 const getMsgList = (data) => postRequest('/sa/index/front/pullSystemMessage', data, 'no', '');
 // 获取完善用户信息
@@ -47,5 +49,6 @@ module.exports = {
     getAtcInfo,
     atcPlRequest,
     articleDz,
-    articleSc
+    articleSc,
+	handleInsertUserInfoNew
 }
