@@ -102,6 +102,11 @@ export default {
       askData: [],
     };
   },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
+    };
+  },
   onLoad(obj) {
     this.labelText = obj.text;
     this.aboutAtc();

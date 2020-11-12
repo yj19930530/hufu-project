@@ -1,21 +1,29 @@
 <template>
   <div id="ganhuo-container">
-    <div style="height:20rpx"></div>
-    <div class="video-item-box" v-for="(item,index) in ganVideo" :key="index">
+    <div style="height: 20rpx"></div>
+    <div class="video-item-box" v-for="(item, index) in ganVideo" :key="index">
       <div class="video-item-cover">
-        <image  mode="aspectFill" class="cover-img" :src="atcImgUrl+item.preview" v-if="item.playType" />
+        <image
+          mode="aspectFill"
+          class="cover-img"
+          :src="atcImgUrl + item.preview"
+          v-if="item.playType"
+        />
         <video
-        v-if="!item.playType"
-        :id="'myVideo'+index"
-        class="video-style mr-t-10"
-        controls
-        :src="atcImgUrl+item.video"
-        @ended="videoEndHandle(index)"
-      ></video>
+          v-if="!item.playType"
+          :id="'myVideo' + index"
+          class="video-style mr-t-10"
+          controls
+          :src="atcImgUrl + item.video"
+          @ended="videoEndHandle(index)"
+        ></video>
         <div class="video-item-center" v-if="item.playType">
-          <text class="fz-14 fc-fff">{{item.title}}</text>
+          <text class="fz-14 fc-fff">{{ item.title }}</text>
           <div class="fl-cen" @tap="playerVideo(index)">
-            <image class="video-player" src="../../static/college/ganhuovideo.png" />
+            <image
+              class="video-player"
+              src="../../static/college/ganhuovideo.png"
+            />
           </div>
           <!-- <div class="fl-bt decribe-text-style">
             <text class="fz-12 fc-fff">802万次观看</text>
@@ -25,12 +33,19 @@
       </div>
       <div class="video-item-user fl-bt">
         <div class="fl-al">
-          <image class="video-user-img" :src="userImgUrl+item.sui.avatarUrl" />
-          <text class="fz-15">{{item.sui.nickName}}</text>
+          <image
+            class="video-user-img"
+            :src="userImgUrl + item.sui.avatarUrl"
+          />
+          <text class="fz-15">{{ item.sui.nickName }}</text>
         </div>
         <div class="share-btn-box" @tap="toSharePath">
           <text class="iconfont iconfenxiang fz-20 fc-333"></text>
-          <button type="primary" class="share-visibiliti-btn" open-type="share"></button>
+          <button
+            type="primary"
+            class="share-visibiliti-btn"
+            open-type="share"
+          ></button>
         </div>
       </div>
     </div>
@@ -38,7 +53,7 @@
 </template>
 <script>
 const { toast } = require("../../utils/index");
-const { atcImgUrl,userImgUrl } = require("../../config/develop");
+const { atcImgUrl, userImgUrl } = require("../../config/develop");
 export default {
   data() {
     return {
@@ -50,7 +65,7 @@ export default {
       userImgUrl: userImgUrl,
     };
   },
-    onShareAppMessage(res) {
+  onShareAppMessage(res) {
     return {
       title: "干货视频",
       path: "/subPackages/college/videoDetail",
@@ -72,28 +87,27 @@ export default {
     this.getVideo();
   },
   methods: {
-    videoEndHandle(i){
+    videoEndHandle(i) {
       let videoContent = uni.createVideoContext(`myVideo${i}`);
-      videoContent.stop();   
-      this.ganVideo[i].playType = true;   
+      videoContent.stop();
+      this.ganVideo[i].playType = true;
     },
     // 播放视频
-    playerVideo(i){
-      this.ganVideo.forEach((item,index)=>{
-        if(index === i){
+    playerVideo(i) {
+      this.ganVideo.forEach((item, index) => {
+        if (index === i) {
           this.ganVideo[index].playType = false;
-          const timer = setTimeout(()=>{
+          const timer = setTimeout(() => {
             let videoContent = uni.createVideoContext(`myVideo${i}`);
             videoContent.play();
-            clearTimeout(timer)
-          },500)
-        }else {
+            clearTimeout(timer);
+          }, 500);
+        } else {
           let videoContent = uni.createVideoContext(`myVideo${i}`);
-          videoContent.stop();   
-          this.ganVideo[index].playType = true;       
+          videoContent.stop();
+          this.ganVideo[index].playType = true;
         }
-      })
-  
+      });
     },
     resetData() {
       this.ganVideo = [];
@@ -109,9 +123,9 @@ export default {
         index: 2,
         label: "干货视频",
       });
-      data.page.list.forEach(item=>{
+      data.page.list.forEach((item) => {
         item.playType = true;
-      })      
+      });
       this.ganVideo = this.ganVideo.concat(data.page.list);
       if (
         data.page.list === 0 ||

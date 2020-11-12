@@ -8,8 +8,11 @@
         @tap="navToDetails(item.id)"
       >
         <div class="archives-title fl-bt">
-          <text class="fz-15">{{dateTimeConver(item.createTime)}}</text>
-          <text class="iconfont iconshanchu fz-18" @tap.native.stop="deleteSkinItem(item)"></text>
+          <text class="fz-15">{{ dateTimeConver(item.createTime) }}</text>
+          <text
+            class="iconfont iconshanchu fz-18"
+            @tap.native.stop="deleteSkinItem(item)"
+          ></text>
         </div>
         <div class="archives-bottom-score">
           <image class="archives-score-bj" src="../../static/me/bj.png" />
@@ -17,11 +20,13 @@
             <div class="center-score-img">
               <image class="score-img-bj" src="../../static/me/yuanhuan.png" />
               <div class="score-img-text fl-co">
-                <text class="fz-35 fc-fff mr-t-fu10">{{item.score}}</text>
+                <text class="fz-35 fc-fff mr-t-fu10">{{ item.score }}</text>
                 <text class="fz-12 fc-fff mr-t-fu10">综合得分</text>
               </div>
             </div>
-            <text class="fz-12 fc-fff mr-t-30">我的肤质得分击败了{{item.rank_num}}个用户</text>
+            <text class="fz-12 fc-fff mr-t-30"
+              >我的肤质得分击败了{{ item.rank_num }}个用户</text
+            >
           </div>
         </div>
       </div>
@@ -44,6 +49,11 @@ export default {
       tableList: [],
       more: true,
       noData: false,
+    };
+  },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
     };
   },
   onLoad() {

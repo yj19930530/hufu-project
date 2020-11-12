@@ -13,7 +13,7 @@
 <script>
 export default {
   data() {
-    let bottom = 10;
+    let bottom = 170;
     let right = 10;
     return {
       bottom: bottom,

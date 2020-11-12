@@ -461,6 +461,9 @@ export default {
     this.getIconData();
     this.getBannerData();
   },
+  onShareAppMessage() {
+    return {};
+  },
   methods: {
     userDetailNext(row) {
       if (!this.userNo) {

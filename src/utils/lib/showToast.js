@@ -9,7 +9,7 @@ function showLoading(title) {
     uni.showLoading({
         title: title,
         mask: true,
-        duration: 2000
+        duration: 5000
     });
 }
 module.exports = {

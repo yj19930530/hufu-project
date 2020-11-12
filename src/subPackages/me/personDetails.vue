@@ -141,6 +141,11 @@ export default {
       this.getIsZanAndShouList();
     }
   },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
+    };
+  },
   onLoad(obj) {
     this.userNoMy = uni.getStorageSync("userno");
     this.userNo = obj.userno;

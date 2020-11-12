@@ -346,6 +346,9 @@ export default {
       this.getCirleRightList2();
     }
   },
+  onShareAppMessage() {
+    return {};
+  },
   destroyed() {
     this.showIndex = -1;
   },

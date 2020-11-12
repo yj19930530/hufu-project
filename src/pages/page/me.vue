@@ -115,6 +115,9 @@ export default {
   onShow() {
     this.getUserInfo();
   },
+  onShareAppMessage() {
+    return {};
+  },
   methods: {
     // 跳转商城
     openWecat() {

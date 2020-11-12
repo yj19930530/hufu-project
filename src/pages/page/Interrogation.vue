@@ -31,6 +31,9 @@ export default {
   onLoad() {
     this.userNo = uni.getStorageSync("userno");
   },
+  onShareAppMessage() {
+    return {};
+  },
   methods: {
     optNavigatorPath() {
       if (!this.userNo) {

@@ -4,7 +4,11 @@
     <div class="person-edit-item fl-bt" @tap="uploadImgFunc">
       <text class="fz-15 mr-l-30">修改头像</text>
       <div class="fl-al mr-r-30">
-        <image mode="aspectFill" class="edit-item-img" :src="userImgUrl+form.avatarUrl" />
+        <image
+          mode="aspectFill"
+          class="edit-item-img"
+          :src="userImgUrl + form.avatarUrl"
+        />
         <text class="iconfont iconyoujiantou fz-14 fc-999 mr-l-4"></text>
       </div>
     </div>
@@ -20,11 +24,16 @@
         <text class="iconfont iconyoujiantou fz-14 fc-999 mr-l-4"></text>
       </div>
     </div>
-    <picker @change="bindPickerChange" :value="sexIndex" :range="sexList" range-key="name">
+    <picker
+      @change="bindPickerChange"
+      :value="sexIndex"
+      :range="sexList"
+      range-key="name"
+    >
       <div class="person-edit-item fl-bt">
         <text class="fz-15 mr-l-30">性别</text>
         <div class="fl-al mr-r-30">
-          <text class="fz-15">{{sexList[sexIndex].name}}</text>
+          <text class="fz-15">{{ sexList[sexIndex].name }}</text>
           <text class="iconfont iconyoujiantou fz-14 fc-999 mr-l-4"></text>
         </div>
       </div>
@@ -73,7 +82,12 @@ export default {
         telNumber: "",
       },
       userNo: "",
-      userImgUrl:userImgUrl
+      userImgUrl: userImgUrl,
+    };
+  },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
     };
   },
   onLoad() {

@@ -18,12 +18,22 @@
       </div>
     </div>-->
     <div class="follow-has-list">
-      <div class="follow-item-content fl-bt" v-for="(item,index) in followList" :key="index">
+      <div
+        class="follow-item-content fl-bt"
+        v-for="(item, index) in followList"
+        :key="index"
+      >
         <div class="mr-l-20 fl-al" @tap="lookUserDetail(item)">
-          <image class="follow-left-header" :src=" userImgUrl+item.idolUser.avatarUrl" />
-          <text class="fz-15 fw-bold">{{item.idolUser.nickName}}</text>
+          <image
+            class="follow-left-header"
+            :src="userImgUrl + item.idolUser.avatarUrl"
+          />
+          <text class="fz-15 fw-bold">{{ item.idolUser.nickName }}</text>
         </div>
-        <div class="mr-r-20 fl-cen follow-has-btn" @tap="closeFollow(item.idolUser,index)">
+        <div
+          class="mr-r-20 fl-cen follow-has-btn"
+          @tap="closeFollow(item.idolUser, index)"
+        >
           <text class="fz-12 fc-999">取消关注</text>
         </div>
       </div>
@@ -53,6 +63,11 @@ export default {
     this.resetData();
     this.userNo = uni.getStorageSync("userno");
     this.getFollowList();
+  },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
+    };
   },
   // 上拉刷新
   async onPullDownRefresh() {

@@ -1,20 +1,31 @@
 <template>
   <div id="follow-container">
     <div class="follow-has-list">
-      <div class="follow-item-content fl-bt" v-for="(item,index) in fansList" :key="index">
+      <div
+        class="follow-item-content fl-bt"
+        v-for="(item, index) in fansList"
+        :key="index"
+      >
         <div class="mr-l-20 fl-al" @tap="lookUserDetail(item)">
-          <image class="follow-left-header" :src="userImgUrl+item.fansUser.avatarUrl" />
-          <text class="fz-15 fw-bold">{{item.fansUser.nickName}}</text>
+          <image
+            class="follow-left-header"
+            :src="userImgUrl + item.fansUser.avatarUrl"
+          />
+          <text class="fz-15 fw-bold">{{ item.fansUser.nickName }}</text>
         </div>
         <div
           class="mr-r-20 fl-cen follow-has-btn"
           v-if="!item.gzState"
-          @tap="handleFollow(item.fansUser,index)"
+          @tap="handleFollow(item.fansUser, index)"
         >
           <image class="fans-icon" src="../../static/me/huxiang.png" />
           <text class="fz-12 fc-999 mr-l-4">互相关注</text>
         </div>
-        <div class="mr-r-20 fl-cen follow-has-btn" v-else @tap="closeFollow(item.fansUser,index)">
+        <div
+          class="mr-r-20 fl-cen follow-has-btn"
+          v-else
+          @tap="closeFollow(item.fansUser, index)"
+        >
           <text class="fz-12 fc-999 mr-l-4">取消关注</text>
         </div>
       </div>
@@ -25,7 +36,7 @@
   </div>
 </template>
 <script>
-const {userImgUrl} = require('../../config/develop')
+const { userImgUrl } = require("../../config/develop");
 export default {
   data() {
     return {
@@ -37,12 +48,17 @@ export default {
       queryType: "获取粉丝",
       fansList: [],
       more: true,
-      userImgUrl:userImgUrl
+      userImgUrl: userImgUrl,
+    };
+  },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
     };
   },
   onShow() {
     this.resetData();
-    this.userNo = uni.getStorageSync('userno');
+    this.userNo = uni.getStorageSync("userno");
     this.getFansList();
   },
   // 上拉刷新

@@ -11,13 +11,13 @@
         />
         <div class="fl-bt mr-t-20">
           <text class="fz-14">上传多张照片更容易上热搜榜哦</text>
-          <text class="fc-999 fz-14">{{imgList.length}}/9</text>
+          <text class="fc-999 fz-14">{{ imgList.length }}/9</text>
         </div>
         <!-- 上傳圖片 -->
         <div class="mr-t-30 fl-btc">
           <image
             @longtap="logoTime(index)"
-            v-for="(item,index) in imgList"
+            v-for="(item, index) in imgList"
             @tap="preImage(index)"
             :key="index"
             mode="aspectFill"
@@ -25,7 +25,7 @@
             :src="item.imgPath"
           />
           <div
-            v-if="imgList.length!==9"
+            v-if="imgList.length !== 9"
             class="add-img-btn fl-cen mr-b-20"
             @tap="uploadImgComment"
           >
@@ -41,7 +41,10 @@
       </div>
     </div>
     <div class="delete-content" v-if="deleteType">
-      <div class="delete-bt-box" :class="[deleteType?'bot-style-1':'bot-style-2']">
+      <div
+        class="delete-bt-box"
+        :class="[deleteType ? 'bot-style-1' : 'bot-style-2']"
+      >
         <div class="delete-btn fl-cen" @tap="deleteCommentImg">
           <text class="fz-15 fc-f1 text-letter-spc fw-bold">刪除</text>
         </div>
@@ -65,6 +68,11 @@ export default {
         noteImgs: "",
       },
       nowIndex: 0,
+    };
+  },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
     };
   },
   onLoad(obj) {
@@ -92,7 +100,10 @@ export default {
     },
     // 上传图片
     async uploadImgComment() {
-      const imgOBj = await common.updataImg(9 - this.imgList.length,'印圈笔记');
+      const imgOBj = await common.updataImg(
+        9 - this.imgList.length,
+        "印圈笔记"
+      );
       this.imgList = [...this.imgList, ...imgOBj];
     },
     // 发表
@@ -137,7 +148,7 @@ export default {
               showCancel: false,
               confirmText: "返回",
               success: function (res) {
-                uni.navigateBack('');
+                uni.navigateBack("");
               },
             });
             uni.hideLoading();

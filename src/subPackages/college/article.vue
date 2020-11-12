@@ -41,6 +41,11 @@ export default {
   onLoad() {
     this.getAtc();
   },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
+    };
+  },
   methods: {
     resetData() {
       this.ganAtc = [];

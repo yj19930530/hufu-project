@@ -86,6 +86,11 @@ export default {
     this.form.openId = uni.getStorageSync("opId");
     this.getAgeList();
   },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
+    };
+  },
   methods: {
     // 提交测试
     submitSkinForm() {

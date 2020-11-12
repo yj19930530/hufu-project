@@ -19,6 +19,11 @@ export default {
   components: {
     WaterItem,
   },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
+    };
+  },
   methods: {
     // 获取商品列表
     async getTableList() {

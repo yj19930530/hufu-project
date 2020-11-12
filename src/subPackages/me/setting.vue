@@ -18,6 +18,11 @@ export default {
   data() {
     return {};
   },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
+    };
+  },
   methods: {
     navPathToUs() {
       uni.navigateTo({

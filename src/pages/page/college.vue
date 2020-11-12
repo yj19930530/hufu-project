@@ -53,6 +53,9 @@ export default {
   onLoad() {
     this.getList();
   },
+  onShareAppMessage() {
+    return {};
+  },
   components: {
     ArtItem,
     VideoItem,

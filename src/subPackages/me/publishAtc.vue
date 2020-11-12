@@ -3,7 +3,11 @@
     <div class="write-center-content">
       <div class="write-center-box">
         <div class="write-title-box fl-al">
-          <input v-model="writeForm.title" class="title-input-style fz-17" placeholder="添加标题" />
+          <input
+            v-model="writeForm.title"
+            class="title-input-style fz-17"
+            placeholder="添加标题"
+          />
         </div>
         <textarea
           maxlength="300"
@@ -12,18 +16,18 @@
           v-model="writeForm.content"
         />
         <!-- 上傳圖片 -->
-        <div class="mr-t-30 fl-btc" style="width:100%">
+        <div class="mr-t-30 fl-btc" style="width: 100%">
           <image
             mode="widthFix"
             @longtap="logoTime(index)"
-            v-for="(item,index) in imgList"
+            v-for="(item, index) in imgList"
             @tap="preImage(index)"
             :key="index"
             class="img-updata-item"
             :src="item.imgPath"
           />
           <div
-            v-if="imgList.length!==9"
+            v-if="imgList.length !== 9"
             class="add-img-btn fl-cen mr-b-20"
             @tap="uploadImgComment"
           >
@@ -39,7 +43,10 @@
       </div>
     </div>
     <div class="delete-content" v-if="deleteType">
-      <div class="delete-bt-box" :class="[deleteType?'bot-style-1':'bot-style-2']">
+      <div
+        class="delete-bt-box"
+        :class="[deleteType ? 'bot-style-1' : 'bot-style-2']"
+      >
         <div class="delete-btn fl-cen" @tap="deleteCommentImg">
           <text class="fz-15 fc-f1 text-letter-spc fw-bold">刪除</text>
         </div>
@@ -61,13 +68,18 @@ export default {
         creatorNo: "",
         content: "",
         noteImgs: "",
-        title:''
+        title: "",
       },
       nowIndex: 0,
     };
   },
   onLoad(obj) {
     this.writeForm.creatorNo = uni.getStorageSync("userno");
+  },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
+    };
   },
   methods: {
     logoTime(i) {
@@ -90,7 +102,10 @@ export default {
     },
     // 上传图片
     async uploadImgComment() {
-      const imgOBj = await common.updataImg(9 - this.imgList.length,'前台文章');
+      const imgOBj = await common.updataImg(
+        9 - this.imgList.length,
+        "前台文章"
+      );
       this.imgList = [...this.imgList, ...imgOBj];
     },
     // 发表

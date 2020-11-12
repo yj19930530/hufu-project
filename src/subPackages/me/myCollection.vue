@@ -69,6 +69,11 @@ export default {
   onLoad() {
     this.userNoMy = uni.getStorageSync("userno");
   },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
+    };
+  },
   async onShow() {
     await this.resetData();
     this.getIsZanAndShouList();
