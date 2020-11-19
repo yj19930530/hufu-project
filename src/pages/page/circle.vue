@@ -289,7 +289,7 @@ export default {
   data() {
     return {
       optName: "left",
-      labelName: "护肤日记",
+      labelName: "回访记录",
       commentType: false,
       commentHeight: 0,
       pageNo: 1,
@@ -533,6 +533,7 @@ export default {
     },
     circleChange(type) {
       if (this.labelName === type) return;
+      this.resetData();
       this.labelName = type;
       this.getCirleLeftList();
     },
