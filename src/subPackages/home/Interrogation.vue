@@ -21,9 +21,16 @@
           >
             <div class="fl-co">
               <image
+               v-if="item.avatarUrl"
                 class="doc-header-img"
                 mode="aspectFill"
                 :src="userImgUrl + item.avatarUrl"
+              />
+              <image
+               v-else
+                class="doc-header-img"
+                mode="aspectFill"
+                 src="../../static/default-header.png"
               />
               <text class="fz-13 mr-t-4">{{ item.nickName }}</text>
               <text class="fz-10 fc-999 mr-t-6">高级专家护肤导师</text>

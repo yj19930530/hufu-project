@@ -37,8 +37,15 @@
     <div class="atc-user-content fl-bt">
       <div class="mr-l-30 fl-al">
         <image
+         v-if="atcObj.sui.avatarUrl"
           class="user-left-img"
           :src="userImgUrl + atcObj.sui.avatarUrl"
+          @tap="userDetailNext(atcObj.sui.userno)"
+        />
+        <image
+          v-else
+          class="user-left-img"
+          src="../../static/default-header.png"
           @tap="userDetailNext(atcObj.sui.userno)"
         />
         <text class="fz-15 fw-bold">{{ atcObj.sui.nickName }}</text>
@@ -347,7 +354,8 @@ export default {
       this.getCompotentData(data.id);
       this.atcObj = data;
       if (this.atcObj.imgs) this.imgShowList = this.atcObj.imgs.split(",");
-      this.atcObj.contens = data.contens ? data.contens : "没有内容";
+      this.atcObj.contens = data.contens ? this.atcObj.contens.split('\n').join('<br/>') : "没有内容";
+      console.log(this.atcObj.contens.split('\n').join('<br/>'))
       uni.hideLoading();
       this.pageType = true;
     },

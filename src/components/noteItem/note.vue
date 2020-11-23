@@ -9,8 +9,9 @@
     <div class="note-item-bot">
       <div class="fz-12 text-lang-dian2">{{objDetail.title}}</div>
       <div class="fl-bt mr-t-10">
-        <div class="fl-ff text-lang-dian">
-          <image class="note-item-header" :src="userImgUrl+objDetail.sui.avatarUrl" />
+        <div class="fl-al text-lang-dian">
+          <image v-if="objDetail.sui.avatarUrl" class="note-item-header" :src="userImgUrl+objDetail.sui.avatarUrl" />
+          <image v-else class="note-item-header" src="../../static/default-header.png" />
           <text class="fz-10 fc-999 mr-l-10">{{objDetail.sui.nickName}}</text>
         </div>
         <div class="fl-al">

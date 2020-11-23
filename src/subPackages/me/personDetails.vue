@@ -5,8 +5,14 @@
       <div class="fl-bt">
         <div class="user-img-box fl-al">
           <image
+            v-if="userInfo.avatarUrl"
             class="detail-user-img"
             :src="userImgUrl + userInfo.avatarUrl"
+          />
+          <image
+            v-else
+            class="detail-user-img"
+            src="../../static/default-header.png"
           />
           <text class="mr-l-30 fz-15">{{ userInfo.nickName }}</text>
         </div>

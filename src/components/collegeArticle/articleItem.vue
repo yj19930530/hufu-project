@@ -1,9 +1,22 @@
 <template>
   <div class="article-item-box">
     <image
+      v-if="detailInfo.preview"
       mode="aspectFill"
       class="article-item-img"
-      :src="atcImgUrl + detailInfo.displayimg"
+      :src="atcImgUrl + detailInfo.preview"
+    />
+    <image
+      v-else-if="detailInfo.displayimg"
+      mode="aspectFill"
+      class="article-item-img"
+      :src="atcImgUrl + detailInfo.preview"
+    />
+    <image
+      v-else-if="detailInfo.imgs2"
+      mode="aspectFill"
+      class="article-item-img"
+      :src="atcImgUrl + detailInfo.preview"
     />
     <div class="mr-t-6 box-width">
       <div class="box-width-padding">

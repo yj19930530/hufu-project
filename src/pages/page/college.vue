@@ -70,6 +70,9 @@ export default {
       });
       this.ganVideo = data.ghsp;
       this.ganAtc = data["hfxy-hfwz"];
+      this.ganAtc.forEach((item) => {
+        item.imgs2 = this.ganAtc[0].imgs.split(",")[0];
+      });
     },
     optNavigatorPath(path) {
       switch (path) {
