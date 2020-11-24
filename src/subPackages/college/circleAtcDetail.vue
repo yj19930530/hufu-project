@@ -1,5 +1,26 @@
 <template>
   <div id="atc-detail-container" v-if="pageType">
+    <!-- 轮播图 -->
+    <div style="height:500rpx">
+      <swiper
+        class="swiper"
+        style="height: 100%"
+        :indicator-dots="indicatorDots"
+        :autoplay="autoplay"
+        :interval="interval"
+        :duration="duration"
+      >
+        <swiper-item v-for="(item, index) in imgShowList" :key="index">
+          <image
+            mode="widthFix"
+            class="show-img-item"
+            :src="httpImg + item"
+            @tap="prewImgFunc2(index, imgShowList)"
+          />
+        </swiper-item>
+      </swiper>
+    </div>
+
     <!-- 头部标题 -->
     <div class="atc-detail-title">
       <text class="fz-17 fw-bold">{{ atcObj.title }}</text>
@@ -23,7 +44,7 @@
     <div class="atc-detail-content">
       <Uparse :content="atcObj.contens" />
     </div>
-    <div class="fl-co atc-detail-content">
+    <!-- <div class="fl-co atc-detail-content">
       <image
         mode="widthFix"
         class="show-img-item"
@@ -32,12 +53,12 @@
         :src="httpImg + item"
         @tap="prewImgFunc2(index, imgShowList)"
       />
-    </div>
+    </div> -->
     <!-- 用户 -->
     <div class="atc-user-content fl-bt">
       <div class="mr-l-30 fl-al">
         <image
-         v-if="atcObj.sui.avatarUrl"
+          v-if="atcObj.sui.avatarUrl"
           class="user-left-img"
           :src="userImgUrl + atcObj.sui.avatarUrl"
           @tap="userDetailNext(atcObj.sui.userno)"
@@ -285,7 +306,12 @@ export default {
       total: 0,
       more: true,
       imgShowList: [],
-      userNo:''
+      userNo: "",
+      background: ["color1", "color2", "color3"],
+      indicatorDots: false,
+      autoplay: true,
+      interval: 5000,
+      duration: 500,
     };
   },
   async onLoad(obj) {
@@ -354,7 +380,9 @@ export default {
       this.getCompotentData(data.id);
       this.atcObj = data;
       if (this.atcObj.imgs) this.imgShowList = this.atcObj.imgs.split(",");
-      this.atcObj.contens = data.contens ? this.atcObj.contens.split('\n').join('<br/>') : "没有内容";
+      this.atcObj.contens = data.contens
+        ? this.atcObj.contens.split("\n").join("<br/>")
+        : "没有内容";
       uni.hideLoading();
       this.pageType = true;
     },
@@ -872,8 +900,8 @@ export default {
   justify-content: flex-end;
 }
 .show-img-item {
-  margin-top: 10rpx;
   width: 100%;
+  height: 100%;
 }
 .show-hide {
   display: none;

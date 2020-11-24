@@ -53,7 +53,7 @@ export default {
   methods: {
     lookDetail() {
       uni.navigateTo({
-        url: `/subPackages/college/atcDetail?id=${this.objDetail.id}`,
+        url: `/subPackages/college/circleAtcDetail?id=${this.objDetail.id}`,
       });
     },
   },

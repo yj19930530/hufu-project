@@ -212,7 +212,7 @@
             >
               <image class="menu-icon3" src="../../static/circle/zan2.png" />
               <text
-                class="fz-12 fc-5d"
+                class="fz-12 fc-5d fw-bold"
                 v-for="(zRow, zIx) in item.likeUsers"
                 :key="zIx"
                 >{{ zRow.nickName
@@ -842,6 +842,8 @@ page{
 }
 .has-zan-list {
   width: 500rpx;
+  display: flex;
+  align-items: center;
 }
 .right-position {
   right: 0;

@@ -123,6 +123,12 @@
 					"style": {
 						"navigationBarTitleText": ""
 					}
+				},
+				{
+					"path": "circleAtcDetail",
+					"style": {
+						"navigationBarTitleText": ""
+					}
 				}
 			]
 		},
