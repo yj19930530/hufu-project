@@ -87,7 +87,7 @@
     color: #f8f8f8 !important;
   }
   .fc-f1 {
-    color: #F11B20 !important;
+    color: #A4423F !important;
   }
   .fw-bold {
     font-weight: bold;
@@ -277,4 +277,7 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
+}
+.dianzi-style {
+  margin-bottom: 48rpx;
 }

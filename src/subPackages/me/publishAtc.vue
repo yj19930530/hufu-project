@@ -37,7 +37,11 @@
         <div class="delete-img-title">
           <text class="fz-12 fc-999">提示：长按可删除图片</text>
         </div>
-        <div class="sumit-btn fl-cen" @tap="submitWrite">
+        <div
+          class="sumit-btn fl-cen"
+          @tap="submitWrite"
+          :class="[iPhoneType === -1 ? '' : 'dianzi-style']"
+        >
           <text class="fz-20 fc-fff">发表</text>
         </div>
       </div>
@@ -71,10 +75,18 @@ export default {
         title: "",
       },
       nowIndex: 0,
+      iPhoneType: -1,
     };
   },
   onLoad(obj) {
+    let t = common.iPhoneReturn(this.phoneModel);
+    this.iPhoneType = t ? -1 : 0;
     this.writeForm.creatorNo = uni.getStorageSync("userno");
+  },
+  computed: {
+    phoneModel() {
+      return getApp().globalData.model;
+    },
   },
   onShareAppMessage() {
     return {

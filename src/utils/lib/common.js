@@ -63,6 +63,26 @@ function dateTime(time) {
         date.getSeconds() >= 10 ? date.getSeconds() : "0" + date.getSeconds();
     return `${year}-${month}-${day} ${h}:${m}:${s}`;
 }
+// 根据机型返回
+function iPhoneReturn(model) {
+    let iphoneList = [
+        "iPhone X",
+        "iPhone XR",
+        "iPhone XS",
+        "iPhone XS Max",
+        "iPhone 11",
+        "iPhone 11Pro",
+        "iPhone 11Pro max",
+        "iPhone 12",
+        "iPhone 12Pro",
+        "iPhone 12Pro max",
+        "unknown<iPhone13,2>",
+    ];
+    let t = iphoneList.every((item) => {
+        return model.search(item) === -1;
+    });
+    return t;
+}
 // 缓存数据
 function saveData(key, data) {
     uni.setStorageSync(key, data);
@@ -214,5 +234,6 @@ module.exports = {
     objAss,
     updataImgOnce,
     dateTime,
+    iPhoneReturn,
     _,
 }

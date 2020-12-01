@@ -1,7 +1,7 @@
 <template>
   <div id="atc-detail-container" v-if="pageType">
     <!-- 轮播图 -->
-    <div style="height:500rpx">
+    <div style="height:800rpx">
       <swiper
         class="swiper"
         style="height: 100%"
@@ -12,7 +12,7 @@
       >
         <swiper-item v-for="(item, index) in imgShowList" :key="index">
           <image
-            mode="widthFix"
+            mode="aspectFill"
             class="show-img-item"
             :src="httpImg + item"
             @tap="prewImgFunc2(index, imgShowList)"
@@ -721,7 +721,7 @@ export default {
   background-color: #7e6b5a;
 }
 .follow-btn2 {
-  width: 128rpx;
+  width: 128rpx;  
   height: 52rpx;
   border-radius: 26rpx 26rpx 26rpx 0;
   background-color: #999999;

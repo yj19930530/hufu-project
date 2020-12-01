@@ -50,7 +50,11 @@
         <text class="iconfont iconyoujiantou fz-14 fc-999 mr-l-4"></text>
       </div>
     </div> -->
-    <div class="save-user-info fl-cen" @tap="submitHandle">
+    <div
+      class="save-user-info fl-cen"
+      @tap="submitHandle"
+      :class="[iPhoneType === -1 ? '' : 'dianzi-style']"
+    >
       <text class="fz-20 fc-fff fw-bold">保存</text>
     </div>
   </div>
@@ -83,7 +87,13 @@ export default {
       },
       userNo: "",
       userImgUrl: userImgUrl,
+      iPhoneType: -1,
     };
+  },
+  computed: {
+    phoneModel() {
+      return getApp().globalData.model;
+    },
   },
   onShareAppMessage() {
     return {
@@ -91,6 +101,8 @@ export default {
     };
   },
   onLoad() {
+    let t = common.iPhoneReturn(this.phoneModel);
+    this.iPhoneType = t ? -1 : 0;
     this.userNo = uni.getStorageSync("userno");
     this.getUserinfo();
   },

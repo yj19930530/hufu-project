@@ -9,6 +9,7 @@ export default {
     userNo: "",
     pingWidth: 0,
     pingHeight:0,
+    model: "",
   },
   onLaunch: function () {
     this.userNo = uni.getStorageSync("userno");
@@ -19,6 +20,7 @@ export default {
     this.globalData.pingHeight = windowHeight;
     wx.getSystemInfo({
       success: (res) => {
+        this.globalData.model = res.model;
         let statusBarHeight = res.statusBarHeight,
           navTop = menuButtonObject.height, //胶囊按钮与顶部的距离
           navHeight =

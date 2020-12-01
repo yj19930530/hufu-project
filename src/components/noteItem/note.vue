@@ -7,7 +7,7 @@
       :src="atcImgUrl+objDetail.displayimg"
     />
     <div class="note-item-bot">
-      <div class="fz-12 text-lang-dian2">{{objDetail.title}}</div>
+      <div class="fz-12 text-lang-dian2 fw-bold">{{objDetail.title}}</div>
       <div class="fl-bt mr-t-10">
         <div class="fl-al text-lang-dian">
           <image v-if="objDetail.sui.avatarUrl" class="note-item-header" :src="userImgUrl+objDetail.sui.avatarUrl" />
