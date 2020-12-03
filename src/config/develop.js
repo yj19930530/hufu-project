@@ -2,7 +2,7 @@ let http = '', httpImg = '', circleNoteUrl = '', userImgUrl = '', httpDetailImg 
 const env = process.env.NODE_ENV;
 switch (env) {
     case 'test': {
-        http = 'https://abc.chuyinxiang.net/erpManageSystem';
+        http = 'https://www.chuyinxiang.net/erpManageSystem';
         // url = "https://test.chuyinxiang.net";
         // url = "http://192.168.1.72:9966/erpManageSystem";
         break;

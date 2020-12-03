@@ -138,10 +138,20 @@
           <div class="item-right-coentent mr-r-20">
             <text class="fc-5d fz-15">{{ item.createUser.nickName }}</text>
             <text class="fz-14 mr-t-10">{{ item.content }}</text>
-            <div class="comment-img-box mr-t-10">
+            <div class="comment-img-box mr-t-10" v-if="item.imgs.length > 1">
               <image
                 mode="aspectFill"
                 class="comment-img-item mr-r-4"
+                v-for="(img, ix) in item.imgs"
+                :key="ix"
+                @tap="preImgItem(item.imgs, ix)"
+                :src="atcImgUrl + img"
+              />
+            </div>
+            <div class="comment-img-box mr-t-10" v-else>
+              <image
+                mode="aspectFill"
+                class="comment-img-item2"
                 v-for="(img, ix) in item.imgs"
                 :key="ix"
                 @tap="preImgItem(item.imgs, ix)"
@@ -638,8 +648,8 @@ export default {
 };
 </script>
 <style>
-page{
-  background-color: #F8F8F8;
+page {
+  background-color: #f8f8f8;
 }
 </style>
 <style scoped>
@@ -742,6 +752,12 @@ page{
   margin-bottom: 6rpx;
   width: 190rpx;
   height: 190rpx;
+  border-radius: 10rpx;
+}
+.comment-img-item2 {
+  margin-bottom: 6rpx;
+  width: 450rpx;
+  height:280rpx;
   border-radius: 10rpx;
 }
 .more-btn-box {
