@@ -4,17 +4,20 @@
       v-if="detailInfo.preview"
       mode="aspectFill"
       class="article-item-img"
+	  @tap="lookDetail"
       :src="atcImgUrl + detailInfo.preview"
     />
     <image
       v-else-if="detailInfo.displayimg"
       mode="aspectFill"
       class="article-item-img"
+	  @tap="lookDetail"
       :src="atcImgUrl + detailInfo.preview"
     />
     <image
       v-else-if="detailInfo.imgs2"
       mode="aspectFill"
+	  @tap="lookDetail"
       class="article-item-img"
       :src="atcImgUrl + detailInfo.preview"
     />
